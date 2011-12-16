@@ -20,12 +20,11 @@ for row in reader:
     datestr = row['contb_receipt_dt']
     amount = float(row['contb_receipt_amt'])
     date = datetime.datetime.strptime(datestr, '%d-%b-%y')
-    reason = row['memo_text']
+    reason = row['receipt_desc']
     name = name.replace(',', '')
     reason = reason.replace(',', '')
     print ','.join(map(str, [name, date.strftime('%Y-%m-%d'), amount,
     reason]))
-    continue
     
     candtomoney[name].append((date, amount))
     if amount < 0 and 'REATTRIBUTION' in reason:
@@ -33,7 +32,7 @@ for row in reader:
         candreturns[name].append((date, -amount))
 #    if idx > 50: break
     idx += 1
-exit()
+
 candtotals = dict([(name, sum(map(lambda p:p[1], val))) for name, val
                    in candtomoney.iteritems()])
 
