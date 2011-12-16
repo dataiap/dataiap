@@ -10,3 +10,20 @@ http://datamob.org/datasets
 - *NYTimes* http://developer.nytimes.com/docs
 - *Twitter* https://dev.twitter.com/
 
+
+## Visualization Tools
+
+### Python
+
+- matplotlib
+
+### Java
+
+- *processing*
+
+### Javascript
+
+- *Cube* http://square.github.com/cube/
+- *processingjs* 
+- *google charts* 
+- *canvas*
