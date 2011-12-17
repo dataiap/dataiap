@@ -39,6 +39,7 @@ fig = plt.figure(figsize=(50, 10))
 # - subplot.loglog()
 # - subplot.semilogx()
 # - subplot.semilogy()
+# - subplot.scatter(xs, ys, s=15) - scatterplot. s stands for size
 #
 # The following are some useful keyword args that many of the above functions accept:
 # 
@@ -84,6 +85,7 @@ width = 0.5
 subplot = fig.add_subplot(221)
 subplot.bar(left, ys, width, color=colors[0], linewidth=0)
 subplot.bar(left+width, ys2, width, color=colors[1], bottom=ys, linewidth=0)
+subplot.set_title("Bargraph Example")
 
 
 
@@ -91,6 +93,7 @@ subplot.bar(left+width, ys2, width, color=colors[1], bottom=ys, linewidth=0)
 #
 subplot = fig.add_subplot(222)
 subplot.plot(xs, ys, xs, ys)
+subplot.set_title("Line graph/plot Example")
 
 
 # boxplot graphs
@@ -105,11 +108,15 @@ boxdata2 = [random.randint(20,40) for i in xrange(10)]
 boxdata3 = [random.randint(40,60) for i in xrange(10)]
 data = [boxdata1, boxdata2, boxdata3]
 subplot.boxplot(data)
-subplot.set_xlabel("some data")
-subplot.set_title("My Boxplot")
+subplot.set_title("Boxplot Example")
 
 
-
+# Scatterplot Graph
+#
+subplot = fig.add_subplot(224)
+subplot.scatter(xs, ys, color=colors[0])
+subplot.scatter(xs, ys2,color=colors[1],s=ys2) # size varies with y
+subplot.set_title("Scatterplot Example")
 
 
 plt.savefig('/tmp/test.png', format='png')
