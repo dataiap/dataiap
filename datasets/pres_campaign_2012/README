@@ -1,0 +1,7 @@
+2008 donations http://web.mit.edu/~eugenewu/Public/donations.csv.gz
+2012 donations http://fec.gov/disclosurep/PDownload.do download ALL, unzip zipfile
+
+requires R
+requires rpy2
+requires matplotlib
+
