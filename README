@@ -1,11 +1,20 @@
 # Data IAP
 
+# Softeware you need for the course
+
+- Python
+  - numpy
+  - scipy
+  - matplotlib
+
+
 
 # Tools
 
 - Numpy
     - http://www.scipy.org/NumPy
-
+- feedparser
+- pyquery
 
 ## Data Sources
 
