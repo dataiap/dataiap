@@ -22,16 +22,19 @@ def read(file, cols, check_reliable):
             pass
     return rows
 
-ypll = read("ypll.csv", dependent, True)
-adtl = read("additional_measures_cleaned.csv", independent, False)
+def get_arrs():
+    ypll = read("ypll.csv", dependent, True)
+    adtl = read("additional_measures_cleaned.csv", independent, False)
 
-ypll_arr = []
-adtl_arr = []
-for k,v in ypll.iteritems():
-    if k in adtl:
-        ypll_arr.append(v[0])
-        adtl_arr.append(adtl[k])
+    ypll_arr = []
+    adtl_arr = []
+    for k,v in ypll.iteritems():
+        if k in adtl:
+            ypll_arr.append(v[0])
+            adtl_arr.append(adtl[k])
+    return (numpy.array(ypll_arr), numpy.array(adtl_arr))
 
-model = ols.ols(numpy.array(ypll_arr), numpy.array(adtl_arr), dependent[0], independent)
-
-print model.summary()
+if __name__ == "__main__":
+    ypll_arr, adtl_arr = get_arrs()
+    model = ols.ols(ypll_arr, adtl_arr, dependent[0], independent)
+    print model.summary()
