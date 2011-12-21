@@ -1,0 +1,2 @@
+{"document": "abc def geh", "type": "document", "docid": "doc1"}
+{"document": "abc def", "type": "document", "docid": "doc2"}
