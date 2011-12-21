@@ -229,9 +229,11 @@ html = """\
         {{{ text }}}
       </div>
       {{/docs_html}}
+      {{#code_html}}
       <div class=code>
-        <div class='highlight'><pre>{{{ code_html }}}</pre></div>
+        <div class='highlight'><pre>{{{ text }}}</pre></div>
       </div>
+      {{/code_html}}
     </tr>
     {{/sections}}
   </table>
