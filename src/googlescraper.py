@@ -25,7 +25,8 @@ while True:
     for category, feedurl in feedurls.items():
         try:
             feed = feedparser.parse(feedurl)
-        except:
+        except Exception, e:
+            print e
             continue
         for entry in feed.entries:
             article_id = entry.id

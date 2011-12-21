@@ -3,7 +3,7 @@ Runs a dummy job.
 
 export AWS_ACCESS_KEY_ID=''
 export AWS_SECRET_ACCESS_KEY=''
-python mapreduce.py  --num-ec2-instances 1 -r emr 's3://dataiap.mit.edu.ap/World*' > output.dat
+python mapreduce.py  --num-ec2-instances 1 -r emr -o 's3://dataiap.mit.edu.mroutput/UNIQUEFILENAME' 's3://dataiap.mit.edu.ap/World*'
 
 # preallocate a bunch of instances by running a dummy workflow and not
 # terminating it
