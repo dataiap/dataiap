@@ -1,5 +1,5 @@
 from collections import defaultdict
-import json
+import json, os
 
 blues = ['#FFF7FB', '#ECE7F2', '#D0D1E6', '#A6BDDB', '#74A9CF',
          '#3690C0', '#0570B0', '#045A8D', '#023858']
@@ -80,3 +80,15 @@ def draw_county(subplot, fips, **kwargs):
     for polygon in fips2poly[fips]:
         draw_polygon(subplot, polygon, **kwargs)
     
+
+
+
+def walk_news(root, f):
+    """
+    f(category, fname)
+    """
+    for root, dirs, files in os.walk(root):
+        category = os.path.basename(root)
+        for fname in files:
+            f(category, fname, root)
+
