@@ -35,27 +35,6 @@ for root, dirs, files in os.walk(root):
             cat2art[category].append(fname)
             narticles += 1
 
-#
-# per article tfidf:
-#
-# use the terms with tfidf > 0 in the global tfidf
-#
-# catcount = defaultdict(Counter)
-# corpuscount = Counter()
-# for category in cat2art.keys():
-#     ncatarticles = float(len(cat2art[category]))
-#     for artname in cat2art[category]:
-#         counter = artcount[artname]
-#         tfidf = {}
-#         for term, n in counter.iteritems():
-#             idf = math.log(ncatarticles / (catcount[category][term]+1))
-#             tfidf[term] = n * idf
-#         tfidf = dict(filter(lambda (t,n): n > 0, tfidf.items()))
-#         catcount[category].update(tfidf)
-#         corpuscount.update(tfidf)
-#     #     for x in sorted(tfidf, lambda a,b: a[1] < b[1] and 1 or -1)[:10]:
-#     #         print '    ', x
-#     # break
 
 
 
@@ -79,3 +58,26 @@ for cat, counter in catcount.iteritems():
     print cat
     for x in catterms[:10]:
         print '\t', x
+
+
+#
+# per article tfidf:
+#
+# use the terms with tfidf > 0 in the global tfidf
+
+# catcount = defaultdict(Counter)
+# corpuscount = Counter()
+art2tfidf = {}        
+for category in cat2art.keys():
+    ncatarticles = float(len(cat2art[category]))
+    for artname in cat2art[category]:
+        counter = artcount[artname]
+        tfidf = {}
+        for term, n in counter.iteritems():
+            idf = math.log(ncatarticles / (catcount[category][term]+1))
+            tfidf[term] = n * idf
+        tfidf = dict(filter(lambda (t,n): n > 0, tfidf.items()))
+
+
+
+
