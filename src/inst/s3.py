@@ -6,7 +6,7 @@ Uploads Ap data to S3
 
 
 import os, sys
-from util import walk_news
+from news_util import walk_news
 from boto.s3.connection import S3Connection
 from boto.s3.key import Key
 accesskey = '0M5K2PQBQ3SAM20SH502'

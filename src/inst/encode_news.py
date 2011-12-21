@@ -1,4 +1,4 @@
-from util import walk_news
+from news_util import walk_news
 import sys, os
 
 from mrjob.protocol import JSONValueProtocol
