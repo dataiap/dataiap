@@ -27,7 +27,9 @@ while True:
             feed = feedparser.parse(feedurl)
         except Exception, e:
             print e
+            sleeptime *= 1.2
             continue
+        sleeptime = 10
         for entry in feed.entries:
             article_id = entry.id
             article_link = entry.link
