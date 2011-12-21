@@ -16,8 +16,9 @@ for row in reader:
     amount = float(row['contb_receipt_amt'])
     candtomoney[name].append(amount)
 
-obama = candtomoney["Obama Barack"]
-mccain = candtomoney["McCain John S"]
+obama = candtomoney["Obama, Barack"]
+mccain = candtomoney["McCain, John S"]
+print len(obama), len(mccain)
 
 # certainly the means look different...
 print "Obama mean, stdev", numpy.mean(obama), numpy.std(obama)
@@ -44,3 +45,40 @@ print "mann-whitney U", scipy.stats.mannwhitneyu(obama, mccain)
 # it.  it's unlikely these two are from the same distribution, and thus we
 # can safely reject the null hypothesis that they have the same mean.  Obama's
 # donations were really smaller than McCain's!
+
+
+
+# At this point, let's convince ourselves by plotting a histogram of their contributions
+# in 100 dollar increments.
+#
+
+increment = 100
+obama_bucketed = map(lambda amount: amount - amount%increment, obama)
+mccain_bucketed = map(lambda amount: amount - amount%increment, mccain)
+# in python 2.7+, we can use the Counter class
+# in python 2.6, you can use defaultdict
+from collections import Counter
+obama_hist = Counter(obama_bucketed)
+mccain_hist = Counter(mccain_bucketed)
+minamount = min(min(obama), min(mccain))
+maxamount = max(max(obama), min(mccain))
+print "min/max", minamount, maxamount
+buckets = range(int(minamount), int(maxamount+1), increment)
+
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.patches import Rectangle
+
+fig = plt.figure(figsize=(30, 10))
+subplot = fig.add_subplot(111)
+
+subplot.bar(obama_hist.keys(), obama_hist.values(), color='b', edgecolor='b')#, s=1)
+subplot.bar(mccain_hist.keys(), mccain_hist.values(), color='r', edgecolor='r')#, s=1)
+
+# We can't see anything without a log scale
+#subplot.set_yscale('log')
+# there are anamolous donations in the 100k and millions that we don't want to see
+subplot.set_xlim((-20000, 20000))
+
+plt.savefig('/tmp/test.png', format='png')
+
