@@ -26,7 +26,7 @@ while True:
         try:
             feed = feedparser.parse(feedurl)
         except Exception, e:
-            print e
+            print e, feedurl
             sleeptime *= 1.2
             continue
         sleeptime = 10
