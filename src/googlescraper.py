@@ -23,7 +23,10 @@ sleeptime = 10
 allbaseurls = set()
 while True:
     for category, feedurl in feedurls.items():
-        feed = feedparser.parse(feedurl)
+        try:
+            feed = feedparser.parse(feedurl)
+        except:
+            continue
         for entry in feed.entries:
             article_id = entry.id
             article_link = entry.link
