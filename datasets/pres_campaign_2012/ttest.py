@@ -3,7 +3,7 @@ import numpy
 import scipy.stats
 import welchttest
 
-
+# for scipy stats reference, see: http://docs.scipy.org/doc/scipy/reference/stats.html
 # to install matplot lib, see https://jholewinski.wordpress.com/2011/07/21/installing-matplotlib-on-os-x-10-7-with-homebrew/
 
 reader = csv.DictReader(open(sys.argv[1], 'r'))
