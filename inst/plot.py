@@ -1,7 +1,7 @@
 import random, json
 import numpy as np
 import matplotlib.pyplot as plt
-from util import *
+from util.map_util import *
 from collections import defaultdict
 from matplotlib.patches import Rectangle
 random.seed(0)
