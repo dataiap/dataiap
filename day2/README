@@ -1,0 +1,26 @@
+# Day 2
+
+## Overview
+
+Today, we will do more with `matplotlib`.
+
+
+* bar graphs
+* line graphs
+* box plots (will be useful tomorrow)
+* scatter plots
+* choropleth plots (map plots)
+
+Also we will learn to
+
+* create figures with multiple sub-figures (called subplots)
+* customize labels, colors, error bars etc.
+
+We will use this to further analyze.
+
+`matplotlib` is quite powerful, and is intended to emulate matlab's visualization facilities.   We will teach you the basics, which should be enough for most people.
+
+## Figure and Subplots
+
+## Different Graphs
+
