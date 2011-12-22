@@ -123,7 +123,8 @@ def welchs_approximate_ttest_arr(arr1,arr2): #,alpha
 	sd2=stddev(arr2);
 	return welchs_approximate_ttest_sd(n1,mean1,sd1,n2,mean2,sd2); #,alpha
 
-
+def ttest(arr1, arr2):
+    return welchs_approximate_ttest_arr(arr1, arr2)[3]
 
 
 
