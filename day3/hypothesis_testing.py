@@ -12,13 +12,8 @@
 # averages), and explore the data graphically as we did yesterday.  If
 # the visualizations seem to support your hunch, you will move into
 # hypothesis-testing mode.
-# 
-# Today, we'll show differences between the Obama and McCain campaigns
-# in 2008 using statistical tests. We'll also use the
-# [County Health Ranking]($$$) to identify ways to predict mortality
-# rates across communities in the United States.
 #
-# <h3>Comparing means using T-Tests</h3>
+# <h3>Two Running Examples</h3>
 #
 # For our first set of tests, we're going to use two running examples:
 # campaign spending and a fun comparison of two towns' citizens' heights.  Here are the two scenarios:
@@ -36,9 +31,8 @@
 # the one you want to measure, but it's a nice goal!)  We'll use statistics
 # to determine whether the two communities have meaninfully different heights.
 #
-# <h4>Comparing Averages</h4>
+# <h3>Comparing Averages</h3>
 #
-# 
 # show averages for both height and campaign.  they are different.  how different?
 # visual approach: histogram.  impossible.  so show boxplot.  then show code for height boxplot.  then have them make campaign boxplot.
 # then there's a problem: how much overlap is good or bad?  need math for this!
@@ -74,7 +68,7 @@ print "Effect size: ", abs(town1_mean - town2_mean)
 # Before we fire up the presses on either of these stories, let's look
 # at the data in more depth.
 #
-# <h4>Graph The Data</h4>
+# <h3>Graph The Data</h3>
 #
 # The effect size in both of our examples seems large.  It would be
 # nice to more than just compare averages.  Let's try to look at a
@@ -164,7 +158,7 @@ plt.show()
 # should investigate such measurements as potential outliers.
 #
 # ** Exercise ** Build a box-and-whiskers plot of the McCain and Obama
-# campaign contributions.  Again, outliers make this a difficult task.  With *** whis=1 **, and by setting the y range of the plots like so
+# campaign contributions.  Again, outliers make this a difficult task.  With ** whis=1 **, and by setting the y range of the plots like so
 
 sub.set_ylim((-250, 1250))
 
@@ -187,7 +181,7 @@ sub.set_ylim((-250, 1250))
 #
 # The campaign plots are a bit harder to discern.  The histogram told us virtually nothing.  The box plot showed us that Obama's donations seemed more concentrated on the smaller end, whereas McCains seemed to span a larger range.  There was overlap between the boxes in the plot, but we don't really have a sense for just how much overlap or similarity there is between these distributions.  In the next section, we'll quantify the difference using statistics!
 #
-# <h4>Run a Statistical Test</h4>
+# <h3>Run a Statistical Test</h3>
 #
 # We have two population height averages.  We know that they are
 # different, but charts show that overall the two towns look similar.
@@ -238,7 +232,7 @@ print "Welch's T-Test p-value:", welchttest.ttest(town1_heights, town2_heights)
 # this difference between the candidates by some random fluke in the
 # universe.  Time to write an article!
 #
-# <h4>Can You Have a Very Significant Result?</h4>
+# <h3>Can You Have a Very Significant Result?</h3>
 #
 # No.  There is no such thing as "very" or "almost" significant.
 # Remember: the effect size is the interesting observation, and it's
@@ -249,7 +243,7 @@ print "Welch's T-Test p-value:", welchttest.ttest(town1_heights, town2_heights)
 # chance.  While people disagree about whether a p-value of .05 or .01
 # is required, they all agree that significance is a binary value.
 #
-# <h4>Types of T-Test/h4> The T-Test has two major flavors: paired
+# <h3>Types of T-Test</h3> The T-Test has two major flavors: paired
 # and unpaired.
 #
 # Sometimes your datasets are ** paired ** (also called ** dependent
@@ -286,7 +280,7 @@ print "Welch's T-Test p-value:", welchttest.ttest(town1_heights, town2_heights)
 # in scipy.  The unequal variance case is not available in scipy,
 # which is why we included welchsttest.py.  Enjoy it!
 #
-# <h4>T-Test Assumptions we Broke:(/h4>
+# <h3>T-Test Assumptions we Broke:(</h3>
 #
 # We've managed to sound like smartypantses that do all the right
 # things until this moment, but now we have to admit we broke a few
@@ -328,20 +322,24 @@ print "Mann-Whitney U p-value", scipy.stats.mannwhitneyu(town1_heights, town2_he
 # normality.  We found them to not be normal, which means we likely
 # want to run a Mann-Whitney U test.  Luckily, you will still find the
 # result to be statistically significant.  A+ for you!
-
 #
-# <h3>Campaign Contribution Sizes </h3>
+# <h3>Putting it All Together</h3>
 #
-# Now it's your turn!
-#   * Using [LINK TO FILE](), Calculate the mean and standard
-# deviation of the Obama and McCain campaign contributions.
-#   * Then draw a box plot of each set of contributions.
-#   * Run a the Shapiro-Wilk test on the data to see if it's
-#   normal. Is it?
-#   * Run the appropriate test (Welch's T or Mann-Whitney U).  Are the
-# two averages different from one-another?
-
-#http://hackingmedicine.mit.edu/conference/data-sources/
-
-
+# So far, we've learned the steps to test a hypothesis:
+#
+#  * Compute summary statistics, like averages or medians, and see if
+#  these numbers match your intuition.
+#
+#   * Look at the distribution histograms or summary visualizations
+#   like box plots to understand whether your hypothesis appears to be
+#   backed up by the data
+#
+#   * If it's not immediately clear your hypothesis was wrong, test it
+#   using the appropriate statistical test to 1) quantify the effect
+#   size, and 2) ensure the data you observed couldn't have happened
+#   by chance.
+#
+#  There's a lot more to statistics than T-tests, which compare two
+#  datasets' averages.  Next, we'll cover correlation between two
+#  datasets using linear regression.
 
