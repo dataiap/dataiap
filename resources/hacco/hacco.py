@@ -230,7 +230,9 @@ def generate_html(source, sections, preserve_paths=True, outdir=None):
     dest = destination(source, preserve_paths=preserve_paths, outdir=outdir)
 
     for sect in sections:
-        sect["code_html"] = re.sub(r"\{\{", r"__DOUBLE_OPEN_STACHE__", sect["code_html"])
+        ch = re.sub(r"\{\{", r"__DOUBLE_OPEN_STACHE__", sect["code_html"])
+        sect["code_html"] = [{'text': ch}] if ch != '<div class="highlight"><pre></pre></div>' else []
+
 
     rendered = pycco_template({
         "title"       : title,
