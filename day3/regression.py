@@ -1,10 +1,25 @@
-# We hear about correlations every day.  Caloric intake is correlated with lifespan$$$.  Ingesting iodine is correlated with IQ$$$.  Models are everywhere as well.  An object falling for t seconds moves .5gt^2 meters.  You can calculate correlation and built approximate models using several techniques, but the simplest and most popular technique by far is ** linear regression **.  Let's see how it works!
+# We hear about correlations every day.  Various health outcomes are
+# [correlated with socioeconomic
+# status](https://www.nber.org/reporter/spring03/health.html).  Iodine
+# supplementation in infants is [correlated with higher
+# IQ](https://www.ncbi.nlm.nih.gov/pubmed/15734706).  Models are
+# everywhere as well.  An object falling for t seconds moves .5gt^2
+# meters.  You can calculate correlation and built approximate models
+# using several techniques, but the simplest and most popular
+# technique by far is ** linear regression **.  Let's see how it
+# works!
 #
 # <h3>County Health Rankings</h3>
 #
-# For our examples, we'll use the [County Health Rankings]().  Specifically, we'll be looking at two tables in this dataset: [Years of Potential Life Lost]($$$) and [Additional Measures]()$$$.
+# For our examples, we'll use the [County Health
+# Rankings](http://www.countyhealthrankings.org/).  Specifically,
+# we'll be looking at two datasets in this example: [Years of
+# Potential Life
+# Lost](https://github.com/dataiap/dataiap/blob/master/datasets/county_health_rankings/ypll.csv)
+# and [Additional
+# Measures](https://github.com/dataiap/dataiap/blob/master/datasets/county_health_rankings/additional_measures_cleaned.csv).
 #
-# Years of potential life lost is an early mortality measure.  It
+# [Years of potential life lost](https://en.wikipedia.org/wiki/Years_of_potential_life_lost) (YPLL) is an early mortality measure.  It
 # measures, across 100,000 people, how many total of the number of
 # years below the age of 75 that 100,000-person cohort loses.  For
 # example, if a person dies at age 73, they contribute 2 years to this
@@ -14,7 +29,7 @@
 # file `ypll.csv` contains per-county YPLLs for the United States in
 # 2011.
 #
-# The additional measures (found in additional_measures_cleaned.csv)
+# The additional measures (found in `additional_measures_cleaned.csv`)
 # contains all sorts of fun measures per county, ranging from the
 # percentage of people in the county with Diabetes to the population
 # of the county.
@@ -127,7 +142,7 @@ plt.show()
 
 # Your plots should look something like this:
 #
-#  $$$
+#  ![YPLL vs. population with diabetes, population less than 18 years of age, and median household income](three-scatters.png)
 #
 # We picked these three examples because they show visual evidence of three forms of correlation:
 #  * In the first plot, we can see that when the percentage of people
@@ -149,35 +164,39 @@ plt.show()
 # We'll do this using the `ols` module, which stands for ** ordinary
 # least squares ** regression.  Let's run a regression for YPLL vs. % Diabetes:
 
-$$$
+import ols
+
+model = ols.ols(ypll_arr, measures_arr[:,6], "YPLL Rate", ["% Diabetes"]) # 6 = diabetes
+print model.summary()
 
 # As you can see, running the regression is simple, but interpreting
 # the output is tougher.  Here's the output of `model.summary()` for
 # the YPLL vs. % Diabetes regression:
-
-==============================================================================
-Dependent Variable: YPLL Rate
-Method: Least Squares
-Date:  Fri, 23 Dec 2011
-Time:  13:48:11
-# obs:                2209
-# variables:         2
-==============================================================================
-variable     coefficient     std. Error      t-statistic     prob.
-==============================================================================
-const           585.126403      169.746288      3.447064      0.000577
-%Diabetes           782.976320      16.290678      48.062846      0.000000
-==============================================================================
-Models stats                         Residual stats
-==============================================================================
-R-squared             0.511405         Durbin-Watson stat   1.951279
-Adjusted R-squared    0.511184         Omnibus stat         271.354997
-F-statistic           2310.037134         Prob(Omnibus stat)   0.000000
-Prob (F-statistic)    0.000000			JB stat              559.729657
-Log likelihood       -19502.794993			Prob(JB)             0.000000
-AIC criterion         17.659389         Skew                 0.752881
-BIC criterion         17.664550         Kurtosis             4.952933
-==============================================================================
+#
+#      ======================================================================  
+#      Dependent Variable: YPLL Rate  
+#      Method: Least Squares  
+#      Date:  Fri, 23 Dec 2011  
+#      
+#      Time:  13:48:11
+#      # obs:                2209
+#      # variables:         2
+#      ======================================================================
+#      variable     coefficient     std. Error      t-statistic     prob.
+#      ======================================================================
+#      const           585.126403      169.746288      3.447064      0.000577
+#      %Diabetes       782.976320      16.290678      48.062846      0.000000
+#      ======================================================================
+#      Models stats                         Residual stats
+#      ======================================================================
+#      R-squared             0.511405         Durbin-Watson stat   1.951279
+#      Adjusted R-squared    0.511184         Omnibus stat         271.354997
+#      F-statistic           2310.037134      Prob(Omnibus stat)   0.000000
+#      Prob (F-statistic)    0.000000         JB stat              559.729657
+#      Log likelihood       -19502.794993     Prob(JB)             0.000000
+#      AIC criterion         17.659389        Skew                 0.752881
+#      BIC criterion         17.664550        Kurtosis             4.952933
+#      ======================================================================
 # 
 # Let's interpret this:
 
@@ -209,12 +228,12 @@ BIC criterion         17.664550         Kurtosis             4.952933
 # If you want to use the information in your regression to do more
 # than print a large table, you can access the data individually
 
-$$$
+#$$$
 
 # To better visualize the model we've built, we can also plot the line
 # we've calculated through the scatterplot we built before
 
-$$$
+#$$$
 
 #
 # That should result in a plot that looks something like
@@ -253,7 +272,7 @@ $$$
 # the population under 18 into one regression.
 #
 
-$$$
+#$$$
 
 # We got the following output:
 #
@@ -284,11 +303,11 @@ $$$
 #
 # Take gravity for example.  Say we measured the distance an object fell in a certain amount of time, and had a bit of noise to our measurement.  Below, we'll simulate that activity by generating the time-distance relationship that we learned in high school, but adding randomness to the measurements.
 #
-$$$
+#$$$
 # A scatterplot of the data looks like a parabola, which doesn't take
 # lines very well!  We can ** transform ** this data by squaring the
 # time values.
-$
+#$$$
 # Here are scatterplots of the original and transformed datasets.  You
 # can see that squaring the time values turned the plot into a more
 # linear one.
