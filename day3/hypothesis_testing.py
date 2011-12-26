@@ -149,6 +149,10 @@ plt.show()
 #   distance of at most 1x the IQR from the bottom and top edges of
 #   the box plot.
 #
+# If normal distributions are your thing, [this
+# image](https://en.wikipedia.org/wiki/File:Boxplot_vs_PDF.svg) might
+# help you interpret the box-and-whiskers plot.
+#
 # Again, we see that the towns' height distributions don't look all
 # that different from one-another.  Generally, if the boxes of each
 # distribution overlap, and you haven't taken something on the order
