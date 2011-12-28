@@ -104,7 +104,11 @@ def get_arrs(dependent_cols, independent_cols):
 # the desired columns from each file.
 
 dependent_cols = ["YPLL Rate"]
-independent_cols = ["Population", "< 18", "65 and over", "African American", "Female", "Rural", "%Diabetes" , "HIV rate", "Physical Inactivity" , "mental health provider rate", "median household income", "% high housing costs", "% Free lunch", "% child Illiteracy", "% Drive Alone"]
+independent_cols = ["Population", "< 18", "65 and over", "African American",
+                    "Female", "Rural", "%Diabetes" , "HIV rate",
+                    "Physical Inactivity" , "mental health provider rate",
+                    "median household income", "% high housing costs",
+                    "% Free lunch", "% child Illiteracy", "% Drive Alone"]
 
 ypll_arr, measures_arr = get_arrs(dependent_cols, independent_cols)
 
@@ -138,11 +142,11 @@ subplot = fig.add_subplot(313)
 subplot.scatter(measures_arr[:,10], ypll_arr, color="#1f77b4") # 10 = income
 subplot.set_title("ypll vs. median household income")
 
-plt.show()
+plt.savefig('figures/three-scatters.png', format='png')
 
 # Your plots should look something like this:
 #
-#  ![YPLL vs. population with diabetes, population less than 18 years of age, and median household income](three-scatters.png)
+#  ![YPLL vs. population with diabetes, population less than 18 years of age, and median household income](figures/three-scatters.png)
 #
 # We picked these three examples because they show visual evidence of three forms of correlation:
 #  * In the first plot, we can see that when the percentage of people
@@ -167,7 +171,7 @@ plt.show()
 import ols
 
 model = ols.ols(ypll_arr, measures_arr[:,6], "YPLL Rate", ["% Diabetes"]) # 6 = diabetes
-print model.summary()
+model.summary()
 
 # As you can see, running the regression is simple, but interpreting
 # the output is tougher.  Here's the output of `model.summary()` for
@@ -199,20 +203,17 @@ print model.summary()
 #      ======================================================================
 # 
 # Let's interpret this:
-
 #   * First, let's verify the statistical significance, to make sure
 #   nothing happened by chance, and that the regression is meaningful.
 #   In this case, ** Prob (F-statistic) ** is something very close to
 #   0, which is less than .05 or .01.  That is: we have statistical
 #   significance, and we an safely interpret the rest of the data.
-
 #   * The coefficients (called ** betas **) help us understand what
 #   line best fits the data, in case we want to build a predictive
 #   model.  In this case ** const ** is 585.13, and ** %Diabetes **
 #   has a coefficient of 782.98.  Thus, the line (y = mx + b) that
 #   best predicts YPLL from %Diabetes is: ** YPLL = (782.98 *
 #   %Diabetes) + 585.13**.
-
 #   * To understand how well the line/model we've built from the data
 #   helps predict the data, we look at ** R-squared **.  This value
 #   ranges from 0 (none of the change in YPLL is predicted by the
@@ -228,17 +229,30 @@ print model.summary()
 # If you want to use the information in your regression to do more
 # than print a large table, you can access the data individually
 
-#$$$
+print "p-value", model.Fpv
+print "coefficients", model.b
+print "R-squared and adjusted R-squared:", model.R2, model.R2adj
 
 # To better visualize the model we've built, we can also plot the line
 # we've calculated through the scatterplot we built before
 
-#$$$
+fig = plt.figure(figsize=(6, 4))
 
-#
+subplot = fig.add_subplot(111)
+subplot.scatter(measures_arr[:,6], ypll_arr, color="#1f77b4") # 6 = diabetes
+subplot.set_title("ypll vs. % of population with diabetes")
+
+def best_fit(m, b, x): # calculates y = mx + b
+    return m*x + b
+
+line_ys = [best_fit(model.b[1], model.b[0], x) for x in measures_arr[:,6]]
+subplot.plot(measures_arr[:, 6], line_ys, color="#ff7f0e")
+
+plt.savefig('figures/scatter-line.png', format='png')
+
 # That should result in a plot that looks something like
 #
-# $$$
+# ![Scatterplot with best-fit line](figures/scatter-line.png)
 #
 # We can see that our line slopes upward (the beta coefficient in
 # front of the %Diabetes term is positive) indicating a positive
@@ -247,11 +261,10 @@ print model.summary()
 # ** Exercise ** Run the correlations for percentage of population
 # under 18 years of age and median household income.  We got
 # statistically significant results for all of these tests.  Median
-# household income does seem negatively correlated (the slope beta is
-# $$$), and explains a good portion of YPLL (R-squared is $$$).
-# Remember that we saw a blob in the scatterplot for percentage of
-# population under 18.  The regression backs this up: the slope of $$$
-# is not as strong as that of %Diabetes, and the R-squared of $$$
+# household income is negatively correlated (the slope beta is -.13),
+# and explains a good portion of YPLL (R-squared is .48).  Remember
+# that we saw a blob in the scatterplot for percentage of population
+# under 18.  The regression backs this up: the R-squared of .005
 # suggests little predictive power of YPLL.
 #
 # ** Exercise ** Plot the lines calculated from the regression for
@@ -261,6 +274,9 @@ print model.summary()
 # school lunches.  Is it significant?  Positively or negatively
 # correlated?  How does this R-squared value compare to the ones we
 # just calculated?
+#
+# <h3>Explaining R-squared</h3>
+# $$$
 #
 # <h3>Running Multiple Variables</h3>
 #
@@ -272,62 +288,106 @@ print model.summary()
 # the population under 18 into one regression.
 #
 
-#$$$
+dependent_cols = ["YPLL Rate"]
+independent_cols = ["< 18", "%Diabetes" , "median household income"]
+ypll_arr, measures_arr = get_arrs(dependent_cols, independent_cols)
+model = ols.ols(ypll_arr, measures_arr, "YPLL Rate", independent_cols)
+print "p-value", model.Fpv
+print "coefficients", model.b
+print "R-squared and adjusted R-squared:", model.R2, model.R2adj
 
 # We got the following output:
 #
-# $$$
+#      p-value 1.11022302463e-16  
+#      coefficients [  4.11471809e+03   1.30775027e+02   5.16355557e+02  -8.76770577e-02]  
+#      R-squared and adjusted R-squared: 0.583249144589 0.582809842914
 #
 # So we're still significant, and can read the rest of the output.  A
 # read of the beta coefficients suggests the best linear combination
-# of all of these variables is YPLL = $$$.
+# of all of these variables is ** YPLL = 4115 + 131*(% under 18) + 516*(% Diabetes) - 877*(median household income) **.
 
 # Because there are multiple independent variables in this regression,
-# we should look at the Rsquare-adjusted value, which is $$$.  This
+# we should look at the adjusted R-squared value, which is .583.  This
 # value penalizes you for needlessly adding variables to the
 # regression that don't give you more information about YPLL.  Anyway,
-# check out that Rsquare---nice!  That's larger than the Rsquare value
+# check out that R-squared---nice!  That's larger than the Rsquare value
 # for any one of the regressions we ran on their own!  We can explain
 # more of YPLL with these variables.
 #
 # ** Exercise ** Try combining other variables.  What's the largest
-# adjusted Rsquare$$$(consistency on the R-Square spelling) you can
-# achieve?
+# adjusted R-squares you can achieve?  We can reach .715 by an
+# excessive use of variables.  Can you replicate that?
+#
 #<h3>Nonlinearity</h3>
 #
 # Is finding a bunch of independent variables and performing linear
 # regression against some dependent variable the best we can do to
 # model our data?  Nope!  Linear regression gives us the best line to
 # fit through the data, but there are cases where the interaction
-# between two variables is nonlinear.  In these cases, the scatterplots we built before matter quite a bit!
+# between two variables is nonlinear.  In these cases, the
+# scatterplots we built before matter quite a bit!
 #
-# Take gravity for example.  Say we measured the distance an object fell in a certain amount of time, and had a bit of noise to our measurement.  Below, we'll simulate that activity by generating the time-distance relationship that we learned in high school, but adding randomness to the measurements.
-#
-#$$$
+# Take gravity for example.  Say we measured the distance an object
+# fell in a certain amount of time, and had a bit of noise to our
+# measurement.  Below, we'll simulate that activity by generating the
+# time-distance relationship that we learned in high school.  Imagine
+# we record the displacement of a ball as we drop it, storing the time
+# and displacement measurements in `timings` and `displacements`.
+
+timings = range(1, 100)
+displacements = [4.9*t*t for t in timings]
+
 # A scatterplot of the data looks like a parabola, which doesn't take
 # lines very well!  We can ** transform ** this data by squaring the
 # time values.
-#$$$
+
+sq_timings = [t*t for t in timings]
+
+fig = plt.figure()
+subplot = fig.add_subplot(211)
+subplot.scatter(timings, displacements, color="#1f77b4")
+subplot.set_title("original measurements (parabola)")
+
+subplot = fig.add_subplot(212)
+subplot.scatter(sq_timings, displacements, color="#1f77b4")
+subplot.set_title("original measurements (parabola)")
+
+plt.savefig('figures/parabola-linearized.png', format='png')
+
 # Here are scatterplots of the original and transformed datasets.  You
 # can see that squaring the time values turned the plot into a more
 # linear one.
 #
+# ![Original vs. Transformed Data](figures/parabola-linearized.png)
+#
 # ** Exercise ** Perform a linear regression on the original and
-# untransformed data.  Are they all significant?  What's the R-squared
+# transformed data.  Are they all significant?  What's the R-squared
 # value of each?  Which model would you prefer?  Does the coefficient
 # of the transformed value mean anything to you?
 #
+# For those keeping score at home, we got R-squared of .939 and 1.00
+# for the unadjusted and adjusted timings, which means we were able to
+# perfectly match the data after transformation.  Note that in the
+# case of the squared timings, the equation we end up with is **
+# displacement = 4.9 * time^2 **, which is the exact formula we had
+# for gravity.  Awesome!
+#
 # ** Exercise ** Can you improve the R-squared values by
 # transformation in the county health rankings?  Try taking the log of
-# the population$$$, a common technique for making data that is
-# bunched up spread out more.
+# the population, a common technique for making data that is bunched
+# up spread out more.  To understand what the log transform did, take
+# a look at a scatterplot!
+#
+# Log-transforming population got us from R-squared = .026 to
+# R-squared = .097.
 #
 # Linear regression, scatterplots, and variable transformation can get
 # you a long way.  But sometimes, you just can't figure out the right
 # transformation to perform even though there's a visible relationship
 # in the data.  In those cases, more complex technques like [nonlinear
-# regression]($$$) can fit all sorts of nonlinear functions to the
-# data.
+# least
+# squares](https://en.wikipedia.org/wiki/Non-linear_least_squares) can
+# fit all sorts of nonlinear functions to the data.
 #
 # <h3>Eliminate Free Lunches, Save the Planet</h3>
 #
@@ -357,25 +417,30 @@ print model.summary()
 #
 # <h3>ANOVA, Logistic Regression, Machine Learning</h3>
 #
-# Today you've swallowed quite a bit.  You learned about
-# significance testing to support or reject high-likelihood meaningful
-# hypotheses.  You learned about the T-Test($$$ consistency) to help
-# you compare two communities on whom$$$ you've measured data.  You
-# then learned about regression and correlation, for identifying
-# variables that change together.  From here, there are several
-# directions to grow.
+# Today you've swallowed quite a bit.  You learned about significance
+# testing to support or reject high-likelihood meaningful hypotheses.
+# You learned about the T-Test to help you compare two communities on
+# whom you've measured data.  You then learned about regression and
+# correlation, for identifying variables that change together.  From
+# here, there are several directions to grow.
 #
-# * A more general form of the T-Test is an [ANOVA]($$$), where you can
-# identify differences among more than two groups, and control for
-# known differences between items in each dataset.
+# * A more general form of the T-Test is an
+# [ANOVA](https://en.wikipedia.org/wiki/Analysis_of_variance), where
+# you can identify differences among more than two groups, and control
+# for known differences between items in each dataset.
 #
-# * [Logistic regression]($$$), and more generally
-# [classification]($$$), can take a bunch of independent variables and
-# map them onto binary values.  For example, you could take all of the
-# additional measures for an individual and predict whether they will
-# die before the age of 75.
+# * [Logistic
+# regression](https://en.wikipedia.org/wiki/Logistic_regression), and
+# more generally
+# [classification](https://en.wikipedia.org/wiki/Statistical_classification),
+# can take a bunch of independent variables and map them onto binary
+# values.  For example, you could take all of the additional measures
+# for an individual and predict whether they will die before the age
+# of 75.
 #
-#  * [Machine learning]($$$) and [Data mining]($$$) are fields that
+#  * [Machine
+#  learning](https://en.wikipedia.org/wiki/Machine_learning) and [data
+#  mining](https://en.wikipedia.org/wiki/Data_mining) are fields that
 #  assume statistical significance (you collect boatloads of data) and
 #  develop algorithms to classify, cluster, and otherwise find
 #  patterns in the underlying datasets.
