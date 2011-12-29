@@ -16,8 +16,8 @@ for row in reader:
     amount = float(row['contb_receipt_amt'])
     candtomoney[name].append(amount)
 
-obama = candtomoney["Obama, Barack"]
-mccain = candtomoney["McCain, John S"]
+obama = candtomoney["Obama Barack"]
+mccain = candtomoney["McCain John S"]
 print len(obama), len(mccain)
 
 # certainly the means look different...
@@ -53,6 +53,7 @@ print "mann-whitney U", scipy.stats.mannwhitneyu(obama, mccain)
 #
 
 increment = 100
+width=50
 obama_bucketed = map(lambda amount: amount - amount%increment, obama)
 mccain_bucketed = map(lambda amount: amount - amount%increment, mccain)
 # in python 2.7+, we can use the Counter class
@@ -69,16 +70,22 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
 
-fig = plt.figure(figsize=(30, 10))
+fig = plt.figure()
 subplot = fig.add_subplot(111)
-
-subplot.bar(obama_hist.keys(), obama_hist.values(), color='b', edgecolor='b')#, s=1)
-subplot.bar(mccain_hist.keys(), mccain_hist.values(), color='r', edgecolor='r')#, s=1)
+subplot.bar(obama_hist.keys(), obama_hist.values(), color='b', edgecolor='b', label="Obama")#, s=1)
+subplot.bar(mccain_hist.keys(), mccain_hist.values(), color='r', edgecolor='r', label="McCain")#, s=1)
 
 # We can't see anything without a log scale
 #subplot.set_yscale('log')
 # there are anamolous donations in the 100k and millions that we don't want to see
 subplot.set_xlim((-20000, 20000))
 
-plt.savefig('/tmp/test.png', format='png')
+subplot.legend()
+plt.savefig('../../day3/figures/mccain-obama-histogram.png', format='png')
 
+
+fig = plt.figure()
+subplot = fig.add_subplot(111)
+subplot.boxplot([obama, mccain], whis=1)
+subplot.set_ylim((-250, 1250))
+plt.savefig('../../day3/figures/mccain-obama-boxplot.png', format='png')

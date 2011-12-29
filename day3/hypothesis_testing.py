@@ -54,15 +54,15 @@ print "Town 2 avg. height", town2_mean
 
 print "Effect size: ", abs(town1_mean - town2_mean)
 
-# It looks like town 2's average height ($$$ feet) is higher than
-# town 1 ($$$ feet) by a difference of $$$ feet.  This difference is
+# It looks like town 2's average height (6.35 feet) is higher than
+# town 1 (5.87 feet) by a difference of .479 feet.  This difference is
 # called the ** Effect size **.  Town 2 certainly looks taller than
 # Town 1!
 #
 # ** Exercise ** Compute the average campaign contribution for the
 # Obama and McCain campaigns from the dataset in day 1.  What's the
-# effect size?  We have an average contribution of $$$ for McCain and
-# $$$ for Obama, for an effect size of $$$.  McCain appears, on
+# effect size?  We have an average contribution of $423 for McCain and
+# $192 for Obama, for an effect size of $231.  McCain appears, on
 # average, to have more giving donors.
 #
 # Before we fire up the presses on either of these stories, let's look
@@ -96,38 +96,46 @@ sub = fig.add_subplot(111)
 sub.bar(town1_hist.keys(), town1_hist.values(), color='b', width=width, label="town 1")
 sub.bar(town2_hist.keys(), town2_hist.values(), color='r', width=width, label="town 2")
 sub.legend()
-plt.show()
+plt.savefig('figures/town_histograms.png', format='png')
 
 #
 # This results in a histogram that looks like this:
 #
-# $$$
+# ![A histogram comparing both towns' heights](figures/town_histograms.png)
 #
-# Not bad!  The buckets are all exactly the same size except for $$$ in town $$$.
+# Not bad!  The buckets are all exactly the same size except for one
+# person of height between 4 and 5 feet in town 1.
 #
-# ** Exercise ** Build a histogram for the Obama and McCain campaigns.  This is challenging, because there are a large number of outliers that make the histograms difficult to compare.  Add the line
+# ** Exercise ** Build a histogram for the Obama and McCain campaigns.
+# This is challenging, because there are a large number of outliers
+# that make the histograms difficult to compare.  Add the line
 
 sub.set_xlim((-20000, 20000))
 
-# before displaying the plot in order to set the x-values of the histogram to cut off donations larger than $20,000 or smaller than $20,000.  With bar widths of $$$ and increments of $100, your histogram will look something like this:
+# before displaying the plot in order to set the x-values of the
+# histogram to cut off donations larger than $20,000 or smaller than
+# -$20,000 (refunds).  With bar widths of 50 and increments of $100, your
+# histogram will look something like this:
 #
-# $$$
+# ![A histogram comparing the McCain and Obama 2008 campaign contributions](figures/mccain-obama-histogram.png)
 # 
-# Ouch!  I can't make heads or tails of that.  For large datasets, a
-# histogram might have too much information on it to be helpful.
-# Luckily, descriptive statisticians have a more concise
-# visualization.  It's called a box-and-whisker plot!  The code for it is quite simple as well:
+# Ouch!  I can't make heads or tails of that.  It seems like Obama has
+# a larger number of small donations, but there isn't a lot of
+# granularity at that scale.  For large datasets, a histogram might
+# have too much information on it to be helpful.  Luckily, descriptive
+# statisticians have a more concise visualization.  It's called a
+# box-and-whisker plot!  The code for it is quite simple as well:
 
 import matplotlib.pyplot as plt
 
 fig = plt.figure()
 sub = fig.add_subplot(111)
 sub.boxplot([town1_heights, town2_heights], whis=1)
-plt.show()
+plt.savefig('figures/town_boxplots.png', format='png')
 
 # Here's what we see:
 # 
-# $$$ img
+# ![Boxplots of the towns' heights](figures/town_boxplots.png)
 #
 # Let's interpret this plot.  We show town 1 on the left and town 2 on
 # the right.  Each town is represented by a box with a red line and
@@ -168,7 +176,7 @@ sub.set_ylim((-250, 1250))
 
 # we got the following plot
 #
-# $$$
+# ![Boxplots of McCain and Obama 2008 campaign contributions](figures/mccain-obama-boxplot.png)
 #
 # Obama is on the left, and McCain on the right.  Man, real data sure
 # is more confusing than fake data.  Obama's box plot is a lot tighter
@@ -204,17 +212,18 @@ sub.set_ylim((-250, 1250))
 # averages between the height of people in town 1 and town 2
 # statistically significant?"  We ask a similar question about the
 # difference in averages in campaign contributions.  The test that
-# answers this question is the [T-Test]($$$).  There are several
-# flavors of T-Test and we will discuss these soon, but for now we'll
-# focus on Welch's T-Test.
+# answers this question is the
+# [T-Test](https://en.wikipedia.org/wiki/Student's_t-test).  There are
+# several flavors of T-Test and we will discuss these soon, but for
+# now we'll focus on Welch's T-Test.
 
 import welchttest
 
 print "Welch's T-Test p-value:", welchttest.ttest(town1_heights, town2_heights)
 
-# The Welch's T-Test emitted a p-value of $$$.  A p-value is the
-# probability that the effect size of $$$ feet between town 1 and town
-# 2 happened by chance.  In this case, there's $$$% chance that we've
+# The Welch's T-Test emitted a p-value of ** .349 **.  A p-value is the
+# probability that the effect size of .479 feet between town 1 and town
+# 2 happened by chance.  In this case, there's 34.9% chance that we've
 # arrived at our effect size by chance.
 #
 # What's a good cutoff for p-values to know whether we should trust
@@ -231,10 +240,10 @@ print "Welch's T-Test p-value:", welchttest.ttest(town1_heights, town2_heights)
 #
 # ** Exercise ** Run Welch's T-test on the campaign data.  Is the
 # effect size between McCain and Obama significant?  By our
-# measurements, the p-value reported is $$$.  That's significant by
-# anyone's measure: there's a near-nonexistant chance we're seeing
-# this difference between the candidates by some random fluke in the
-# universe.  Time to write an article!
+# measurements, the p-value reported is within rounding error of 0.
+# That's significant by anyone's measure: there's a near-nonexistant
+# chance we're seeing this difference between the candidates by some
+# random fluke in the universe.  Time to write an article!
 #
 # <h3>Can You Have a Very Significant Result?</h3>
 #
@@ -276,8 +285,9 @@ print "Welch's T-Test p-value:", welchttest.ttest(town1_heights, town2_heights)
 # test.  That's Welch's T-Test.
 # 
 # As with all life decisions, if you want more details, check out the
-# Wikipedia article on [T-Tests]($$$).  There are implementations of
-# [paired
+# Wikipedia article on
+# [T-Tests](https://en.wikipedia.org/wiki/Student's_t-test).  There
+# are implementations of [paired
 # T-Tests](http://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.ttest_rel.html#scipy.stats.ttest_rel)
 # and [unpaired
 # ones](http://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.ttest_ind.html#scipy.stats.ttest_ind)
@@ -288,7 +298,7 @@ print "Welch's T-Test p-value:", welchttest.ttest(town1_heights, town2_heights)
 #
 # We've managed to sound like smartypantses that do all the right
 # things until this moment, but now we have to admit we broke a few
-# rules.  The math behind T-tests makes assumptions about the datasets
+# rules.  The math behind T-Tests makes assumptions about the datasets
 # that makes it easier to achieve statistical significance if those
 # assumptions are true.  The big assumption is that the data we used
 # came from a normal distribution.
@@ -297,35 +307,47 @@ print "Welch's T-Test p-value:", welchttest.ttest(town1_heights, town2_heights)
 # test](https://en.wikipedia.org/wiki/Shapiro-Wilk) test for
 # normality.  This test calculates a p-value, that, if low enough,
 # tells us there is a low chance the distribution is normal.
-# Unluckily for us, the test reveals we're dopes.
+
 import scipy.stats
 
 print "Town 1 Shapiro-Wilks p-value", scipy.stats.shapiro(town1_heights)[1]
 
-# Crazytown.  With a p-value of $$$, it's unlikely we're dealing with
-# datasets from a normal distribution.  This turns out to be OK for
-# two reasons: T-Tests are resilient to the normality assumption, and,
-# if you're really serious about your statistics, there are **
-# nonparametric ** equivalents that don't make such assumptions.  They
-# are more conservative since they can't make assumptions about the
-# data, and thus likely require a larger sample size to reach
-# significance.  If you're alright with that, feel free to run the
-# [Mann-Whitney
-# U](https://en.wikipedia.org/wiki/Mann%E2%80%93Whitney_U) test, which
-# has a wonderful name.
+# With a p-value of .380, we don't have enough evidence that our town heights are not normally distributed, so it's probably fine to run Welch's T-Test
+
+# ** Exercise ** Test the campaign contribution datasets for
+# normality.  We found them to not be normal (p = .003 for Obama and
+# .014 for McCain), which means we likely broke the normality
+# assumption of Welch's T-Test.  The statistics police are going to be
+# paying us a visit.
+
+# This turns out to be OK for two reasons: T-Tests are resilient to
+# breaking of the normality assumption, and, if you're really serious
+# about your statistics, there are ** nonparametric ** equivalents
+# that don't make normality assumptions.  They are more conservative
+# since they can't make assumptions about the data, and thus likely
+# require a larger sample size to reach significance.  If you're
+# alright with that, feel free to run the [Mann-Whitney
+# U](https://en.wikipedia.org/wiki/Mann%E2%80%93Whitney_U)
+# nonparametric version of the T-Test, which has a wonderful name.
+
 import scipy.stats
 
 print "Mann-Whitney U p-value", scipy.stats.mannwhitneyu(town1_heights, town2_heights)[1]
 
-# Oh snap!  The p-value is $$$.  That's still not significant.  This
-# makes sense: our less conservative Welch's test was unable to give
-# us significance, so we don't expect a more conservative test to
+# Remember: we don't need to run the Mann-Whitney U test on our town
+# data, since it didn't exhibit non-normalcy.  And besides, the
+# p-value is .254.  That's still not significant.  This makes sense:
+# our less conservative Welch's test was unable to give us
+# significance, so we don't expect a more conservative test to
 # magically find significance.
 #
-# ** Exercise ** Test the campaign contribution datasets for
-# normality.  We found them to not be normal, which means we likely
-# want to run a Mann-Whitney U test.  Luckily, you will still find the
-# result to be statistically significant.  A+ for you!
+# ** Exercise ** since we shouldn't be using Welch's T-Test on the
+# campaign contribution data, run the Mann-Whitney U test on the data.
+# Is the difference between the Obama and McCain contributions still
+# significant?
+#
+# We got a p-value of about 0, so you will still find the result to be
+# statistically significant.  A+ for you!
 #
 # <h3>Putting it All Together</h3>
 #
@@ -343,7 +365,6 @@ print "Mann-Whitney U p-value", scipy.stats.mannwhitneyu(town1_heights, town2_he
 #   size, and 2) ensure the data you observed couldn't have happened
 #   by chance.
 #
-#  There's a lot more to statistics than T-tests, which compare two
+#  There's a lot more to statistics than T-Tests, which compare two
 #  datasets' averages.  Next, we'll cover correlation between two
 #  datasets using linear regression.
-
