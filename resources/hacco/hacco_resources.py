@@ -76,7 +76,7 @@ table td {
     padding: 10px 25px 1px 50px;
     vertical-align: top;
     text-align: left;
-    width: 100%;
+    width: 90%;
     border-bottom: 1px solid #e5e5ee;
     border-top: 1px solid #e5e5ee;
   }
