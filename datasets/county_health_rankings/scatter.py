@@ -28,10 +28,13 @@ for idx, independent in enumerate(regression.independent):
     ps = model.p
     ys = [betas[0] + betas[1]*x for x in adtl_arr[:, idx]]
     attrs = lineattrs[1] if (ps[0] < .05 and ps[1] < .05) else lineattrs[2]
-    print independent, attrs, ps, model.R2
+    print independent, attrs, ps, model.R2, model.R2adj
     subplot.plot(adtl_arr[:, idx], ys, color=attrs[0], marker=attrs[1])
-    #   print model.summary()
+    model.summary()
     #   print model.b, model.p
+    print
+    print
+    print
 
     
 plt.savefig('/tmp/test.png', format='png')
