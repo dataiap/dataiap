@@ -203,6 +203,7 @@ model.summary()
 #      ======================================================================
 # 
 # Let's interpret this:
+#
 #   * First, let's verify the statistical significance, to make sure
 #   nothing happened by chance, and that the regression is meaningful.
 #   In this case, ** Prob (F-statistic) ** is something very close to
@@ -259,13 +260,14 @@ plt.savefig('figures/scatter-line.png', format='png')
 # correlation.
 #
 # ** Exercise ** Run the correlations for percentage of population
-# under 18 years of age and median household income.  We got
-# statistically significant results for all of these tests.  Median
-# household income is negatively correlated (the slope beta is -.13),
-# and explains a good portion of YPLL (R-squared is .48).  Remember
-# that we saw a blob in the scatterplot for percentage of population
-# under 18.  The regression backs this up: the R-squared of .005
-# suggests little predictive power of YPLL.
+# under 18 years of age and median household income.
+#
+# We got statistically significant results for all of these tests.
+# Median household income is negatively correlated (the slope beta is
+# -.13), and explains a good portion of YPLL (R-squared is .48).
+# Remember that we saw a blob in the scatterplot for percentage of
+# population under 18.  The regression backs this up: the R-squared of
+# .005 suggests little predictive power of YPLL.
 #
 # ** Exercise ** Plot the lines calculated from the regression for
 # each of these independent variables.  Do they fit the models?
@@ -276,7 +278,22 @@ plt.savefig('figures/scatter-line.png', format='png')
 # just calculated?
 #
 # <h3>Explaining R-squared</h3>
-# $$$
+#
+# R-squared roughly tells us how well the linear model (the line) we
+# get from a linear regression explains the independent variable.
+#
+# R-squared values have [several
+# interpretations](https://en.wikipedia.org/wiki/Coefficient_of_determination),
+# but one of them is as the square of a value called [the Pearson
+# Correlation
+# Coefficient](https://en.wikipedia.org/wiki/Pearson_product-moment_correlation_coefficient).
+# That last link has a useful [picture of the correlation
+# coefficient](https://en.wikipedia.org/wiki/File:Correlation_examples2.svg)
+# that shows you the value of R for different kinds of data.
+#
+# Squaring R makes it always positive and changes its asymptotic
+# properties, but the same trends (being near 0 or near 1) still
+# apply.
 #
 # <h3>Running Multiple Variables</h3>
 #
@@ -376,7 +393,7 @@ plt.savefig('figures/parabola-linearized.png', format='png')
 # transformation in the county health rankings?  Try taking the log of
 # the population, a common technique for making data that is bunched
 # up spread out more.  To understand what the log transform did, take
-# a look at a scatterplot!
+# a look at a scatterplot.
 #
 # Log-transforming population got us from R-squared = .026 to
 # R-squared = .097.
