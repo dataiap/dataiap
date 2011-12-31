@@ -1,12 +1,25 @@
 """
-Runs a dummy job.
+#
+# Runs a dummy job.
+# see inst/s3.py for a script to interact with s3 buckets
+#
+
+# make sure mrjob has been installed
 
 export AWS_ACCESS_KEY_ID=''
 export AWS_SECRET_ACCESS_KEY=''
+
+# It is possible to chain multiple mapreduces together on the commandline because each one blocks until it completes :)
 python mapreduce.py  --num-ec2-instances 1 -r emr -o 's3://dataiap.mit.edu.mroutput/UNIQUEFILENAME' --no-output 's3://dataiap.mit.edu.ap/World*'
 
-# preallocate a bunch of instances by running a dummy workflow and not
-# terminating it
+# note: -o should be an output folder
+# note: --no-output means don't stream back to terminal
+# note: a multi-step mapreduce means each step takes ONLY the output of the previous step as the input
+#       see mrjob/emr.py:1531-1546
+
+
+
+# preallocate 12 instances by running a dummy workflow and not terminating it
 python mrjob/tools/emr/create_job_flow.py --num-ec2-instances=12
 # example jobid: j-3PL7GKD4ADK9K
 
@@ -19,7 +32,6 @@ python mr_my_job.py -r emr --emr-job-flow-id=j-JOBFLOWID input_file.txt > out
 
 # terminate the job flows or we will lose money!
 python -m mrjob.tools.emr.terminate_job_flow.py [options] j-JOBFLOWID
-
 
 
 """

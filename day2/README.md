@@ -217,6 +217,7 @@ We also included a list of all fips county codes and state names in `datasets/ge
     # Map of Counties
     #
     subplot = fig.add_subplot(325)
+    # data is a list of strings that contain fips values
     data = json.load(file('../datasets/geo/id-counties.json'))
     for fips in data:
         draw_county(subplot, fips)
@@ -274,11 +275,58 @@ We only touched a small part of what `matplotlib` can do.  Here are some additio
 - `subplot.set_yscale()`
 
 
-## Exercise 1: Something
+## Exercise 1: 
 
-## Exercise 2: Smotehnig
+We will use yesterday's Obama vs McCain dataset and visualize it using different chart types.  
 
-## Exercise 3: Smotehnig
+Many people say that Obama was able to attract votes from "the common man", and had far more smaller contributions that his competitors.  Let's plot a [histogram](LINK HERE) of each candidate's contribution amounts in $100 increments to see if this is the case.  A histogram breaks a data range (donation amounts, in this case) into fixed size bucks (100 in this case), and counts the number of items that fall into each bucket.  Plot both candidates on the same graph.  You'll want to use a bar chart.
+
+You'll find that it's difficult to read the previous chart because the donation amounts vary from -$1 Million to $8 Million, while the majority of the donations are less than 2000.  One method is to ignore the outliers and focus on the majority of the data points.  Let's only print histogram buckets within 3 standard deviations of the overall average donation.
+
+For Obama, that's donations between `[-$18000, $19000]`.  For McCain, that's between `[-$22000, $22000]`
+
+<img src="ex2_bar1.png" width="700" />
+
+## Exercise 2: 
+
+Line cumulative graph based on amount donated.
+
+## Exercise 3:
+
+Scatter plot of re-attribution by spouses for all candidates
+
+## Exercise 4:
+
+Per-State amount on a map.  Tricky, need to pick proper mapping between data range and color range (probably research in this!)
+
+
+## Exercise 5: Visualize County Health Data
+
+The following are CSV files that contain the 2011 per-county health metrics.  The first three columns contain the FIPS county code, the state and the county.  The subsequent columns contain different metric values.  The first file contains only Years of Preventable Life Loss (YPLL) values, which is used as a proxy for the health of a population.  It is calculated as the sum of (Reference Age - Age at Death) for all deaths in a year.  The reference age is often 75.  The second file contains other metric values about each county.
+
+* datasets/county_health_data/ypll.csv
+* datasets/county_health_data/additional_measures_cleaned.csv
+
+Visualize each of the following metrics on a map.  Vary each county's color by the metric value.
+
+* YPLL Rate
+* % Child Illiteracy
+* % Free Lunch
+* % High Housing Costs
+* % Diabetes
+
+Take a look at the data first.  There is a state-only row of data before data of the counties within the state.  You should ignore that row.  I personally use darker shades of blue to signify higher metric values.  Here's some code that picks the shade of blue depending on a metric's current, maximum, and minimum values.
+
+    blues = ['#FFF7FB', '#ECE7F2', '#D0D1E6', '#A6BDDB', '#74A9CF',
+             '#3690C0', '#0570B0', '#045A8D', '#023858']
+    MAXVAL = ...
+    MINVAL = ...
+    coloridx = int(( (value - MINVAL) / (MAXVAL - MINVAL) ) * (len(blues)-1)) )
+
+
+The final charts should look something like
+
+<img src="ex_map.png" width="500" />
 
 ## Done!
 

@@ -4,14 +4,14 @@ import json, os
 blues = ['#FFF7FB', '#ECE7F2', '#D0D1E6', '#A6BDDB', '#74A9CF',
          '#3690C0', '#0570B0', '#045A8D', '#023858']
 _color_idx = 0
-
+MYDIR = os.path.dirname(globals()['__file__'])
 
 # state name -> [ polygon, ... ]
 state2poly = defaultdict(list)
 # county fips id -> [ polygon, ... ]
 fips2poly = defaultdict(list)
 
-data = json.load(file('./us-states.json'))
+data = json.load(file(os.path.join(MYDIR, 'us-states.json')))
 for f in data['features']:
     state = f['properties']['name']
     geo = f['geometry']
@@ -22,9 +22,9 @@ for f in data['features']:
         for polygon in geo['coordinates']:
             state2poly[state].extend(polygon)
 
-data = json.load(file('./us-counties.json'))
+data = json.load(file(os.path.join(MYDIR, './us-counties.json')))
 for f in data['features']:
-    fips = f['id']
+    fips = str(int(f['id']))
     geo = f['geometry']
     if geo['type'] == 'Polygon':
         for coords in geo['coordinates']:
@@ -73,8 +73,10 @@ def draw_county(subplot, fips, **kwargs):
     The fips id is described at http://en.wikipedia.org/wiki/FIPS_county_code
     """
     global _color_idx
+    fips = str(fips)
     if fips not in fips2poly:
-        raise RuntimeError, 'County fips %d not found' % fips
+        #raise RuntimeError, 'County fips %s not found' % fips
+        print 'County fips %s not found' % fips
     if 'color' not in kwargs:
         color = blues[_color_idx]
         _color_idx = (_color_idx+1) % len(blues)
