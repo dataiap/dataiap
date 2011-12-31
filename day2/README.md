@@ -20,6 +20,12 @@ In the exercises, we will use this to further visualize and analyze the campaign
 
 `matplotlib` is quite powerful, and is intended to emulate matlab's visualization facilities.   We will give you a basic understanding of how plotting works, which should be enough for a majority of the charts that you will want to create.
 
+# TODO: Add Comments about when to use each type of graph, and a section on colors/contrast?
+
+[a good link about color](http://www.perceptualedge.com/articles/b-eye/choosing_colors.pdf)
+
+# Problem: internet says matplotlib not good for network graphs.  Talk about them at all?
+
 ## Introduction
 
 When should you use visualizations
@@ -53,10 +59,13 @@ You will often see a shorthand for creating subplots when the number of rows and
 
 ### How Drawing Works
 
-While `matplotlib` provides a lot of convenience functions for plotting and scaling different types of charts, at its core, it still draws points, lines, and polygons at x,y coordinates.  For example, it doesn't know how multi-column bar charts work and requires manual input.  As you use `matplotlib`, keep in mind that:
+The functions that we will be using to create charts are simply convenience functions that draw and scale points, lines, and polygons at x,y coordinates.  Whenever we call a plotting method, it will return a set of objects that have been added to the subplot.  For example, when we use the `bar()` method to create a bar graph, `matplotlib` will draw rectangles for each bar, and return a list of `rectangle` objects so that we can manipulate them later (e.g., in an animation).
 
-* Many of the plotting functions will ask you to specify things similar to x and y coordinates or offsets.
+As you use `matplotlib`, keep in mind that:
+
+* Many of the plotting functions will ask you to specify things similar to x,y coordinates / offsets.
 * When you call a drawing function, it won't rearrange the layout of what was drawn before.  It simply draws the pixels **on top of** what has been drawn before.
+* You are ultimately adding points, lines and polygons on top of one another.
 
 ## Let's Plot Some Graphs!
 
@@ -274,6 +283,7 @@ We only touched a small part of what `matplotlib` can do.  Here are some additio
 - `subplot.set_yticklabels()`
 - `subplot.set_yscale()`
 
+# Exercises
 
 ## Exercise 1: 
 
@@ -285,22 +295,38 @@ You'll find that it's difficult to read the previous chart because the donation 
 
 For Obama, that's donations between `[-$18000, $19000]`.  For McCain, that's between `[-$22000, $22000]`
 
-<img src="ex2_bar1.png" width="700" />
+<img src="ex1_bar1.png" width="700" />
 
 ## Exercise 2: 
 
-Line cumulative graph based on amount donated.
+Now create a cumulative line graph of Obama and McCain's donations.  We can see that even though Obama and McCain have some very large contributions, the vast majority of their total donations were from small contributors.  Also, not only did Obama get more donations, he also received larger donations.
+
+<img src="ex2_line1.png" width="700" />
+
+Only after we've verified that the small donations were the major contributors, is it safe to zoom in on the graph!
+
+<img src="ex2_line2.png" width="700" />
 
 ## Exercise 3:
 
-Scatter plot of re-attribution by spouses for all candidates
+Scatter plot of re-attribution by spouses for all candidates.  It seems to be concentrated in a small group of Republican candidates.
 
-## Exercise 4:
+<!--<img src="ex3_scatter1.png" width="700" />-->
 
-Per-State amount on a map.  Tricky, need to pick proper mapping between data range and color range (probably research in this!)
+<img src="ex3_scatter2.png" width="700" />
+
+At this point, we've only scratched the surface of one dimension (reattributions) of this interesting dataset.  You could continue our investigation by correlating professions with candidates, visualize donations by geography, or see if there are any more suspicious and interesting data points.  
+
+Also, the 2012 campaign contributions are also available on the website, so you could use your analysis on the current election!
 
 
-## Exercise 5: Visualize County Health Data
+
+<!--## Exercise 4:
+
+Per-State amount on a map.  Tricky, need to pick proper mapping between data range and color range (probably research in this!)-->
+
+
+## Exercise 4: Visualize County Health Data
 
 The following are CSV files that contain the 2011 per-county health metrics.  The first three columns contain the FIPS county code, the state and the county.  The subsequent columns contain different metric values.  The first file contains only Years of Preventable Life Loss (YPLL) values, which is used as a proxy for the health of a population.  It is calculated as the sum of (Reference Age - Age at Death) for all deaths in a year.  The reference age is often 75.  The second file contains other metric values about each county.
 
@@ -328,5 +354,38 @@ The final charts should look something like
 
 <img src="ex_map.png" width="500" />
 
-## Done!
+# Done!
+
+Now you have hands on experience with the most popular python plotting library!  `Matplotlib` is far more power than what we have covered.  Check out its documentation ()
+
+* Always start by looking at your data with the simplest visualizations possible.  For most datasets, a scatter plot or line graph is sufficient.
+* First view a summary of the whole dataset so that you know which subsets are worth visualizing in more detail, and how significant the details really are.
+* 
+
+
+### Where do you go from here?
+More info about visualizations
+Animations
+Interactive visualizations
+
+#### Domain specific visualizations
+
+Lots of visualizations specialized for unique applications.  
+
+Biology<br/>
+<img src="done_gene.jpg" width="400" />
+
+[Network graphs](http://networkx.lanl.gov/)<br/>
+<img src="done_network.png" width="400" />
+
+[Treemap](http://www.scipy.org/Cookbook/Matplotlib/TreeMap)<br/>
+<img src="done_treemap.jpg" width="400" />
+
+
+#### Other visualization tools
+
+
+
+#### Interactive visualizations
+Applications.  hard!
 
