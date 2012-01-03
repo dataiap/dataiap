@@ -105,6 +105,10 @@ We will also require a number of python modules:
 
 We will be working with several datasets in this course.  Some are fairly large, so we ask that you download them before the class,
 
-* [2008 Presidential Campaign Donations](http://fec.gov/disclosurep/PDownload.do): click "All.zip" and unzip the file
-* 2011 County Health Rankings: This file should be in `dataiap/datasets/county_health_rankings/additional_measures_cleaned.csv`
+* [2008 Presidential Campaign Contributions](ftp://ftp.fec.gov/FEC/Presidential_Map/2008/P00000001/P00000001-ALL.zip)
+    * The linked file contains all of the 2008 campaign contributions to each presidential candidate.  You can look at the [2012 campaign](http://fec.gov/disclosurep/PDownload.do) for various primary candidates as well, but we'll work with 2008 since it's complete.
+): click "All.zip" and unzip the file
+* [2011 County Health Rankings](http://www.countyhealthrankings.org/): The necessary data should already be in the git repository you cloned in   
+> `dataiap/datasets/county_health_rankings/additional_measures_cleaned.csv`  
+> `dataiap/datasets/county_health_rankings/ypll.csv`  
 * The Enron dataset: $$$
