@@ -9,8 +9,8 @@ import os, sys
 from news_util import walk_news
 from boto.s3.connection import S3Connection
 from boto.s3.key import Key
-accesskey = '0M5K2PQBQ3SAM20SH502'
-secretkey = 'FfXsuovIO0AImwViNQ4/fa+9NqoP+70aDgYVrKsF'
+accesskey = ''
+secretkey = ''
 conn = S3Connection(accesskey, secretkey)
 
 bucketname = 'dataiap.mit.edu.ap'
