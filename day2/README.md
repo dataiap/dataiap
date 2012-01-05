@@ -134,11 +134,11 @@ You can further customize your bar charts using the following popular keyword ar
 
 The `plot` command draws a line graph.  It takes a list of x values and y values, and draws a line between every adjacent pair of points.
 
-`subplot.plot(xs1, ys1, xs2, ys2, …)` is a convenient shorthand for:
+`subplot.plot(xs1, ys1, xs2, ys2, ...)` is a convenient shorthand for:
 
     subplot.plot(xs1, ys1)
     subplot.plot(xs2, ys2)
-    … 
+    ...
 
 To reproduce the line graph, we can simply write
 
@@ -266,7 +266,7 @@ We only touched a small part of what `matplotlib` can do.  Here are some additio
 * `subplot.loglog(xs, ys)`: plots a log-log line graph
 * `subplot.semilogx(xs, ys)`: plots the x-axis in log scale
 * `subplot.semilogy(xs, ys)`: plots the y-axis in log scale
-* `subplot.fill(x1,y1,x2,y2,x3,y3,…)`: draws a filled polygon with vertices at `(x1,y1), (x2,y2), …`.  
+* `subplot.fill(x1,y1,x2,y2,x3,y3,...)`: draws a filled polygon with vertices at `(x1,y1), (x2,y2), ...`.  
 * `subplot.text(x,y,text)`: write `text` at coordinates `x,y`.
 
 ### Subplot Customization
