@@ -278,10 +278,12 @@ We only touched a small part of what `matplotlib` can do.  Here are some additio
 - `subplot.set_xticks(xs)`: Draws x-axis tick marks at the points specified by `xs`.  Otherwise `matplotlib` will draw reasonable tick marks.
 - `subplot.set_xticklabels(texts)`: Draw x-axis tick labels using the `texts` list.
 - `subplot.set_xscale(scale)`: Sets the x-axis scaling.  `scale` is `'linear'` or `'log'`.
+- `subplot.set_xlim(minval, maxval)`: Set the x-axis limits
 - `subplot.set_ylabel()`
 - `subplot.set_yticks()`
 - `subplot.set_yticklabels()`
 - `subplot.set_yscale()`
+- `subplot.set_ylim(minval, maxval)`: Set the y-axis limits
 
 # Exercises
 
@@ -384,7 +386,7 @@ Biology<br/>
 
 #### Other visualization tools
 
-
+http://orange.biolab.si/features.html
 
 #### Interactive visualizations
 Applications.  hard!
