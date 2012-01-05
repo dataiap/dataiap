@@ -4,9 +4,12 @@
 
 Today we will discuss text processing.  Our exercises will be grounded in an email dataset (either yours or Kenneth Lay's).  After today, you will be able to compute the most important terms in a particular email, find emails similar to the one you are reading, and find people that tend to send you similar emails.
 
+As opposed to the data we've seen so far, we will need to clean the data before we can extract meaningful results.
+
 The techniques will include
 
 * [Tf-Idf](http://en.wikipedia.org/wiki/Tfidf)
+* [Regular Expressions](http://en.wikipedia.org/wiki/Regular_expression) and data cleaning
 * [N-gram](http://en.wikipedia.org/wiki/N-gram)
 * [Cosine Similarity](http://en.wikipedia.org/wiki/Cosine_similarity)
 
@@ -79,11 +82,15 @@ The `__iter__` method means that `EmailWalker` is an iterator, and can be conven
 
 
 
-## TF-IDF
+## Folder Summaries
+
+In this section, we will automatically extract key terms that describe the emails in a folder.  This is useful for two purposes.  First, it can be a crude summary of the emails in each folder.  Second, it is used to search for and retrieve emails.  For example, if a term (e.g., "lawsuit") is representative of an email, then we would like to retrieve that email when we search for "lawsuit".  
+
+Today, we will focus on the first purpose.
 
 ### Term Frequency (TF)
 
-We would first like to get a sense of the terms (words) that describe the contents in each folder.  One way to do this is to count the number of times each term occurs in all of the emails in a folder.  The term that comes up the most must be best represent the folder!
+One way to do this is to count the number of times each term occurs in all of the emails in a folder.  The term that comes up the most must be best represent the folder!
 
     import os, sys, math
     sys.path.append('./util')
@@ -160,46 +167,111 @@ If we combine `idfs` with each folder's `tf` value, we would compute the `tf-idf
     	('have', 1689.8928262051465)
     	('was', 1660.9399256319914)
 
-As we can see, the results are still not satisfying because there is still a lot of noise, and non-word characters pop up a lot.
+As we can see, there is a lot of noise, and non-word characters pop up a lot.  We will deal with this next.
 
-### Cleaning The Data
+### Regular Expressions and Data Cleaning
 
-The email dataset is a simple dump, and each file contains the email headers, attachments, and the actual message -- all of it is ascii-encoded.  In order to see sensible terms, we need to clean the data a bit.  This process varies depending on what your application is.  In our case, we want
+The email dataset is a simple dump, and each file contains the email headers, attachments, and the actual message -- all of it is ascii-encoded.  In order to see sensible terms, we need to clean the data a bit.  This process varies depending on what your application is.  In our case, we decided that we want
 
-* Reasonable english words.  These should only contain a-z characters (this is a simplification).
-* We don't care about casing.  We want "enron" and "Enron" to be the same term.
-* We don't care about really short words.  We want words with 4 or more characters. 
+1. Reasonable words.  These should only contain a-z characters, hyphens, and apostrophes.  It should also start and end with an a-z character.
+1. We don't care about [stop words](http://en.wikipedia.org/wiki/Stop_words).  We pre-decided that words like "the" and "and" should be ignored.
+1. We don't care about casing.  We want "enron" and "Enron" to be the same term.
+1. We don't care about really short words.  We want words with 4 or more characters. 
+
+Let's tackle each of these requirements one by one!
+
+#### 1. Reasonable Words (Regular Expressions)
+
+How do we enforce the first requirement?  One way is to iterate through the characters in every word, and make sure they are valid:
+
+    arr = e.text.split()
+    terms = []
+    for term in arr:
+        valid = True
+        for idx, c in  enumerate(term.lower()):
+            if (idx == 0 or idx == len(term)-1):
+                if (c < 'a' or c > 'z'):
+                    valid = False
+                    break
+            elif (c != "'" and c != "-" and (c < 'a' or c > 'z')):
+                valid = False
+                break
+        if valid:
+            terms.append(term)
+
+This is a pain in the butt to write, and is hard to understand and change.  All we are doing is making sure each term adheres to a pattern.  Regular Expressions (regex) is a very convenient language for finding and extracting patterns in text.  We don't have time for a complete tutorial, but we will talk about the basics.
+
+Regex lets you specify:
+
+* Classes of characters.  You may only care about upper case characters, or only digits and hyphens.  
+* Repetition.  You can specify how many times a character or pattern should be repeated.
+* Location of the pattern.  You can specify that the pattern should be at the beginning of the term, or the end.
+
+It's easiest to show examples, so here's code that defines a pattern of strings that start with either `e` or `E`, followed the characters `nron`.  `re.search` checks if the pattern is found in `term` and returns `None` if the pattern was not found.
+
+    import re
+    term = "enronbankrupt"
+    pattern = "[eE]nron+"
+    if re.search(pattern, term):
+        print "found!"    
+
+The most basic pattern is a list of characters.  `pattern = "enron"` looks for the exact string `"enron"` (lower case).  But what if we want to match `"Enron"` and `"enron"`?  That's where character classes come in!
+
+Brackets `[]` are used to define a character class.  That means any character in the class would be matched.  You simply list the characters that are in the class.  For example `[eE]` matches both `e` and `E`.  Thus `[eE]nron` would match both `"Enron"` and `"enron"`.  `[0123456789\-]` means that all digits and hyphens should be matched.  We need to escape `-` within `[]` because it is a special character.
+
+It's tedious to list individual characters, so `-` can be used to specify a range of characters.  `[a-z]` is all characters between lower case `a` and `z`.  `[A-Z]` are all upper case characters.  `[a-zA-Z]` are all upper or lower case characters.  There are other shortcuts for common classes.  For example, `\w` is shorthand for `[a-zA-Z0-9]`
+
+`[a-z]` only matches a single character.  We can add a special character at the end of the class to specify how many times it should be repeated:
+
+* `?`: 0 or 1 times.  For optional characters
+* `*`: 0 or more times.
+* `+`: 1 or more times
+* `{n}`: exactly `n` times
+* `{n,m}`: between `n` and `m` times (inclusive).
+
+For example, `[0-9]{3}-[0-9]{3}-[0-9]{4}` matches phone numbers that contain area codes.  Note that we didn't escape the `-` because it specifies a range within `[]` and is not interpreted as a range outside the `[]`.  This pattern fails if the user inputs `(510)-232-2323` because it doesn't recognize the `()`.  Can you modify the pattern to optionally allow `()`?
+
+Finally, `^` and `$` are special characters for the beginning and the end of the text, respectively.  For example `^enron` means that `"enron"` must be at the beginning of the string.  `enron$` means that the `"enron"` should be at the end.  `^enron$` means the term should be exactly `"enron"`.
+
+
+Great!  You should know enough to create a pattern to find "reasonable words"!
+
+#### 2. Stop Words
+
+The `email_util` module defines a variable `STOPWORDS` that contains a list of common english stop words in lower case.  You want to remove terms that are found in in this list.
+
+    from email_util import STOPWORDS
+    terms = e.text.split()
+    terms = filter(lambda term: term in STOPWORDS, terms)
+
+
+#### 3-4. Casing and Short Words
+
+            
 
 To do this, we will replace the code
 
     words_in_email = e.text.split() # split the email text using whitespaces
 
-With a function that lowercases and filters all of the words in the email message
-
-    import re
-    refs_pat = '(?P<ref>[a-z]+)'
-    refs_prog = re.compile(refs_pat)
-    
-    
-    def get_terms(s):
-        s = s.lower()
-        arr = s.split()
-        terms = []
-        for term in arr:
-            res = refs_prog.match(term)
-            if res:
-                val = res.group('ref')
-                terms.append(val)
-            else:
-                terms.append('')
-        
-        terms = filter(lambda term: len(term) > 3, terms)
-        return terms
+With a function:
 
     words_in_email = get_terms(e.text)
 
-    
+And define `get_terms` as
 
+    import re
+    refs_pat = '^[a-z][a-z\'-][a-z]$'
+    
+    def get_terms(s):
+        s = s.lower()
+        terms = s.split()
+        terms = filter(lambda term: len(term) > 3, terms)
+        terms = filter(lambda term: re.match(refs_pat, term) != None, terms)
+        return terms
+
+
+
+Now when we compute the TF-IDF, we see meaningful terms.  For example, the `family/` folder has terms such as "photos", "birth", and names.  On the other hand, `sec_panel/` contains "panel", "blackstone" (their financial advisors), and "outline".  Interestingly, the `deleted_items/` folder has terms like "bankruptcy", "funds", and "employees".  It turns out, that they are all templates emailed by upset people after Kenneth made millions while Enron became bankrupt.
 
 
 
