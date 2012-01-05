@@ -33,6 +33,8 @@ python mr_my_job.py -r emr --emr-job-flow-id=j-JOBFLOWID input_file.txt > out
 # terminate the job flows or we will lose money!
 python -m mrjob.tools.emr.terminate_job_flow.py [options] j-JOBFLOWID
 
+# see what job flows are running, etc.
+python -m mrjob.tools.emr.audit_usage
 
 """
 
