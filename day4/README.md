@@ -100,15 +100,15 @@ One way to do this is to count the number of times each term occurs in all of th
     folder_tf = defaultdict(Counter)
     
     for e in EmailWalker(sys.argv[1]):
-        words_in_email = e.text.split() # split the email text using whitespaces
-        folder_tf[e.folder].update(words_in_email)
+        terms_in_email = e.text.split() # split the email text using whitespaces
+        folder_tf[e.folder].update(terms_in_email)
     
     for folder, counter in folder_tf.items():
         print folder
         for pair in sorted(counter.items(), key=lambda (k,v): v, reverse=True)[:20]:
             print '\t', pair    
 
-But if we take a look at the output, they are non-descriptive words that are simply used often.  There are also random characters like `>`, which are clearly not words, but happen to pop-up often.
+But if we take a look at the output, they are non-descriptive terms that are simply used often.  There are also random characters like `>`, which are clearly not words, but happen to pop-up often.
 
     sent
     	('the', 2529)
@@ -144,14 +144,20 @@ The following code will construct a dictionary that maps a term to its IDF value
     allterms = Counter()
     nemails = 0
     for e in EmailWalker(sys.argv[1]):
-        words_in_email = e.text.split() # split the email text using whitespaces
-        unique_words_in_email = set(words_in_email)
-        allterms.update(unique_words_in_email)
+        terms_in_email = e.text.split() # split the email text using whitespaces
+        unique_terms_in_email = set(terms_in_email)
+        allterms.update(unique_terms_in_email)
         nemails += 1
     
     idfs = {}
     for term, count in allterms.iteritems():
         idfs[term] = math.log( nemails / (1 + allterms[term]) )
+
+
+    tfidfs = {} # key is folder name
+    for folder, tfs in folder.iteritems:
+        # write code to calculate tf-idfs yourself!
+        pass
 
 If we combine `idfs` with each folder's `tf` value, we would compute the `tf-idf`.  If we print the top values for each folder, we would see something like:
     
@@ -169,20 +175,38 @@ If we combine `idfs` with each folder's `tf` value, we would compute the `tf-idf
 
 As we can see, there is a lot of noise, and non-word characters pop up a lot.  We will deal with this next.
 
+In addition, there are a number of extensions
+
 ### Regular Expressions and Data Cleaning
 
 The email dataset is a simple dump, and each file contains the email headers, attachments, and the actual message -- all of it is ascii-encoded.  In order to see sensible terms, we need to clean the data a bit.  This process varies depending on what your application is.  In our case, we decided that we want
 
-1. Reasonable words.  These should only contain a-z characters, hyphens, and apostrophes.  It should also start and end with an a-z character.
-1. We don't care about [stop words](http://en.wikipedia.org/wiki/Stop_words).  We pre-decided that words like "the" and "and" should be ignored.
 1. We don't care about casing.  We want "enron" and "Enron" to be the same term.
 1. We don't care about really short words.  We want words with 4 or more characters. 
+1. We don't care about [stop words](http://en.wikipedia.org/wiki/Stop_words).  We pre-decided that words like "the" and "and" should be ignored.
+1. Reasonable words.  These should only contain a-z characters, hyphens, and apostrophes.  It should also start and end with an a-z character.
 
 Let's tackle each of these requirements one by one!
 
-#### 1. Reasonable Words (Regular Expressions)
+#### 1-2. Casing and Short Words
 
-How do we enforce the first requirement?  One way is to iterate through the characters in every word, and make sure they are valid:
+We can deal with these by lower casing all of the terms and filtering out the short terms.
+
+    terms = e.text.lower().split()
+    terms = filter(lambda term: len(term) <= 3, terms)
+
+#### 3. Stop Words
+
+The `email_util` module defines a variable `STOPWORDS` that contains a list of common english stop words in lower case.  We can filter out terms that are found in in this list.
+
+    from email_util import STOPWORDS
+    terms = filter(lambda term: term in STOPWORDS, terms)
+    
+
+
+#### 4. Reasonable Words (Regular Expressions)
+
+The last requirement is more difficult to enforce.  One way is to iterate through the characters in every term, and make sure they are valid:
 
     arr = e.text.split()
     terms = []
@@ -234,223 +258,41 @@ For example, `[0-9]{3}-[0-9]{3}-[0-9]{4}` matches phone numbers that contain are
 Finally, `^` and `$` are special characters for the beginning and the end of the text, respectively.  For example `^enron` means that `"enron"` must be at the beginning of the string.  `enron$` means that the `"enron"` should be at the end.  `^enron$` means the term should be exactly `"enron"`.
 
 
-Great!  You should know enough to create a pattern to find "reasonable words"!
-
-#### 2. Stop Words
-
-The `email_util` module defines a variable `STOPWORDS` that contains a list of common english stop words in lower case.  You want to remove terms that are found in in this list.
-
-    from email_util import STOPWORDS
-    terms = e.text.split()
-    terms = filter(lambda term: term in STOPWORDS, terms)
+Great!  You should know enough to create a pattern to find "reasonable words", and use it to re-compute the `tfidfs` dictionary!
 
 
-#### 3-4. Casing and Short Words
 
-            
 
-To do this, we will replace the code
+## [Cosine Similarity](http://en.wikipedia.org/wiki/Cosine_similarity)
 
-    words_in_email = e.text.split() # split the email text using whitespaces
+It would be helpful to find email senders that send similar emails to Kenneth Lay.  That way, if we are reading an interesting email about Enron's bankruptcy, we can find other people that have sent similar emails.  [Cosine similarity](http://en.wikipedia.org/wiki/Cosine_similarity) is a common tool to achieve this.
 
-With a function:
+The main idea is that emails that share terms with high tf-idf values are probably similar.  Also, they are more similar if they share more terms.  
 
-    words_in_email = get_terms(e.text)
 
-And define `get_terms` as
+Let's say we have a total of 1000 terms across all of the email senders.  Every email sender has a tf-idf score for each of the 1000 terms.  We could model all of the scores as a 1000-dimensional vector, where each dimension corresponds to a term, and the distance along the dimension is the term's tf-idf value.  The cosine of the two email senders' vectors measures the similarity between them.  -1 means they are completely opposite, and 1 means they are identical.  0 means the senders are independent from each other (the vectors are orthogonal).  
 
-    import re
-    refs_pat = '^[a-z][a-z\'-][a-z]$'
+Here is how we would calculate the cosines similarity of two _folders_, using the `tfidfs` dictionary you computed in the previous section.
+
+    sec_scores = tfidfs['sec_panel']
     
-    def get_terms(s):
-        s = s.lower()
-        terms = s.split()
-        terms = filter(lambda term: len(term) > 3, terms)
-        terms = filter(lambda term: re.match(refs_pat, term) != None, terms)
-        return terms
 
 
 
-Now when we compute the TF-IDF, we see meaningful terms.  For example, the `family/` folder has terms such as "photos", "birth", and names.  On the other hand, `sec_panel/` contains "panel", "blackstone" (their financial advisors), and "outline".  Interestingly, the `deleted_items/` folder has terms like "bankruptcy", "funds", and "employees".  It turns out, that they are all templates emailed by upset people after Kenneth made millions while Enron became bankrupt.
+We model every email sender's (term, tfidf score) pairs as a vector
 
 
+    
 
-If we print the top TF-IDF terms in a folder, it should give a us a sense of the "important" terms.
+We warn you that running this can take a while.  There are 2000 emails 
 
-We will explain TF-IDF is through a working example. HIGH LEVEL GOAL
+If we are reading an email, we would like to find other similar emails.  Cosine similarity is a common tool 
 
-family
-	('pate', 28.456862272897595)
-	('zach', 27.758052561021806)
-	('beau', 26.63165691650491)
-	('birth', 22.03620359114226)
-	('july', 20.12631560920885)
-	('gif', 19.469640452391875)
-	('herrold', 17.69769940436878)
-	('vermeil', 15.664106476001354)
-	('photos', 15.482232610552046)
-	('baby', 15.228560446467856)
-all_documents
-	('2000', 673.198316187371)
-	('communications', 623.1569106172456)
-	('subject', 577.0190473957614)
-	('meeting', 561.5372620634564)
-	('october', 550.5727152457546)
-	('information', 542.6507085797787)
-	('business', 535.4676171379596)
-	('kenneth', 535.0885237924068)
-	('call', 526.0046317653436)
-	('also', 524.9851818411871)
-compaq
-	('rohde', 12.979760301594583)
-	('lisa', 12.431429837590521)
-	('org', 12.244310741343948)
-	('chart', 10.709800435916613)
-	('cap', 9.51055819081837)
-	('org0301assts', 7.5884924394654005)
-	('281-514-1297', 7.5884924394654005)
-	('ceosec', 7.5884924394654005)
-	('281-518-9882', 6.895345258905455)
-	('admins', 6.741194579078197)
-business
-	('obligations', 16.65483153661308)
-	('determine', 15.734058148108584)
-	('commitments', 14.20758302865625)
-	('imi', 12.979760301594583)
-	('gathered', 12.244310741343948)
-	('italian', 12.096094797036503)
-	('proper', 11.593465940474692)
-	('contractual', 11.285164580820176)
-	('accordingly', 10.152373630978571)
-	('purchasing', 10.047086164007728)
-discussion_threads
-	('2000', 513.613905215451)
-	('october', 501.0503017051312)
-	('compaq', 472.74602940188873)
-	('transactions', 469.6840243058487)
-	('business', 451.98526422983673)
-	('today', 441.2075620981817)
-	('attached', 432.22711668299377)
-	('information', 404.161725660981)
-	('day', 404.156450142581)
-	('also', 402.61101357983813)
-notes_inbox
-	('october', 501.0503017051312)
-	('2000', 474.8798248824608)
-	('transactions', 467.58722062591187)
-	('compaq', 461.9609488832144)
-	('business', 432.5903741602728)
-	('today', 430.09801916765196)
-	('http', 404.32941903449694)
-	('information', 401.33541988712796)
-	('total', 400.92399694102124)
-	('services', 393.7028955547116)
-sec_panel
-	('sec', 19.760863090686893)
-	('panel', 19.67959774004035)
-	('outline', 13.584664934321516)
-	('blackstone', 13.482389158156394)
-	('paper', 12.893091692431602)
-	('agenda', 11.637809619643416)
-	('sending', 11.172780293620809)
-	('kindly', 9.99645054803915)
-	('koller', 9.590568860045767)
-	('discussion', 8.583313862259182)
-enron
-	('theme', 23.308765186991806)
-	('downtown', 20.56196874815064)
-	('comets', 16.173803586387542)
-	('basketball', 15.395269999932289)
-	('houston', 14.104388677691238)
-	('cnpc', 13.79069051781091)
-	('hamil', 13.79069051781091)
-	('peters', 13.482389158156394)
-	('gilman', 12.76903927027893)
-	('reinvention', 12.76903927027893)
-inbox
-	('width', 1124.7760959321336)
-	('2001', 973.7489633284944)
-	('2002', 908.0217195724758)
-	('know', 806.3892504784861)
-	('height', 770.9997052301258)
-	('message', 728.2842234603417)
-	('src', 697.2557096425406)
-	('center', 696.4062851600497)
-	('management', 695.8930116655829)
-	('people', 692.875362527725)
-_sent
-	('communications', 400.10298287952907)
-	('rosalee', 370.0703109972345)
-	('kenneth', 359.6738286648685)
-	('subject', 294.71402958385664)
-	('2001', 222.0237798330016)
-	('meeting', 217.4968268555641)
-	('april', 208.1267385328085)
-	('klay', 201.74192070377475)
-	('rosie', 200.0461406416558)
-	('attend', 197.6654403467343)
-calendar
-	('casual', 11.192124549550389)
-	('shoot', 10.709800435916613)
-	('fortune', 9.056443289547678)
-	('juanher', 8.68710472813351)
-	('grooming', 8.68710472813351)
-	('prhopkin', 8.68710472813351)
-	('koeing', 8.68710472813351)
-	('invitational', 8.68710472813351)
-	('imceanotes-courtenay', 8.68710472813351)
-	('plonzano', 8.68710472813351)
-deleted_items
-	('declared', 2167.2414912385375)
-	('donate', 2151.410381760344)
-	('bankruptcy', 2122.8656517030927)
-	('millions', 2112.1347022777477)
-	('bills', 2109.5925729588625)
-	('retirement', 2089.979970603285)
-	("company's", 2054.731495227359)
-	('funds', 2022.7363807665545)
-	('pay', 1919.2160604817207)
-	('underhanded', 1865.9432555056947)
-sent_items
-	('image', 91.7845084332862)
-	('associate', 30.136990418443084)
-	('atroche851088951', 29.20324146805448)
-	('program', 26.652913385413708)
-	('mccann', 24.808792313382042)
-	('loy', 22.7654773183962)
-	('original', 22.17854411337738)
-	('wired', 21.90243110104086)
-	('rotating', 21.90243110104086)
-	('continue', 20.784478821493316)
-sent
-	('communications', 400.10298287952907)
-	('rosalee', 371.9877737485155)
-	('kenneth', 364.09604786976445)
-	('subject', 296.78219821251525)
-	('2001', 222.0237798330016)
-	('meeting', 218.48544879581667)
-	('april', 208.1267385328085)
-	('klay', 201.74192070377475)
-	('rosie', 200.0461406416558)
-	('attend', 199.8864003506302)
-elizabeth
-	('wedding', 76.45664976382045)
-	('love', 48.94235804860213)
-	('liz', 47.65461399153731)
-	('dad', 42.015273054457204)
-	('jose', 41.87295057803246)
-	('band', 39.498076032870614)
-	('elizabeth', 38.90630505950411)
-	('lora', 38.27760232285716)
-	('linda', 38.09341184613746)
-	('yahoo', 37.108720182380054)
 
 
 ## N-grams
 
-
-
-## Cosine Similarity
+Finally, only one word per term.  Not really clear.  "expensive", even though one could be part of the phrase "not expensive" whereas the other is "very expensive".  One popular way to add more context is to simply use more than one word per term (notice that we've used the word "term" instead of word for this reason).
 
 
 

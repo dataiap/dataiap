@@ -1,8 +1,7 @@
 # Introduction
 
-Before we can start playing with data, let's set up our environment.
-We'll install some software, packages, and downlaod some datasets to
-get started!
+This class is an introduction to data cleaning, analysis and visualization.  We will walk you through as we analyze real world datasets.  Each day, we will spend the first 30 minutes introducing the day's concepts, and the rest of the class will be exercises.  We have written a daily walkthrough that you will read and program through in class, and we will be available to help.
+
 
 ## Prereqs
 
@@ -54,11 +53,14 @@ objectives in Python, and more MIT undergraduates know Python.
   visualizations that the world can explore, and we can point you in
   the right direction with these.
 
-## Programming Environment
+## Programming Environment (Important!)
+
+Before the class, please set up the environment.  You will need to install some software, packages, and download some datasets to get started.
+
 
 We assume that you are developing in a unix-like environment and are
-familiar with the common commands.  If you are a windows user, we
-assume you are using cygwin.
+familiar with the common commands (e.g., less, man).  If you are a windows user, we
+assume you are using cygwin but are on your own.
 
 ## Tools and Libraries 
 
@@ -109,6 +111,6 @@ We will be working with several datasets in this course.  Some are fairly large,
     * The linked file contains all of the 2008 campaign contributions to each presidential candidate.  You can look at the [2012 campaign](http://fec.gov/disclosurep/PDownload.do) for various primary candidates as well, but we'll work with 2008 since it's complete.
 ): click "All.zip" and unzip the file
 * [2011 County Health Rankings](http://www.countyhealthrankings.org/): The necessary data should already be in the git repository you cloned in   
-> `dataiap/datasets/county_health_rankings/additional_measures_cleaned.csv`  
-> `dataiap/datasets/county_health_rankings/ypll.csv`  
+    `dataiap/datasets/county_health_rankings/additional_measures_cleaned.csv`  
+    `dataiap/datasets/county_health_rankings/ypll.csv`  
 * The Enron dataset: $$$
