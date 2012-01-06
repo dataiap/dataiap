@@ -16,21 +16,8 @@ The techniques will include
 
 ## Setting Up
 
-### Datasets
+### Dataset
 
-
-#### 1. Your Own Email
-
-We have provided a [script]() that you can use to download your email.  However before you can run it, you will need to install the following python modules:
-
-* [dateutil]()
-* [pyparsing]()
-
-You can now run the script using the following command:
-
-    python download_emails.py [IMAP ADDRESS]
-
-You can pass the optional imap address parameter, otherwise it will default to gmail's imap address.  The script will then ask you to input your email and password, then create the folder `email_root/` and download your email folders into that directory.
 
 #### 2. Kenneth Lay's Emails
 
@@ -138,7 +125,7 @@ In our case, the numerator is the total number of emails and the denominator is 
 
     TF * IDF
 
-The following code will construct a dictionary that maps a term to its IDF value:
+The following code will construct a dictionary that maps a term to its IDF value.  Fill in the last part to calculate the tf-idf.
 
 
     allterms = Counter()
@@ -154,9 +141,11 @@ The following code will construct a dictionary that maps a term to its IDF value
         idfs[term] = math.log( nemails / (1 + allterms[term]) )
 
 
-    tfidfs = {} # key is folder name
+    tfidfs = {} # key is folder name, value is a list of (term, tfidf score) pairs
     for folder, tfs in folder.iteritems:
+        #
         # write code to calculate tf-idfs yourself!
+        # 
         pass
 
 If we combine `idfs` with each folder's `tf` value, we would compute the `tf-idf`.  If we print the top values for each folder, we would see something like:
@@ -258,7 +247,7 @@ For example, `[0-9]{3}-[0-9]{3}-[0-9]{4}` matches phone numbers that contain are
 Finally, `^` and `$` are special characters for the beginning and the end of the text, respectively.  For example `^enron` means that `"enron"` must be at the beginning of the string.  `enron$` means that the `"enron"` should be at the end.  `^enron$` means the term should be exactly `"enron"`.
 
 
-Great!  You should know enough to create a pattern to find "reasonable words", and use it to re-compute the `tfidfs` dictionary!
+Great!  You should know enough to create a pattern to find "reasonable words", and use it to re-compute the `tfidfs` dictionary and print the 10 most highly scored terms in each folder!
 
 
 
@@ -270,34 +259,69 @@ It would be helpful to find email senders that send similar emails to Kenneth La
 The main idea is that emails that share terms with high tf-idf values are probably similar.  Also, they are more similar if they share more terms.  
 
 
-Let's say we have a total of 1000 terms across all of the email senders.  Every email sender has a tf-idf score for each of the 1000 terms.  We could model all of the scores as a 1000-dimensional vector, where each dimension corresponds to a term, and the distance along the dimension is the term's tf-idf value.  The cosine of the two email senders' vectors measures the similarity between them.  -1 means they are completely opposite, and 1 means they are identical.  0 means the senders are independent from each other (the vectors are orthogonal).  
+Let's say we have a total of 1000 terms across all of the email senders.  Every email sender has a tf-idf score for each of the 1000 terms.  We could model all of the scores as a 1000-dimensional vector, where each dimension corresponds to a term, and the distance along the dimension is the term's tf-idf value.  The cosine of the two email senders' vectors measures the similarity between them.  Suppose the vectors were A and B.  Then the cosine would be:
 
-Here is how we would calculate the cosines similarity of two _folders_, using the `tfidfs` dictionary you computed in the previous section.
+    cos(A,B) = (A·B) / ((|A| * |B|) + 1)
 
-    sec_scores = tfidfs['sec_panel']
+The numerator is the sum of all the tfidf terms the senders have in common.  The denominator is the product of the vector lengths.  We typically add `1` in case the vectors are both 0.
+
+A `cos(A,B)` of 1 means they are identical and 0 means the senders are independent from each other (the vectors are orthogonal).  
+
+Here is how we would calculate the cosine similarity of two _folders_, using the `tfidfs` dictionary you computed in the previous section.  We assume that each value in `tfidfs` is a list of `(term, tfidf-score)` pairs
     
+    from math import *
+    sec_scores = dict(tfidfs['sec_panel'])
+    fam_scores = dict(tfidfs['family'])
 
+    # loop through terms in sec_scores
+    # if term also exists in fam_scores, multiply both tfidf values and 
+    # add to numerator
+    numerator = 0.0
+    for sec_key, sec_score in sec_scores.iteritems():
+        dotscore = sec_score * fam_scores.get(sec_key, 0.0)
+        numerator += dotscore
+    
+    # compute the l2 norm of each vector
+    denominator = 0.0
+    sec_norm = sum( [score**2 for score in sec_scores.values()] )
+    sec_norm = math.sqrt(sec_norm)
+    fam_norm = sum( [score**2 for score in fam_scores.values()] )
+    fam_norm = math.sqrt(fam_norm)
+    denominator = sec_norm * fam_norm + 1.0
 
-
-We model every email sender's (term, tfidf score) pairs as a vector
-
+    similarity = numerator / denominator
 
     
-
-We warn you that running this can take a while.  There are 2000 emails 
-
-If we are reading an email, we would like to find other similar emails.  Cosine similarity is a common tool 
-
-
+Now, modify the code you have written so far to compute the cosine similarity between every pair of folders.  Which folders are most similar?
 
 ## N-grams
 
 Finally, only one word per term.  Not really clear.  "expensive", even though one could be part of the phrase "not expensive" whereas the other is "very expensive".  One popular way to add more context is to simply use more than one word per term (notice that we've used the word "term" instead of word for this reason).
 
+# Exercise 1: Similar Email Senders
 
+We computed the tf-idf and cosine similarity between every folder in kenneth's emails.  Now do the same, but for email senders.
+
+# Exercise 2: Analyze Your Emails
+
+We have written a script (`dataiap/resources/download_emails.py`) that you can use to download your own email over IMAP.  However before you can run it, you will need to install the following python modules:
+
+- [dateutil](http://labix.org/python-dateutil#head-2f49784d6b27bae60cde1cff6a535663cf87497b)
+    * PIP users can type `sudo pip install python-dateutil`
+- [pyparsing](http://pyparsing.wikispaces.com/Download+and+Installation)
+    * PIP users can type `sudo pip install pyparsing`
+
+You can now run the script using the following command:
+
+    python download_emails.py [IMAP ADDRESS]
+
+You can pass the optional imap address parameter, otherwise it will default to gmail's imap address.  The script will then ask you to input your email and password, then create the folder `./[YOUR EMAIL]/` and download your email folders into that directory.  If you have a lot of emails, it can take a long time. 
+
+See if you can uncover something interesting!
 
 ## Done!
 
+### What Else Can We Do?
 
 
 ## Notes

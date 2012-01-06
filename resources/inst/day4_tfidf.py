@@ -11,7 +11,8 @@ refs_prog = re.compile(refs_pat)
 
 def get_terms(s):
     s = s.lower()
-    arr = s.split()
+    lines = filter(lambda line: line.strip().startswith(">"), s.split('\n'))
+    arr = '\n'.join(lines).split()
     terms = []
     for term in arr:
         if re.match(refs_pat, term) != None:
@@ -32,7 +33,7 @@ for e in EmailWalker(sys.argv[1]):
         words_in_email = []
     if not len(words_in_email):
         continue
-
+    print e.folder, e.sender
     key_to_tf[e.sender].update(words_in_email)
     #key_to_tf[e.folder].update(words_in_email)
     unique_words_in_email = set(words_in_email)
@@ -50,10 +51,6 @@ start = time.time()
 tfidfs = {}
 for key, counter in key_to_tf.items():
     tfidfs[key] = dict(filter(lambda pair: pair[1] > 0, [(term, count * idfs[term]) for term, count in counter.iteritems()] ))
-
-    # print key
-    # for pair in sorted(key=lambda (k,v): v, reverse=True, tfidfs[key])[:10]:
-    #     print '\t', pair    
 print "tfidfs took", (time.time()-start)
 
 def l2norm(vec):
@@ -61,7 +58,7 @@ def l2norm(vec):
 
 print len(tfidfs)
 l2norms = {}
-similarities = {}
+
 allkeys = tfidfs.keys()
 
 start = time.time()
@@ -70,19 +67,37 @@ for key, weights in tfidfs.iteritems():
 print "l2norm took", (time.time() - start)
 
 start = time.time()
-key1 = 'rosalee.fleming@enron.com'
-#for idx, key1 in enumerate(allkeys):
-if True:
-    #for key2 in allkeys[idx+1:]:
-    for key2 in allkeys:
-        weights1 = tfidfs[key1]
-        weights2 = tfidfs[key2]
-        numerator = float(sum([c*weights2[term] for term, c in weights1.iteritems() if term in weights2]))
-        denominator = l2norms[key1] * l2norms[key2] + 1.0
-        similarities[(key1, key2)] = numerator / denominator
-print "similarities took", (time.time() - start)
+
+while True:
+    key1 = raw_input("input email: ")
+    if key1 not in allkeys:
+        print "could not find email"
+        continue
 
 
-for emails, score in sorted(similarities.items(), key=lambda (emails, score): score, reverse=True)[:20]:
-    print score, '\t', emails
+
+    print "top tfidfs"
+    for pair in sorted(tfidfs[key1].items(), key=lambda (k,v): v, reverse=True)[:10]:
+        print '\t', pair    
     
+    #for idx, key1 in enumerate(allkeys):
+    similarities = {}
+    if True:
+        #for key2 in allkeys[idx+1:]:
+        for key2 in allkeys:
+            weights1 = tfidfs[key1]
+            weights2 = tfidfs[key2]
+            overlap = [(term, c*weights2[term]) for term, c in weights1.iteritems() if term in weights2]
+            numerator = float(sum(map(lambda (k,v): v, overlap)))
+            denominator = l2norms[key1] * l2norms[key2] + 1.0
+            similarities[(key1, key2)] = (numerator / denominator, overlap)
+    print "similarities took", (time.time() - start)
+
+
+    for emails, data in sorted(similarities.items(), key=lambda (emails, data): data[0], reverse=True)[:5]:
+        print data[0], '\t', emails
+        overlap = data[1]
+        overlap.sort(key=lambda (k,v): v, reverse=True)
+        for term, score in overlap[:10]:
+            print '\t', score, '\t', term
+

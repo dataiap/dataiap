@@ -99,9 +99,18 @@ We will also require a number of python modules:
     * PIP users can type `sudo pip install matplotlib`
     * Note: If compiling from source, matplot lib requires a number of other libraries: 
     ([libpng](http://www.libpng.org/pub/png/libpng.html), [freetype 2](http://download.savannah.gnu.org/releases/freetype/))
+
+- [dateutil](http://labix.org/python-dateutil#head-2f49784d6b27bae60cde1cff6a535663cf87497b)
+    * PIP users can type `sudo pip install python-dateutil`
+- [pyparsing](http://pyparsing.wikispaces.com/Download+and+Installation)
+    * PIP users can type `sudo pip install pyparsing`
 - [mrjob](https://github.com/yelp/mrjob):  This is a MapReduce package that we will use it in day 5.
 	* PIP users can type `sudo pip install mrjob`
 	* If compiling from source, it requires [boto](http://code.google.com/p/boto/downloads/list) (try `sudo pip install boto`).
+
+
+
+
 
 
 ## Datasets
