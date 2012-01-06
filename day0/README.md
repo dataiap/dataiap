@@ -83,22 +83,23 @@ ones are:
 
 We will also require a number of python modules:
 
-- [numpy 1.6.x](http://sourceforge.net/projects/numpy/files/NumPy/1.6.1/)
+* [numpy 1.6.x](http://sourceforge.net/projects/numpy/files/NumPy/1.6.1/): numerical processing module.
 	* PIP users can type `sudo pip install numpy`
-- [scipy 0.10](http://sourceforge.net/projects/scipy/files/scipy/0.10.0/)
-	* PIP users can type `sudo pip install scipy`
+* [scipy 0.10](http://sourceforge.net/projects/scipy/files/scipy/0.10.0/): scientific computing module.
+    * PIP users can type `sudo pip install scipy`
     * Ubuntu users can type `sudo apt-get install python-scipy`
-	* Unfortunately, scipy installation might not work from PIP, and you may have to [compile it from source](https://scipy.org/Installing_SciPy/Mac_OS_X) (see "Obtaining and Building NumPy and SciPy").  Try something akin to
-      > git clone https://github.com/scipy/scipy.git  
-      > cd scipy  
-      > python setup.py build  
-      > python setup.py install  
+    * Unfortunately, scipy installation might not work from PIP, and you may have to [compile it from source](https://scipy.org/Installing_SciPy/Mac_OS_X) (see "Obtaining and Building NumPy and SciPy").  Try something akin to
+        * `git clone https://github.com/scipy/scipy.git`
+        * `cd scipy`
+        * `python setup.py build`
+        * `python setup.py install`
+
+
 - [matplotlib 1.1.0](http://sourceforge.net/projects/matplotlib/files/matplotlib/matplotlib-1.1.0/)
     * PIP users can type `sudo pip install matplotlib`
     * Note: If compiling from source, matplot lib requires a number of other libraries: 
     ([libpng](http://www.libpng.org/pub/png/libpng.html), [freetype 2](http://download.savannah.gnu.org/releases/freetype/))
-- [mrjob](https://github.com/yelp/mrjob)
-	* MapReduce package.  We will use it in day 5.
+- [mrjob](https://github.com/yelp/mrjob):  This is a MapReduce package that we will use it in day 5.
 	* PIP users can type `sudo pip install mrjob`
 	* If compiling from source, it requires [boto](http://code.google.com/p/boto/downloads/list) (try `sudo pip install boto`).
 
@@ -113,4 +114,6 @@ We will be working with several datasets in this course.  Some are fairly large,
 * [2011 County Health Rankings](http://www.countyhealthrankings.org/): The necessary data should already be in the git repository you cloned in   
     `dataiap/datasets/county_health_rankings/additional_measures_cleaned.csv`  
     `dataiap/datasets/county_health_rankings/ypll.csv`  
-* The Enron dataset: $$$
+* [The Enron email dataset](http://www.cs.cmu.edu/~enron/).
+    * `dataiap/datasets/emails/kenneth.zip` contains a subset of Kenneth Lay's emails that you will analyze in day 4.
+    * We will upload a JSON encoded version of the full dataset to amazon's S3.  
