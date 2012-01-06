@@ -1,7 +1,17 @@
-# Introduction
+# Syllabus and Setup
 
-This class is an introduction to data cleaning, analysis and visualization.  We will walk you through as we analyze real world datasets.  Each day, we will spend the first 30 minutes introducing the day's concepts, and the rest of the class will be exercises.  We have written a daily walkthrough that you will read and program through in class, and we will be available to help.
+Welcome!
 
+This class is an introduction to data cleaning, analysis and
+visualization.  We will walk you through as we analyze real world
+datasets.  Each day, we will spend the first 30 minutes introducing
+the day's concepts, and the rest of the class will be exercises.  We
+have written a daily walkthrough that you will read and program
+through in class, and we will be available to help.
+
+This is our first time teaching this course, and we'll be learning as
+much as you.  Don't hesitate to ask us to change something or improve
+on something.  We'll be grateful.
 
 ## Prereqs
 
@@ -80,6 +90,7 @@ ones are:
     * If everything is working, check the dataiap sourcecode into a
       directory called `dataiap` using `git clone
       https://github.com/dataiap/dataiap.git dataiap`
+    * We'll be updating the repository periodically.  To get the latest copy, go to the `dataiap` directory and type `git pull`.
 
 We will also require a number of python modules:
 
@@ -125,4 +136,5 @@ We will be working with several datasets in this course.  Some are fairly large,
     `dataiap/datasets/county_health_rankings/ypll.csv`  
 * [The Enron email dataset](http://www.cs.cmu.edu/~enron/).
     * `dataiap/datasets/emails/kenneth.zip` contains a subset of Kenneth Lay's emails that you will analyze in day 4.
+    * `dataiap/datasets/emails/kenneth_json.zip` contains a JSON-encoded subset of Kenneth Lay's emails that you will analyze in day 5.
     * We will upload a JSON encoded version of the full dataset to amazon's S3.  
