@@ -5,313 +5,232 @@
 <link rel="stylesheet" type="text/css" href="clearness.css"/>
 </head>
 <body>
-<h1>Day 2</h1>
-<h2>Overview</h2>
-<p>Today, we will do more with <code>matplotlib</code>.</p>
+<h1>Day 1: Let's play with some data!</h1>
+<p>Today we will analyze the presidential campaign contributions dataset. We
+will go through the full process of downloading a new dataset, the
+initial steps of understanding the data, visualizing it, coming up
+with hypotheses, and exploring the dataset.  Hopefully, you'll learn
+something new about presidential elections.</p>
+<p>A lot of other organizations have analyzed the data:</p>
 <ul>
-<li>bar graphs</li>
-<li>line graphs</li>
-<li>box plots (will be useful tomorrow)</li>
-<li>scatter plots</li>
-<li><a href="http://en.wikipedia.org/wiki/Choropleth_map">choropleth plots</a> (map plots)</li>
+<li><a href="http://fec.gov/disclosurep/pnational.do">The FEC</a> is the organization that published the dataset, but also offers basic summaries of the data.</li>
+<li><a href="http://www.pitchinteractive.com/election2008/">Pitch Interactive</a> has some pretty sweet visualizations of the data.</li>
+<li><a href="http://www.pitchinteractive.com/election2008/jobarcs.html">More from Pitch Interactive</a></li>
 </ul>
-<p>Also we will learn to</p>
-<ul>
-<li>create figures with multiple sub-figures (called subplots)</li>
-<li>customize labels, colors, error bars etc.</li>
-</ul>
-<p>In the exercises, we will use this to further visualize and analyze the campaign donations data.</p>
-<p><code>matplotlib</code> is quite powerful, and is intended to emulate matlab's visualization facilities.   We will give you a basic understanding of how plotting works, which should be enough for a majority of the charts that you will want to create.</p>
-<h1>TODO: Add Comments about when to use each type of graph, and a section on colors/contrast?</h1>
-<p><a href="http://www.perceptualedge.com/articles/b-eye/choosing_colors.pdf">a good link about color</a></p>
-<h1>Problem: internet says matplotlib not good for network graphs.  Talk about them at all?</h1>
-<h2>Introduction</h2>
-<p>When should you use visualizations</p>
-<p>Purpose of visualizations.</p>
-<h3>Figure and Subplots</h3>
-<p>The package we will be using is <code>matplotlib.pyplot</code>.  It provides a lot of shorthands and defaults (we used some of them yesterday when making line charts), but today we will do things the "right way".<br />
-</p>
-<p>A <code>figure</code> is the area that we will draw in.  We can specify that it is 50 inches wide and 30 inches tall.</p>
-<pre><code>import matplotlib.pyplot as plt
-fig = plt.figure(figsize=(50, 30))
-subplot1 = fig.add_subplot(2, 3, 1)
-subplot2 = fig.add_subplot(2, 3, 2)
+<p>These visualizations are beautiful but high level overviews, which
+tend to hide interesting details.  We have our own questions, and
+we'll answer some of them today.  We'll provide the commands and code to
+initially explore the data, and ask you to further analyze the data in
+the exercises.</p>
+<h2>First Steps</h2>
+<p>We assume that you have already <a href="../day0/index.html">downloaded the
+dataset</a>.  We need to first unzip the file and rename
+it to something meaningful:</p>
+<pre><code>&gt; unzip P00000001-ALL.zip
+&gt; mv P00000001-ALL.txt donations.txt
 </code></pre>
-<p>It is common to create multiple subfigures or <code>subplots</code> in a single figure.  <code>fig.add_subplot(nrows, ncols, i)</code> tells the figure to treat the area as a nrows x ncols grid, and return an <a href="http://matplotlib.sourceforge.net/api/axes_api.html">Axes</a> object that represents the i'th grid cell.  You will then create your chart by calling methods on object.  It helps me to think of an Axes object as a subplot.</p>
-<p>For example, the above code creates a figure with the following layout.  The black box is the area of the figure, while each blue box is a subplot in a 2x3 grid.  The number in a blue box is the subplot's index.<br />
-</p>
-<p><center><img src="./subplotlayout.png" width="50%"/></center></p>
-<p>It's important to mention that <code>add_subplot</code> does not actually create a grid, it just finds the area in an imaginary grid where a <code>subplot</code> should be and return an object that represents the area.  Thus it is possible to do draw on overlapping <code>subplots</code>.</p>
-<pre><code>fig.add_subplot(2, 3, 1)
-fig.add_subplot(2, 1, 1)
+<p>Lets see how much data we are dealing with.  The word count (<code>wc</code>) command will tell us the number of lines in this file:</p>
+<pre><code>&gt; wc -l donations.txt
+4938656
 </code></pre>
-<p>You will often see a shorthand for creating subplots when the number of rows and number of columns are less than 10.  <code>fig.add_subplot(xyz)</code> returns the z'th subplot in a x by y grid.  So <code>fig.add_subplot(231)</code> returns the first subplot in a 2x3 grid.<br />
+<p>Let's take a quick look at the file.  <code>head</code> prints the first N lines in a file.<br />
 </p>
-<h3>How Drawing Works</h3>
-<p>The functions that we will be using to create charts are simply convenience functions that draw and scale points, lines, and polygons at x,y coordinates.  Whenever we call a plotting method, it will return a set of objects that have been added to the subplot.  For example, when we use the <code>bar()</code> method to create a bar graph, <code>matplotlib</code> will draw rectangles for each bar, and return a list of <code>rectangle</code> objects so that we can manipulate them later (e.g., in an animation).</p>
-<p>As you use <code>matplotlib</code>, keep in mind that:</p>
-<ul>
-<li>Many of the plotting functions will ask you to specify things similar to x,y coordinates / offsets.</li>
-<li>When you call a drawing function, it won't rearrange the layout of what was drawn before.  It simply draws the pixels <strong>on top of</strong> what has been drawn before.</li>
-<li>You are ultimately adding points, lines and polygons on top of one another.</li>
-</ul>
-<h2>Let's Plot Some Graphs!</h2>
-<p>Let's get to drawing graphs!  By the end of this tutorial, you will have experience creating bar charts, line charts, box plots, scatter plots, and choropleths (map plots).   We will walk you through how to create a figure similar to</p>
-<p><img src="./final_graph.png" width="750"/></p>
-<p>This figure creates subplots in a 3x2 grid, so let's first setup the figure and generate two sets of data.  Both sets have the same x values, but different y values.</p>
-<pre><code>import matplotlib.pyplot as plt
+<pre><code>&gt; head -n3 donations.txt    cmte_id,cand_id,cand_nm,contbr_nm,contbr_city,contbr_st,contbr_zip,contbr_employer,contbr_occupation,contb_receipt_amt,contb_receipt_dt,receipt_desc,memo_cd,memo_text,form_tp,file_num
+C00420224,"P80002983","Cox, John H","BROWN, CHARLENE","EAGLE RIVER","AK","99577","","STUDENT",25,01-MAR-07,"","","","SA17A",288757
+C00420224,"P80002983","Cox, John H","KELLY, RAY","HUNTSVILLE","AL","35801","ARKTECH","RETIRED",25,25-JAN-07,"","","","SA17A",288757
+</code></pre>
+<p>On line 1 we see the names of each field in the file, and the data
+starts from line 2.  It's in a format called <code>CSV</code>, or comma-separated
+values, where each row contains a new set of field values separated by
+commas.</p>
+<p>If we take a look at the <a href="ftp://ftp.fec.gov/FEC/Presidential_Map/2012/DATA_DICTIONARIES/CONTRIBUTOR_FORMAT.txt">file format
+description</a>
+on the fec.gov website, it specifies that</p>
+<pre><code>The text file is comma delimited and uses double-quotation marks as the text qualifier.
+</code></pre>
+<p>The file contains information about the candidate, the donor's city, state, zip code, employer and occupation information, as well as the amount donated.  In addition it contains the date of the donation, </p>
+<p>Let's write a script to read and print each donation's date, amount
+and candidate.  Python comes with a <code>csv</code> module that helps read CSV
+files.</p>
+<pre><code>import csv,sys,datetime
+reader = csv.DictReader(open(sys.argv[1], 'r'))
+
+for row in reader:
+    name = row['cand_nm']
+    datestr = row['contb_receipt_dt']
+    amount = row['contb_receipt_amt']
+    print ','.join([name, datestr, amount])
+</code></pre>
+<p>DictReader assumes that the first line are the names of the fields,
+and creates a dictionary for each row of <code>fieldname-&gt;value</code> pairs.
+Copy the above code into a file (say <code>exercise1.py</code>) in the same
+directory as <code>donations.txt</code>, and run <code>python exercise1.py
+donations.txt</code>.  This will make <code>donations.txt</code> be the first argument
+to the program (<code>sys.argv[1]</code>), which will be read and printed line by
+line.  We'll only print the name, date, and amount of the contribution
+for now.</p>
+<h3>Introducing <code>matplotlib</code></h3>
+<p>We will be using <code>matplotlib</code> in the rest of the course, and work with
+it extensively in day 2.  The following code is a crash course on how
+to graph a line in <code>matplotlib</code>.</p>
+<pre><code># pyplot is the plotting module
+import matplotlib.pyplot as plt
 import random
-random.seed(0)
 
-fig = plt.figure(figsize=(50, 30))
+# generate the data
+xs = range(10) # 0...9
+ys1 = range(10) # 0...9
+ys2 = [random.randint(0, 20) for i in range(10)] # 10 random numbers from 0-19
 
-N = 100
-xs = range(N)
-y1 = [random.randint(0, 50) for i in xs]
-y2 = range(N)
-</code></pre>
-<h3>Bar Plots <a href="http://matplotlib.sourceforge.net/api/axes_api.html#matplotlib.axes.Axes.bar">documentation</a></h3>
-<p><code>subplot.bar(left, height, width=0.8, bottom=None, **kwargs)</code></p>
-<p>The bar plot function either takes a single left and height value, which will be used to draw a rectangle whose left edge is at <code>left</code>, and is <code>height</code> tall:</p>
-<pre><code>subplot.bar(10, 30)
-</code></pre>
-<p>or you can pass a list of lefts values and a list of height values, and it will draw bars for each pair of left,height value.  For example, the following will create three bars at the x coordinates 10, 20 and 30.  The bars will be 5, 8, 2 units tall.</p>
-<pre><code>subplot.bar([10, 20, 30], [5, 8, 2])
-</code></pre>
-<p><code>matplotlib</code> will automatically scale the x and y axes so that the figure looks good.  While the numbers along the x and y axes depend on the values of <code>lefts</code> and <code>heights</code>, the sizes of the bars just depend on their relative values.</p>
-<p>The <code>width</code> keyword argument sets width of the bars  It can be a single value, which sets the width of all of the bars, or a list that specifies the list of each bar.  Set it relative to the differences of the <code>left</code> values.  If the <code>left</code> values are spaced one unit apart and I am drawing 2 sets of bars, then I usually set the width to <code>1 unit / (2 + 1)</code>.</p>
-<p>The <code>bottom</code> keyword argument specifies the bottom edge of the bars. </p>
-<pre><code>subplot.bar([10, 20, 30], [5, 8, 2], width=[5,5,5], bottom=[5, 10, 15])
-</code></pre>
-<p><img src="./bar1.png" width=300/></p>
-<p>The following code reproduces the bar graph.  Since we want the bars to be evenly spaced apart, we set <code>left</code> to the <code>numpy</code> equivalent of <code>range(len(xs))</code>.  Numpy arrays let us perform math operations on every element in the array.  So <code>left+width</code> adds <code>width</code> to every element in <code>left</code>, which serves to shift the second set of bars to the right by <code>width</code> units.</p>
-<pre><code>import numpy as np
-left = np.arange(len(xs))
-width = 0.25
+# create a 10-inch x 5-inch figure
+fig = plt.figure(figsize=(10,5))
 
-subplot = fig.add_subplot(3,2,1)
-subplot.bar(left, ys, width=width)
-subplot.bar(left+width, ys2, width=width, bottom=ys)
+# draw a line graph
+plt.plot(xs, ys1, label='line 1')
+plt.plot(xs, ys2, label='line 2')
+
+# create the legend
+plt.legend(loc='upper center', ncol = 4)
+
+# finally, render and store the figure in an image
+plt.savefig('twolines.png', format='png')
 </code></pre>
-<p>You can further customize your bar charts using the following popular keyword arguments:</p>
-<ul>
-<li><code>color='blue'</code>: set color to a hex value ("#ffffff"), a common color name ("green"), or a shade of grey ("0.8").</li>
-<li><code>linewidth=1</code>: the width of the bar's border.  set it to <code>0</code> to remove the border.</li>
-<li><code>edgecolor='blue'</code>: set the color of the bar's border.</li>
-<li><code>label='a name'</code>: give a set of bars a name.  Later, we will teach you how to create legends that will display the labels.</li>
-</ul>
-<h3>Line Plots <a href="http://matplotlib.sourceforge.net/api/axes_api.html#matplotlib.axes.Axes.plot">documentation</a></h3>
-<p><code>subplot.plot(xs, ys, **kwargs)</code></p>
-<p>The <code>plot</code> command draws a line graph.  It takes a list of x values and y values, and draws a line between every adjacent pair of points.</p>
-<p><code>subplot.plot(xs1, ys1, xs2, ys2, ...)</code> is a convenient shorthand for:</p>
-<pre><code>subplot.plot(xs1, ys1)
-subplot.plot(xs2, ys2)
-...
-</code></pre>
-<p>To reproduce the line graph, we can simply write</p>
-<pre><code>subplot = fig.add_subplot(322)
-subplot.plot(xs, ys1, xs, ys2)
-</code></pre>
-<p>You can also customize the lines using the keyword arguments:</p>
-<ul>
-<li><code>color='green'</code>: same as <code>color</code> for bar graphs</li>
-<li><code>marker=None</code>: specify the marker to draw at each point.  I commonly use <code>'*', '+', '.'</code> or <code>'o'</code>.  Set it to <code>None</code> to not draw markers.  The documentation has a full list of the available markers.</li>
-<li><code>label='a name'</code>: give a line a name.  I usually call <code>plot()</code> for each line if I want to give each one a name.</li>
-</ul>
-<h3>Box Plots <a href="http://matplotlib.sourceforge.net/api/axes_api.html#matplotlib.axes.Axes.boxplot">documentation</a></h3>
-<p><code>boxplot(data)</code></p>
-<p>Boxplots are used to summarize and compare groups of numerical data.  Each box summarizes a set of numbers and depicts 5 parameters:</p>
-<ul>
-<li>The smallest number</li>
-<li>The lower quartile</li>
-<li>The median</li>
-<li>The upper quartile</li>
-<li>The largest observation</li>
-</ul>
-<p><code>subplot.boxplot</code> will automatically compute these values, and also ignore numbers that it thinks are outliers.  Don't worry about when and why they are used -- we will discuss that tomorrow.  Just know that <strong>one box summarizes a set of numbers</strong>.</p>
-<p>Unlike the other charts, you can't draw each box individually.  The <code>data</code> variable is either a list of numbers, in which case it will compute and draw a single box:</p>
-<pre><code>subplot.boxplot(range(10))
-</code></pre>
-<p>or <code>data</code> can be a list of lists.  In which case, it will compute and draw a box for each list.  The following code reproduces the box plot shown earlier.  We create sets of data (<code>boxdata1</code>, <code>boxdata2</code>, <code>boxdata3</code>) and create a box for each set.<br />
-</p>
-<pre><code>subplot = fig.add_subplot(323)
-boxdata1 = [random.randint(0, 20) for i in xrange(10)]
-boxdata2 = [random.randint(20,40) for i in xrange(10)]
-boxdata3 = [random.randint(40,60) for i in xrange(10)]
-data = [boxdata1, boxdata2, boxdata3]
-subplot.boxplot(data)
-</code></pre>
-<p>You can customize your box plots with the following keyword arguments</p>
-<ul>
-<li><code>vert=1</code>:  By default, the boxes are drawn vertically.  You can draw them horizontally by setting <code>vert=0</code></li>
-<li><code>widths=None</code>:  Like <code>width</code> in bar charts, this sets the width of each box</li>
-</ul>
-<h3>Scatter Plots <a href="http://matplotlib.sourceforge.net/api/axes_api.html#matplotlib.axes.Axes.scatter">documentation</a></h3>
-<p><code>subplot.scatter(x, y, s=20, c='blue', marker='o', alpha=None)</code></p>
-<p>This method will draw a single point if you give it a single x,y pair</p>
-<pre><code>subplot.scatter(10, 10)
-</code></pre>
-<p>or you can give it a list of x and a list of y values</p>
-<pre><code>subplot.scatter([0, 1, 2], [9, 3, 10])
-</code></pre>
-<p>I've included the commonly used keyword arguments</p>
-<ul>
-<li><code>s=20</code>: sets the size of each point to 20 pixels.<br />
-</li>
-<li><code>c='blue'</code>: sets the color of each point to blue</li>
-<li><code>marker='o'</code>: each point will be drawn as a circle.  The <a href="http://matplotlib.sourceforge.net/api/axes_api.html#matplotlib.axes.Axes.scatter">documentation</a> lists  large number of other markers</li>
-<li><code>alpha=None</code>: the alpha (transparency) value of the points.  Between <code>0</code> and <code>1</code>.</li>
-</ul>
-<h3>Choropleths/Maps</h3>
-<p>Cartography is a very involved process and there is an enormous <a href="http://matplotlib.sourceforge.net/basemap/doc/html/users/mapsetup.html">number of ways</a> to draw the 3D world in 2D. Unfortunately, we couldn't find any native <code>matplotlib</code> facilities to easily draw US states and counties.  It's a bit of a pain to get it working, so we've written some wrappers that you can call to draw colored state and counties in a <code>subplot</code>.  We'll describe the api, and briefly explain how we went about the process at the end.</p>
-<p>The API is defined in <code>resources/util/map_util.py</code>.  You can import the methods using the following code:</p>
+<p><code>plt.plot()</code> takes a list of x and a list of y values, and draws a line between every pair of (x,y) points.  The line is drawn on the most recently created figure.</p>
+<p><code>plt.legend()</code> draws the legend in the figure.  There are a bunch of other common chart objects like x-axis labels that <code>matplotlib</code> supports.</p>
+<p>In the final line, <code>plt.savefig()</code> saves the figure to a file called
+<code>twolines.png</code> in the directory we ran the script.  Try it out!  You should see something like</p>
+<p><img src="./twolines.png" width="50%"></p>
+<h3>Sampling The Data</h3>
+<p>The dataset is quite large, and processing the full dataset can be pretty slow.  It is often useful to sample the dataset and try things out on the sample before doing a complete analysis of all of the data.  The following is a script that samples the donations dataset.  It will print 1 out of every 1000 donations (or roughly 5000 total donations):</p>
 <pre><code>import sys
-# this adds the resources/util/ folder into your python path
-# you may need to edit this so that the path is correct
-sys.path.append('resources/util/')
-from map_util import *
+
+with file(sys.argv[1], 'r') as f: 
+    i = 0
+    for line in f:
+        if i % 1000 == 0:
+            print line[:-1]
+        i += 1
 </code></pre>
-<ul>
-<li><code>draw_county(subplot, fips, color='blue')</code>: draws the county with the specified <code>fips</code> <a href="http://en.wikipedia.org/wiki/FIPS_county_code">county code</a>.  Most datasets that contain per-county data will include the fips code.  If you don't include a <code>color</code>, we will pick a nice shade of blue for you.</li>
-<li><code>draw_state(subplot, state_name, color='blue')</code>: draws the state with the full state name as specified by the <a href="https://www.usps.com/send/official-abbreviations.htm">official USPS state names</a>.  If you don't include <code>color</code>, we will pick a shade of blue for you.</li>
-<li><code>get_statename(abbr)</code>: retrieve the full state name from its abbreviation.  The method is case insensitive, so <code>get_statename('CA')</code> is the same as <code>get_statename('ca')</code>.</li>
-</ul>
-<p>We also included a list of all fips county codes and state names in <code>datasets/geo/id-counties.json</code> and <code>datasets/geo/id-states.json</code>.  We will use them to reproduce the map charts.<br />
-</p>
-<pre><code>import json
-
-# Map of Counties
-#
-subplot = fig.add_subplot(325)
-# data is a list of strings that contain fips values
-data = json.load(file('../datasets/geo/id-counties.json'))
-for fips in data:
-    draw_county(subplot, fips)
-
-# Map of States
-#
-subplot = fig.add_subplot(326)
-data = json.load(file('../datasets/geo/id-states.json'))
-for state in data:
-    draw_state(subplot, state)
+<p>The line <code>print line[:-1]</code> prints the entire line except its last
+character to the screen.  Why skip the last character?  Because each
+line ends in a carriage return, and <code>print</code> will add one for us.  We
+don't want a space between each line!</p>
+<p>This script will print every thousandth line of whatever file you pass
+in as an argument to the screen.  To create a new file, use the <code>&gt;</code>
+standard output rediretor.</p>
+<pre><code>     python exercise3.py donations.txt &gt; donations_sampled.txt
 </code></pre>
-<p>The files are in JSON format, so we call <code>json.load(file)</code>, which parses the files into python lists.  The rest of the code simply iterates through the fips' and states, and draws them.</p>
-<h4>The gritty details</h4>
-<p>The process of drawing maps yourself requires a number of steps:</p>
-<ol>
-<li>Download shape files.  A shape file specifies the lat, lon positions that describe the border of an area (e.g., county, zip code, state).<br />
-</li>
-<li>Parse the shape files.  They come in all types of formats.  We downloaded the shape files that <a href="http://mbostock.github.com/d3/">D3</a> uses.  It comes in the <a href="http://geojson.org/geojson-spec.html">GeoJS</a> format, which is nice because <code>json</code> can parse it for us.<ul>
-<li>Remember how we mentioned that there lots of ways to draw the world in 2D.  Our shape files use the <a href="http://en.wikipedia.org/wiki/Albers_projection">Albers Equal Area Projection</a>, which is also used by the US Census Bureau.</li>
-</ul>
-</li>
-<li>Once we have the shapes, we need to draw polygons in the subplot.  Thankfully <code>subplot.fill(xs, ys)</code> fills in the region defined by the list of x,y points.</li>
-<li>Our methods actually take any keyword argument that <code>subplot.fill()</code> accepts.  So take a look at its <a href="http://matplotlib.sourceforge.net/api/axes_api.html#matplotlib.axes.Axes.fill">documentation</a> if you want to further customize your maps.</li>
-</ol>
-<h2>Customizing Subplots</h2>
-<p>We only touched a small part of what <code>matplotlib</code> can do.  Here are some additional ways that you can customize subplots.</p>
-<h3>Keyword Arguments</h3>
-<ul>
-<li><code>xerr=[]</code>: list of floats that specify x-axis error bars.</li>
-<li><code>yerr=[]</code>: list of floats that specify y-axis error bars</li>
-</ul>
-<h3>Additional Charting Methods</h3>
-<ul>
-<li><code>subplot.loglog(xs, ys)</code>: plots a log-log line graph</li>
-<li><code>subplot.semilogx(xs, ys)</code>: plots the x-axis in log scale</li>
-<li><code>subplot.semilogy(xs, ys)</code>: plots the y-axis in log scale</li>
-<li><code>subplot.fill(x1,y1,x2,y2,x3,y3,...)</code>: draws a filled polygon with vertices at <code>(x1,y1), (x2,y2), ...</code>.<br />
-</li>
-<li><code>subplot.text(x,y,text)</code>: write <code>text</code> at coordinates <code>x,y</code>.</li>
-</ul>
-<h3>Subplot Customization</h3>
-<ul>
-<li><code>subplot.clear()</code>: clear everything that has been drawn on the subplot.</li>
-<li><code>subplot.legend(loc='upper center', ncol=2)</code> - add a legend.  You can specify where to place it using <code>loc</code>, and the number of columns in the legend.</li>
-<li><code>subplot.set_title(text)</code>: Set the subplot title.</li>
-<li><code>subplot.set_xlabel(text)</code>: Set the x-axis label</li>
-<li><code>subplot.set_xticks(xs)</code>: Draws x-axis tick marks at the points specified by <code>xs</code>.  Otherwise <code>matplotlib</code> will draw reasonable tick marks.</li>
-<li><code>subplot.set_xticklabels(texts)</code>: Draw x-axis tick labels using the <code>texts</code> list.</li>
-<li><code>subplot.set_xscale(scale)</code>: Sets the x-axis scaling.  <code>scale</code> is <code>'linear'</code> or <code>'log'</code>.</li>
-<li><code>subplot.set_xlim(minval, maxval)</code>: Set the x-axis limits</li>
-<li><code>subplot.set_ylabel()</code></li>
-<li><code>subplot.set_yticks()</code></li>
-<li><code>subplot.set_yticklabels()</code></li>
-<li><code>subplot.set_yscale()</code></li>
-<li><code>subplot.set_ylim(minval, maxval)</code>: Set the y-axis limits</li>
-</ul>
-<h1>Exercises</h1>
-<h2>Exercise 1:</h2>
-<p>We will use yesterday's Obama vs McCain dataset and visualize it using different chart types.<br />
-</p>
-<p>Many people say that Obama was able to attract votes from "the common man", and had far more smaller contributions that his competitors.  Let's plot a <a href="LINK HERE">histogram</a> of each candidate's contribution amounts in $100 increments to see if this is the case.  A histogram breaks a data range (donation amounts, in this case) into fixed size bucks (100 in this case), and counts the number of items that fall into each bucket.  Plot both candidates on the same graph.  You'll want to use a bar chart.</p>
-<p>You'll find that it's difficult to read the previous chart because the donation amounts vary from -$1 Million to $8 Million, while the majority of the donations are less than 2000.  One method is to ignore the outliers and focus on the majority of the data points.  Let's only print histogram buckets within 3 standard deviations of the overall average donation.</p>
-<p>For Obama, that's donations between <code>[-$18000, $19000]</code>.  For McCain, that's between <code>[-$22000, $22000]</code></p>
-<p><img src="ex1_bar1.png" width="700" /></p>
-<h2>Exercise 2:</h2>
-<p>Now create a cumulative line graph of Obama and McCain's donations.  We can see that even though Obama and McCain have some very large contributions, the vast majority of their total donations were from small contributors.  Also, not only did Obama get more donations, he also received larger donations.</p>
-<p><img src="ex2_line1.png" width="700" /></p>
-<p>Only after we've verified that the small donations were the major contributors, is it safe to zoom in on the graph!</p>
-<p><img src="ex2_line2.png" width="700" /></p>
-<h2>Exercise 3:</h2>
-<p>Scatter plot of re-attribution by spouses for all candidates.  It seems to be concentrated in a small group of Republican candidates.</p>
-<!--<img src="ex3_scatter1.png" width="700" />-->
+<p>We will be analyzing Obama vs McCain data, so you can modify this code to create a file that only contains donations for McCain and Obama.  That way later analysis will run faster.</p>
+<h2>Plotting The Data</h2>
+<p>We learned how to iterate and extract data from the dataset, and how to plot lines, so we will now combine the two  to plot Obama's campaign contributions by date.  We will compute the total amount of donations for each day, and use <code>matplotlib</code> to create the charts.</p>
+<pre><code>from collections import defaultdict
+import  matplotlib.pyplot as plt
 
-<p><img src="ex3_scatter2.png" width="700" /></p>
-<p>At this point, we've only scratched the surface of one dimension (reattributions) of this interesting dataset.  You could continue our investigation by correlating professions with candidates, visualize donations by geography, or see if there are any more suspicious and interesting data points.<br />
-</p>
-<p>Also, the 2012 campaign contributions are also available on the website, so you could use your analysis on the current election!</p>
-<!--## Exercise 4:
+reader = csv.DictReader(open(sys.argv[1], 'r'))
 
-Per-State amount on a map.  Tricky, need to pick proper mapping between data range and color range (probably research in this!)-->
+obamadonations = defaultdict(lambda:0)
 
-<h2>Exercise 4: Visualize County Health Data</h2>
-<p>The following are CSV files that contain the 2011 per-county health metrics.  The first three columns contain the FIPS county code, the state and the county.  The subsequent columns contain different metric values.  The first file contains only Years of Preventable Life Loss (YPLL) values, which is used as a proxy for the health of a population.  It is calculated as the sum of (Reference Age - Age at Death) for all deaths in a year.  The reference age is often 75.  The second file contains other metric values about each county.</p>
-<ul>
-<li>datasets/county_health_data/ypll.csv</li>
-<li>datasets/county_health_data/additional_measures_cleaned.csv</li>
-</ul>
-<p>Visualize each of the following metrics on a map.  Vary each county's color by the metric value.</p>
-<ul>
-<li>YPLL Rate</li>
-<li>% Child Illiteracy</li>
-<li>% Free Lunch</li>
-<li>% High Housing Costs</li>
-<li>% Diabetes</li>
-</ul>
-<p>Take a look at the data first.  There is a state-only row of data before data of the counties within the state.  You should ignore that row.  I personally use darker shades of blue to signify higher metric values.  Here's some code that picks the shade of blue depending on a metric's current, maximum, and minimum values.</p>
-<pre><code>blues = ['#FFF7FB', '#ECE7F2', '#D0D1E6', '#A6BDDB', '#74A9CF',
-         '#3690C0', '#0570B0', '#045A8D', '#023858']
-MAXVAL = ...
-MINVAL = ...
-coloridx = int(( (value - MINVAL) / (MAXVAL - MINVAL) ) * (len(blues)-1)) )
+for row in reader:
+    name = row['cand_nm']
+    datestr = row['contb_receipt_dt']
+    amount = float(row['contb_receipt_amt'])
+    date = datetime.datetime.strptime(datestr, '%d-%b-%y')
+
+    if 'Obama' in name:
+        obamadonations[date] += amount
+
+# dictionaries 
+sorted_by_date = sorted(obamadonations.items(), key=lambda (key,val): key)
+xs,ys = zip(*sorted_by_date)
+plt.plot(xs, ys, label='line 1')
+plt.legend(loc='upper center', ncol = 4)
+plt.savefig('/tmp/test.png', format='png')
 </code></pre>
-<p>The final charts should look something like</p>
-<p><img src="ex_map.png" width="500" /></p>
+<p>A few notes about the code </p>
+<ul>
+<li>
+<p><code>defaultdict</code> is a convenience dictionary.  When we use a regular dictionary, it throws an error when we access a key that doesn't exist:</p>
+<p><code>&gt;&gt;&gt; d = {}</code><br />
+<code>&gt;&gt;&gt; d['foo']</code><br />
+<code>Traceback (most recent call last):</code><br />
+<code>File "&lt;stdin&gt;", line 1, in &lt;module&gt;</code><br />
+<code>KeyError: 'foo'</code><br />
+</p>
+<p>We provide <code>defaultdict</code> a function to call and return if the key doesn't exist.  This is nice because we can assume a default value.  It is otherwise used as a normal python dictionary: </p>
+<p><code>&gt;&gt;&gt; d = collections.defaultdict(lambda:0)</code><br />
+<code>&gt;&gt;&gt; d['foo']</code><br />
+<code>0</code><br />
+<code>&gt;&gt;&gt; d['bar'] += 1</code><br />
+</p>
+</li>
+<li>
+<p>We parse the dates using the <code>datetime</code> module's <code>strptime</code> function.  The string <code>%d-%b-%y</code> is called a <a href="http://docs.python.org/library/datetime.html#strftime-strptime-behavior">date format string</a>.</p>
+</li>
+<li>
+<p>In the loop that reads the data, we record the total donation amount for each date.<br />
+</p>
+</li>
+<li>
+<p>Finally, we need to sort the data in <code>obamadonations</code> by the date (the key).  <code>sorted(l, key=f)</code> returns a sorted copy of <code>l</code> and calls <code>f</code> to extract the key to use for comparison.</p>
+</li>
+<li>
+<p><code>zip(*pairs)</code> then unzips the list of pairs into two lists.</p>
+</li>
+</ul>
+<p>You should see something like this:</p>
+<p><img src="./graph1.png" width="80%"></p>
+<p>Great!  It's interesting to see a spike in donations on August 2008 -- does it relate to the <a href="http://elections.nytimes.com/2008/president/conventions/videos/20080828_OBAMA_SPEECH.html">democratic party nomination speech</a> he gave on August 28th?  At this point a reporter may try to understand some of the spikes in the graph.<br />
+</p>
+<p><strong>But wait!</strong> There's a really weird <em>dip</em> in his donations in the lower right corner.  How does someone give negative donations?  The next part will investigate this further.</p>
+<!--Notice that the graph doesn't have any labels, and the y-axis is at an incomprehensible scale.  Don't worry about it for today, we'll go into details on customizing graphs tomorrow.-->
+
+<h2>The Case of the Negative Donation</h2>
+<p>The first thing we should do is look at some of the data where the donation amount is negative and see if there's anything interesting.  We can modify our existing code.</p>
+<pre><code>import csv,sys,datetime
+reader = csv.DictReader(open(sys.argv[1], 'r'))
+
+for row in reader:
+    name = row['cand_nm']
+    datestr = row['contb_receipt_dt']
+    amount = float(row['contb_receipt_amt'])
+    if amount &lt; 0:
+        line = '\t'.join(row.values())
+        print line
+</code></pre>
+<p>Note that we cast <code>amount</code> into a float.  The CSV module returns
+ strings, so its our job to cast the data into the proper type.</p>
+<p>If you scan through the output, you'll see data such as:</p>
+<pre><code>C00430470   DARIEN  RETIRED McCain, John S  SA17A   P80002801   068202003       VAN MUNCHING, LEO MR. JR.   02-AUG-07   CT  X   REATTRIBUTION TO SPOUSE 315387  REATTRIBUTION TO SPOUSE -2300
+
+C00430470   LOS ANGELES EXECUTIVE   McCain, John S  SA17A   P80002801   900492125   A.E.G.  LEIWEKE, TIMOTHY J. MR. 30-APR-08   CA  X   REFUND; REDESIGNATION REQUESTED 364146  REFUND; REDESIGNATION REQUESTED -2300
+</code></pre>
+<p>Lots of text, but "REDESIGNATION TO GENERAL" and "REATTRIBUTION TO SPOUSE" pop out as pretty strange.</p>
+<p>It turns out that "redesignations" and "reattributions" are <a href="http://www.fec.gov/pages/brochures/contrib.shtml#Excessive_Contributions">perfectly normal</a>.  If a donation by person A is excessive, the part that exceeds the limits can be "reattributed" to person B, meaning that person B donated the rest to the campaign.  Alternatively, the excess amount can be redesignated to another campaign in the same party.  So a donation to Obama could be redesignated to a poor democrat in Nebraska.</p>
+<p>What's fishy is "REATTRIBUTION TO SPOUSE."  A quick google search gives a potential theory: that this is a tactic to <a href="http://irregulartimes.com/index.php/archives/2010/11/28/corporate-executives-pawn-off-tim-pawlenty-contributions/">hide campaign contributions</a> from CEOs.  A CEO will donate money, which will be reattributed (refunded) to the CEO's spouse.  Then the humble spouse will turn around and donate the money to the candidate.  In this way, it's hard for a casual browser to notice that the candidate is backed by a company's CEOs. </p>
+<h1>Exercise 1: Plot Obama vs. McCain</h1>
+<p>So far we have only plotted Obama's campaign donations.  Modify the script to also plot McCain's donations on the same chart.  It should look something like:</p>
+<p><img src="./graph2.png" width="80%"></p>
+<p>Whoa whoa whoa, what was McCain up to March 2008?  That's a whole lot of negative donations!  We'll deal with that in a few exercises.</p>
+<h1>Exercise 2: Cumulative Graphs</h1>
+<p>Word on the street says that Obama's donations eclipsed McCain's donations.  Let's see if that's true.  Plot the cumulative donations (for a given date, plot the total donations up to that date).  It should look something like:</p>
+<p><img src="./graph3.png" width="80%"/></p>
+<h1>Exercise 3: Understand "Reattribution to Spouse"</h1>
+<p>Let's now filter the contributions to only see the cumulative "reattribution to spouse" donations.  Which candidate do the dark, hooded CEOs prefer?<br />
+</p>
+<p>You will need to find the name of the field that contains the "reattribution" text, and filter on that field.  Depending on how you filter it, you may get different results.  Try out a few ways to see what happens.</p>
+<h1>Exercise 4: Pause and Think</h1>
+<p>It's time for a reality check.  If you saw the graph in the previous exercise, you would think "That's a lot of negative donations!  This candidate is really sneaky."  Don't believe that just yet.  Re-plot the <strong>ratio</strong> between each candidate's cumulative "reattribution to spouse" donations and that candidate's cumulative overall donations.  That changes our offenders quite a bit.</p>
+<p><strong>Key Lesson: don't automatically trust charts in the wild.  It's easy to make a chart say whatever you want by selectively leaving out data!</strong></p>
 <h1>Done!</h1>
-<p>Now you have hands on experience with the most popular python plotting library!  <code>Matplotlib</code> is far more power than what we have covered.  Check out its documentation ()</p>
-<ul>
-<li>Always start by looking at your data with the simplest visualizations possible.  For most datasets, a scatter plot or line graph is sufficient.</li>
-<li>First view a summary of the whole dataset so that you know which subsets are worth visualizing in more detail, and how significant the details really are.</li>
-<li></li>
-</ul>
-<h3>Where do you go from here?</h3>
-<p>More info about visualizations
-Animations
-Interactive visualizations</p>
-<h4>Domain specific visualizations</h4>
-<p>Lots of visualizations specialized for unique applications.<br />
-</p>
-<p>Biology<br/>
-<img src="done_gene.jpg" width="400" /></p>
-<p><a href="http://networkx.lanl.gov/">Network graphs</a><br/>
-<img src="done_network.png" width="400" /></p>
-<p><a href="http://www.scipy.org/Cookbook/Matplotlib/TreeMap">Treemap</a><br/>
-<img src="done_treemap.jpg" width="400" /></p>
-<h4>Other visualization tools</h4>
-<p>http://orange.biolab.si/features.html</p>
-<h4>Interactive visualizations</h4>
-<p>Applications.  hard!</p>
+<p>Congrats!  You are now a data sleuth.  To recap the process we just went through we:</p>
+<ol>
+<li>Took a quick look at the data using <code>head</code> to get a sense of what we're dealing with.  We also figured out the format of the data.  This is usually important, because the fields are otherwise somewhat non-sensical!</li>
+<li>Create a quick, initial visualization of some of the data fields and see if there are interesting trends.</li>
+<li>Listen to your hunch, and form a hypothesis around it</li>
+<li>Figure out why the trend exists</li>
+<li>Filter the dataset to the "interesting portion" and go to step 2</li>
+</ol>
+<p>Tomorrow, we will dive deeper into <code>matplotlib</code>'s visualization facilities, and further analyze the data using different visualizations.</p>
 </body>
 </html>
 
