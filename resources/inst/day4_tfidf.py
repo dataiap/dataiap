@@ -1,5 +1,5 @@
 import os, sys, math, time
-sys.path.append('./util')
+sys.path.append( os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '../util')))
 from email_util import *
 from collections import Counter, defaultdict
 
