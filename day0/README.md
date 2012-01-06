@@ -116,4 +116,5 @@ We will be working with several datasets in this course.  Some are fairly large,
     `dataiap/datasets/county_health_rankings/ypll.csv`  
 * [The Enron email dataset](http://www.cs.cmu.edu/~enron/).
     * `dataiap/datasets/emails/kenneth.zip` contains a subset of Kenneth Lay's emails that you will analyze in day 4.
+    * `dataiap/datasets/emails/kenneth_json.zip` contains a JSON-encoded subset of Kenneth Lay's emails that you will analyze in day 5.
     * We will upload a JSON encoded version of the full dataset to amazon's S3.  
