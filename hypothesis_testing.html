@@ -163,6 +163,8 @@ box-and-whisker plot!  The code for it is quite simple as well:</p>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
 <span class="n">sub</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
 <span class="n">sub</span><span class="o">.</span><span class="n">boxplot</span><span class="p">([</span><span class="n">town1_heights</span><span class="p">,</span> <span class="n">town2_heights</span><span class="p">],</span> <span class="n">whis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">sub</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">((</span><span class="s">&quot;Town 1&quot;</span><span class="p">,</span> <span class="s">&quot;Town 2&quot;</span><span class="p">))</span>
+<span class="n">sub</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">&quot;Town 1 vs. Town 2 Heights&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s">&#39;figures/town_boxplots.png&#39;</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s">&#39;png&#39;</span><span class="p">)</span></pre></div></pre></div>
       </div>
     </tr><tr id='section-5'>

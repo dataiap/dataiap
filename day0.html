@@ -6,9 +6,7 @@
 </head>
 <body>
 <h1>Introduction</h1>
-<p>Before we can start playing with data, let's set up our environment.
-We'll install some software, packages, and downlaod some datasets to
-get started!</p>
+<p>This class is an introduction to data cleaning, analysis and visualization.  We will walk you through as we analyze real world datasets.  Each day, we will spend the first 30 minutes introducing the day's concepts, and the rest of the class will be exercises.  We have written a daily walkthrough that you will read and program through in class, and we will be available to help.</p>
 <h2>Prereqs</h2>
 <p>We assume you have a working knowledge of python (6.01) and are
 willing to write code.  Most of the code you interact with will come
@@ -67,10 +65,11 @@ objectives in Python, and more MIT undergraduates know Python.</p>
   the right direction with these.</p>
 </li>
 </ul>
-<h2>Programming Environment</h2>
+<h2>Programming Environment (Important!)</h2>
+<p>Before the class, please set up the environment.  You will need to install some software, packages, and download some datasets to get started.</p>
 <p>We assume that you are developing in a unix-like environment and are
-familiar with the common commands.  If you are a windows user, we
-assume you are using cygwin.</p>
+familiar with the common commands (e.g., less, man).  If you are a windows user, we
+assume you are using cygwin but are on your own.</p>
 <h2>Tools and Libraries</h2>
 <p>In this class, you will need to install a number of tools.  The major
 ones are:</p>
@@ -99,31 +98,33 @@ ones are:</p>
 </ul>
 <p>We will also require a number of python modules:</p>
 <ul>
-<li><a href="http://sourceforge.net/projects/numpy/files/NumPy/1.6.1/">numpy 1.6.x</a><ul>
+<li><a href="http://sourceforge.net/projects/numpy/files/NumPy/1.6.1/">numpy 1.6.x</a>: numerical processing module.<ul>
 <li>PIP users can type <code>sudo pip install numpy</code></li>
 </ul>
 </li>
-<li><a href="http://sourceforge.net/projects/scipy/files/scipy/0.10.0/">scipy 0.10</a><ul>
+<li>
+<p><a href="http://sourceforge.net/projects/scipy/files/scipy/0.10.0/">scipy 0.10</a>: scientific computing module.</p>
+<ul>
 <li>PIP users can type <code>sudo pip install scipy</code></li>
 <li>Ubuntu users can type <code>sudo apt-get install python-scipy</code></li>
-<li>Unfortunately, scipy installation might not work from PIP, and you may have to <a href="https://scipy.org/Installing_SciPy/Mac_OS_X">compile it from source</a> (see "Obtaining and Building NumPy and SciPy").  Try something akin to<blockquote>
-<p>git clone https://github.com/scipy/scipy.git<br />
-cd scipy<br />
-python setup.py build<br />
-python setup.py install<br />
-</p>
-</blockquote>
+<li>Unfortunately, scipy installation might not work from PIP, and you may have to <a href="https://scipy.org/Installing_SciPy/Mac_OS_X">compile it from source</a> (see "Obtaining and Building NumPy and SciPy").  Try something akin to<ul>
+<li><code>git clone https://github.com/scipy/scipy.git</code></li>
+<li><code>cd scipy</code></li>
+<li><code>python setup.py build</code></li>
+<li><code>python setup.py install</code></li>
+</ul>
 </li>
 </ul>
 </li>
-<li><a href="http://sourceforge.net/projects/matplotlib/files/matplotlib/matplotlib-1.1.0/">matplotlib 1.1.0</a><ul>
+<li>
+<p><a href="http://sourceforge.net/projects/matplotlib/files/matplotlib/matplotlib-1.1.0/">matplotlib 1.1.0</a></p>
+<ul>
 <li>PIP users can type <code>sudo pip install matplotlib</code></li>
 <li>Note: If compiling from source, matplot lib requires a number of other libraries: 
 (<a href="http://www.libpng.org/pub/png/libpng.html">libpng</a>, <a href="http://download.savannah.gnu.org/releases/freetype/">freetype 2</a>)</li>
 </ul>
 </li>
-<li><a href="https://github.com/yelp/mrjob">mrjob</a><ul>
-<li>MapReduce package.  We will use it in day 5.</li>
+<li><a href="https://github.com/yelp/mrjob">mrjob</a>:  This is a MapReduce package that we will use it in day 5.<ul>
 <li>PIP users can type <code>sudo pip install mrjob</code></li>
 <li>If compiling from source, it requires <a href="http://code.google.com/p/boto/downloads/list">boto</a> (try <code>sudo pip install boto</code>).</li>
 </ul>
@@ -138,13 +139,15 @@ python setup.py install<br />
 </ul>
 </li>
 <li><a href="http://www.countyhealthrankings.org/">2011 County Health Rankings</a>: The necessary data should already be in the git repository you cloned in <br />
-<blockquote>
-<p><code>dataiap/datasets/county_health_rankings/additional_measures_cleaned.csv</code><br />
+<code>dataiap/datasets/county_health_rankings/additional_measures_cleaned.csv</code><br />
 <code>dataiap/datasets/county_health_rankings/ypll.csv</code><br />
-</p>
-</blockquote>
 </li>
-<li>The Enron dataset: $$$</li>
+<li><a href="http://www.cs.cmu.edu/~enron/">The Enron email dataset</a>.<ul>
+<li><code>dataiap/datasets/emails/kenneth.zip</code> contains a subset of Kenneth Lay's emails that you will analyze in day 4.</li>
+<li>We will upload a JSON encoded version of the full dataset to amazon's S3.<br />
+</li>
+</ul>
+</li>
 </ul>
 </body>
 </html>
