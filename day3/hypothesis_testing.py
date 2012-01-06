@@ -131,6 +131,8 @@ import matplotlib.pyplot as plt
 fig = plt.figure()
 sub = fig.add_subplot(111)
 sub.boxplot([town1_heights, town2_heights], whis=1)
+sub.set_xticklabels(("Town 1", "Town 2"))
+sub.set_title("Town 1 vs. Town 2 Heights")
 plt.savefig('figures/town_boxplots.png', format='png')
 
 # Here's what we see:
