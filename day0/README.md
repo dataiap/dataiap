@@ -1,7 +1,17 @@
-# Introduction
+# Syllabus and Setup
 
-This class is an introduction to data cleaning, analysis and visualization.  We will walk you through as we analyze real world datasets.  Each day, we will spend the first 30 minutes introducing the day's concepts, and the rest of the class will be exercises.  We have written a daily walkthrough that you will read and program through in class, and we will be available to help.
+Welcome!
 
+This class is an introduction to data cleaning, analysis and
+visualization.  We will walk you through as we analyze real world
+datasets.  Each day, we will spend the first 30 minutes introducing
+the day's concepts, and the rest of the class will be exercises.  We
+have written a daily walkthrough that you will read and program
+through in class, and we will be available to help.
+
+This is our first time teaching this course, and we'll be learning as
+much as you.  Don't hesitate to ask us to change something or improve
+on something.  We'll be grateful.
 
 ## Prereqs
 
