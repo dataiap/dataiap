@@ -21,25 +21,36 @@ def get_terms(s):
     terms = filter(lambda term: term not in STOPWORDS, terms)
     return terms
 
+for e in EmailWalker(sys.argv[1]):
+    STOPWORDS.update(e['names'])
     
 start = time.time()
 key_to_tf = defaultdict(Counter)
+keycounts = Counter()
 allterms = Counter()
 nemails = 0
 for e in EmailWalker(sys.argv[1]):
     try:
-        words_in_email = set(get_terms(e.text))
+        words_in_email = set(get_terms(e['text']))
     except:
         words_in_email = []
     if not len(words_in_email):
         continue
-    print e.folder, e.sender
-    key_to_tf[e.sender].update(words_in_email)
-    #key_to_tf[e.folder].update(words_in_email)
+    print e['folder'], e['sender']
+    key_to_tf[e['sender']].update(words_in_email)
+    keycounts.update([e['sender']])
+    #key_to_tf[e['folder']].update(words_in_email)
     unique_words_in_email = set(words_in_email)
     allterms.update(unique_words_in_email)
     nemails += 1
 print "parsing took", (time.time()-start)
+
+# normalize tfs
+for key in key_to_tf.keys():
+    tfs = key_to_tf[key]
+    normfactor = float(keycounts[key] or 1)
+    for term in tfs.keys():
+        tfs[term] /= normfactor
 
 start = time.time()
 idfs = {}

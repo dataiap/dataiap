@@ -10,22 +10,21 @@ The techniques will include
 
 * [Tf-Idf](http://en.wikipedia.org/wiki/Tfidf)
 * [Regular Expressions](http://en.wikipedia.org/wiki/Regular_expression) and data cleaning
-* [N-gram](http://en.wikipedia.org/wiki/N-gram)
 * [Cosine Similarity](http://en.wikipedia.org/wiki/Cosine_similarity)
+* [N-gram](http://en.wikipedia.org/wiki/N-gram)
 
 
 ## Setting Up
 
-### Dataset
+### Dataset: Kenneth Lay's Emails
 
+Unzip Kenneth Lay's (Pre-bankruptcy Enron CEO) emails that were made public after the accounting fraud scandal.
 
-#### 2. Kenneth Lay's Emails
+    dataiap/datasets/emails/kenneth.zip
 
-Alternatively, if you would rather not use your own emails, or could not get the script working, you can download and unzip Kenneth Lay's  (Pre-bankruptcy Enron CEO) emails that were made public after the accounting fraud scandal.
+The full dataset (400MB zipped) can be found [here](http://www.cs.cmu.edu/~enron/).
 
-[Download the emails]()
-
-### Reading Email Files
+### Reading the Emails
 
 You will need some code to parse and read the emails.  `email_root` contains a bunch of folders like `_sent` (sent folder), `inbox`, and other folders depending how Kenneth or you organized your emails.  Each folder contains a list of files.  Each file corresponds to a single email.
 
@@ -35,24 +34,23 @@ We have written a module that makes it easier to manage the emails.  To use it a
     sys.path.append('PATHTODATAIAP/resources/util/')
     import email_util
 
-The module contains two classes, `Email` and `EmailWalker`.  The first class reads and parses an email into an easy to use object and the second class iterates through and creates an `Email` object for each email file in the directory.
+The module contains a class `EmailWalker` and a dictionary that represents an email.  `EmailWalker`  iterates through all the files under a directory and creates a `dict` for each email file in the directory.
 
-**`Email`**
 
-* `__init__(self, file_path)`: pass in the path to an email file.
-* Class Members
-    * `path`: full path to the email file in the file system
+**`Email` dictionary object**
+
+* dictionary keys
     * `folder`: name of the folder the email is in (e.g., inbox, _sent)
-    * `frame`: name of the email file in the file system
     * `sender`: the email address of the sender
-    * `recipients` a list containing all emails in the `to`, `cc`, and `bcc` fields
+    * `sendername`: the name of the sender (if we found it), or ''
+    * `recipients`: a list containing all emails in the `to`, `cc`, and `bcc` fields
+    * `names`: a list of all full names or '' found in senders, to, cc, and bcc list.  
     * `to`: list of emails in `to` field
     * `cc`: list of emails in `cc` field
     * `bcc`: list of emails in `bcc` field
     * `subject`: subject line
     * `date`: `datetime` object of when the email was sent
     * `text`: the text content in the email
-    
     
 
 **`EmailWalker`**
@@ -63,10 +61,10 @@ The module contains two classes, `Email` and `EmailWalker`.  The first class rea
 The `__iter__` method means that `EmailWalker` is an iterator, and can be conveniently used in a loop:
 
     walker = EmailWalker('./email_root')
-    for email_object in walker:
-        print email_object.subject
+    for email_dict in walker:
+        print email_dict['subject']
 
-
+    
 
 
 ## Folder Summaries
@@ -87,8 +85,8 @@ One way to do this is to count the number of times each term occurs in all of th
     folder_tf = defaultdict(Counter)
     
     for e in EmailWalker(sys.argv[1]):
-        terms_in_email = e.text.split() # split the email text using whitespaces
-        folder_tf[e.folder].update(terms_in_email)
+        terms_in_email = e['text'].split() # split the email text using whitespaces
+        folder_tf[e['folder']].update(terms_in_email)
     
     for folder, counter in folder_tf.items():
         print folder
@@ -131,7 +129,7 @@ The following code will construct a dictionary that maps a term to its IDF value
     allterms = Counter()
     nemails = 0
     for e in EmailWalker(sys.argv[1]):
-        terms_in_email = e.text.split() # split the email text using whitespaces
+        terms_in_email = e['text'].split() # split the email text using whitespaces
         unique_terms_in_email = set(terms_in_email)
         allterms.update(unique_terms_in_email)
         nemails += 1
@@ -181,7 +179,7 @@ Let's tackle each of these requirements one by one!
 
 We can deal with these by lower casing all of the terms and filtering out the short terms.
 
-    terms = e.text.lower().split()
+    terms = e['text']lower().split()
     terms = filter(lambda term: len(term) <= 3, terms)
 
 #### 3. Stop Words
@@ -197,7 +195,7 @@ The `email_util` module defines a variable `STOPWORDS` that contains a list of c
 
 The last requirement is more difficult to enforce.  One way is to iterate through the characters in every term, and make sure they are valid:
 
-    arr = e.text.split()
+    arr = e['text'].split()
     terms = []
     for term in arr:
         valid = True
@@ -298,11 +296,13 @@ Now, modify the code you have written so far to compute the cosine similarity be
 
 Finally, only one word per term.  Not really clear.  "expensive", even though one could be part of the phrase "not expensive" whereas the other is "very expensive".  One popular way to add more context is to simply use more than one word per term (notice that we've used the word "term" instead of word for this reason).
 
-# Exercise 1: Similar Email Senders
+# Exercises
+
+## Exercise 1: Similar Email Senders
 
 We computed the tf-idf and cosine similarity between every folder in kenneth's emails.  Now do the same, but for email senders.
 
-# Exercise 2: Analyze Your Emails
+## Exercise 2: Analyze Your Emails
 
 We have written a script (`dataiap/resources/download_emails.py`) that you can use to download your own email over IMAP.  However before you can run it, you will need to install the following python modules:
 
@@ -319,24 +319,53 @@ You can pass the optional imap address parameter, otherwise it will default to g
 
 See if you can uncover something interesting!
 
+## Exercise 3: More Cleaning
+
+When we forward or reply to an email, the email client often includes the original email as well.  This can artificially boost the TF-IDF score, particularly if the email chain becomes very long.  The email usually looks like this:
+
+    ok.  10:40 to be safe:P
+    
+    On Fri, Jan 6, 2012 at 5:15 PM, Eugene Wu <sirrice@gmail.com> wrote:
+    
+    > i have a feeling that breakfast foods stop at 11 at clover because thats
+    > how it works at the truck.
+    > so maybe 1045 or something is better.
+    >
+    >
+    > On Fri, Jan 6, 2012 at 5:09 PM, Adam Marcus <marcua@csail.mit.edu> wrote:
+    >
+    >> see you there at 11!
+    >>
+    >>
+    >> On Fri, Jan 6, 2012 at 5:05 PM, Eugene Wu <sirrice@gmail.com> wrote:
+    >>
+    >>> lets have brunch at 11.  That way we skip the rush as well.
+    >>>
+
+Do some more data cleaning to remove the email copies before computing TF-IDF.  
+
+## Exercise 4: Normalizing Weights
+
+In our current version of TF-IDF, a person's terms will be artificially boosted if he/she sends you a ton of emails.  This will cause the person to have high cosine similarity with a majority of the people in your mailbox.  Fix this problem by normalizing a person's TF value by the number of emails they sent.
+
+Thus, calculate the TF as:
+
+    tf = tf / nemails
+
+## Exercise 5: Removing Names
+
+You'll find that names of people end up with very high tfidf scores often due to signatures.  Although it's correct, we want to find people that send similar email content (e.g., topics) so we would like non-name terms.  The email dictionary objects contain fields called `sendername` and `names` that store english names.  Add everyone's first name and last name to our list of stop words.  Do our results improve?
+
 ## Done!
 
-### What Else Can We Do?
+Today, you learned the basics of text analysis using an email dataset.  
 
+* We used TF-IDF to give each term in our emails a weight representing how well the term describes the email/folder/sender.  
+* We found that text documents require significant amounts of data cleaning before our analyses make sense.  To do so we
+    * Computed and removed stop words
+    * Used regular expressions to restrict our terms to "reasonable" words
+    * Removed copied email content (from replied-to/forwarded emails)
+    * Normalized tf-idf values
+* We used cosine similarity to find similar senders and folders
 
-## Notes
-
-Email dataset
-
-* Email script to download gmail email messages without attachments
-* Download the folders
-* Extract the data into files.  
-* 1 file per email
-
-
-TF-IDF
-
-Enron dataset
-* Kenneth Lay (lay-k)
-* Jeffery Skilling
-* `lay-k/ skilling-j/ whalley-g/ pereira-s/ `
+We've only touched the surface of text-analysis.  Each of the components we've discussed (tfidf, cleaning, and similarity) are broad enough for courses to be taught on them.    
