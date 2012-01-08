@@ -153,14 +153,28 @@ ones are:</p>
 </ul>
 </li>
 </ul>
+<h2><code>dataiap/</code> Directory Structure</h2>
+<p>The repository contains the contents of the full course.  We will be using</p>
+<ul>
+<li><code>dayX/</code>: files containing the lecture for day X</li>
+<li><code>datasets/</code>: the datasets we will be using should live here</li>
+<li><code>resources/</code>: contains python scripts that you will eventually run<ul>
+<li><code>util/</code>: contains python modules we have written that you will use in this course.</li>
+<li><code>inst/</code>: instructor python files.  Used to setup and test the labs.  Please don't view during the course.</li>
+</ul>
+</li>
+</ul>
 <h2>Datasets</h2>
-<p>We will be working with several datasets in this course.  We have packaged and uploaded several of them to <a href="http://web.mit.edu/~eugenewu/Public/datasets.zip">http://web.mit.edu/~eugenewu/Public/datasets.zip</a>.  Please download and uncompress this into your <code>dataiap/</code> directory before class.</p>
+<p>We will be working with several datasets in this course.  Most of them have been added to the git repository.</p>
+<!--We have packaged and uploaded several of them to [http://web.mit.edu/~eugenewu/Public/datasets.zip](http://web.mit.edu/~eugenewu/Public/datasets.zip).  Please download and uncompress this into your `dataiap/` directory before class.-->
+
 <p>The presidential contributions dataset is fairly large.  We will use it on the first day, so please download it from <a href="ftp://ftp.fec.gov/FEC/Presidential_Map/2008/P00000001/P00000001-ALL.zip">ftp://ftp.fec.gov/FEC/Presidential_Map/2008/P00000001/P00000001-ALL.zip</a>.</p>
 <p>The datasets we will use are</p>
 <ul>
 <li><a href="ftp://ftp.fec.gov/FEC/Presidential_Map/2008/P00000001/P00000001-ALL.zip">2008 Presidential Campaign Contributions</a><ul>
 <li>The linked file contains all of the 2008 campaign contributions to each presidential candidate.  You can look at the <a href="http://fec.gov/disclosurep/PDownload.do">2012 campaign</a> for various primary candidates as well, but we'll work with 2008 since it's complete.<br />
 </li>
+<li>unzip into <code>dataiap/datasets/pres_campaign/</code></li>
 </ul>
 </li>
 <li><a href="http://www.countyhealthrankings.org/">2011 County Health Rankings</a><ul>
@@ -172,9 +186,11 @@ ones are:</p>
 </ul>
 </li>
 <li><a href="http://www.cs.cmu.edu/~enron/">The Enron email dataset</a><ul>
-<li>This is the complete set of emails on the enron email server that was released during the scandal. Don't download the dataset as it's huge, but instead take note of the files.</li>
+<li>This is the complete set of emails on the enron email server that was released during the scandal. Don't download the dataset as it's huge.  We have included subsets of the datasets in the git repository.<ul>
 <li><code>dataiap/datasets/emails/kenneth.zip</code> contains a subset of Kenneth Lay's emails that you will analyze in day 4.</li>
 <li><code>dataiap/datasets/emails/kenneth_json.zip</code> contains a JSON-encoded subset of Kenneth Lay's emails that you will analyze in day 5.</li>
+</ul>
+</li>
 <li>We will upload a JSON encoded version of the full dataset to amazon's S3.<br />
 </li>
 </ul>
