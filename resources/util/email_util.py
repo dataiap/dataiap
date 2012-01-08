@@ -13,42 +13,67 @@ class Email(object):
     contacts_pat = '(([\"\']?(?P<realname>\w[\w\ ]*)[\"\']?)?\s+)?<?(?P<email>[\w.]+@([\w_]+.)+[\w_]+)>?'
     contacts_prog = re.compile(contacts_pat)
 
-    def __init__(self, fpath):
-        self.fpath = fpath
-        self.fname = os.path.basename(fpath)
-        self.folder = os.path.basename(os.path.dirname(fpath))        
+    def __init__(self, raw_text, folder):
+        self.folder = folder
+        self.raw_text = raw_text
         self.load()
 
+
+    def to_dict(self):
+        ret = {}
+        ret['folder'] = self.folder
+        ret['text'] = self.text
+        ret['sender'] = self.sender
+        ret['to'] = self.to
+        ret['cc'] = self.cc
+        ret['bcc'] = self.bcc
+        ret['sendername'] = self.sendername
+        ret['tonames'] = self.tonames
+        ret['ccnames'] = self.ccnames
+        ret['bccnames'] = self.bccnames
+        ret['recipients'] = self.recipients
+        ret['names'] = self.names
+        ret['subject'] = self.subject
+        ret['date'] = self.date
+        ret['mid'] = self.mid
+        ret['replyto'] = self.replyto
+        ret['ctype'] = self.ctype
+        return ret
+
     def load(self):
-        with file(self.fpath) as f:
-            filecontents = f.read()
-            e = email.message_from_string( filecontents )
-            text = e.get_payload()
-            self.text = text.replace('\n\r', '\n').replace("\r", '')
-            self.sender =  self.extract_names(e['From'])[0]
-            
-            #break apart the headers of each email using methods generated in this same script
-            self.to = self.extract_names(e.get('To', '')) 
-            self.cc = self.extract_names(e.get('CC', ''))
-            self.bcc = self.extract_names(e.get('BCC', ''))
-            self.recipients = []
-            self.recipients.extend(self.to)
-            self.recipients.extend(self.cc)
-            self.recipients.extend(self.bcc)
+        e = email.message_from_string( self.raw_text )
+        text = e.get_payload()
+        self.text = text.replace('\n\r', '\n').replace("\r", '')
+        self.sendername, self.sender =  self.extract_names(e['From'])[0]
 
-            self.subject = e.get('Subject', '')
-            self.date = self.clean_date(e['Date'])
-            self.mid = self.extract_refs(e.get('Message-ID', ''))[0]
-            replyto = self.extract_refs(e.get('In-Reply-To', ''))
-            self.replyto = replyto and replyto[0] or None
+        #break apart the headers of each email using methods generated in this same script
+        self.tonames, self.to = zip(*self.extract_names(e.get('To', ''))) or [[],[]]
+        self.ccnames, self.cc = zip(*self.extract_names(e.get('CC', '')))or [[],[]]
+        self.bccnames, self.bcc = zip(*self.extract_names(e.get('BCC', '')))or [[],[]]
+        self.recipients = []
+        self.recipients.extend(self.to)
+        self.recipients.extend(self.cc)
+        self.recipients.extend(self.bcc)
+        self.names = []
+        for names in [[self.sendername], self.tonames, self.ccnames, self.bccnames]:
+            self.names.extend(names)
+        self.names = filter(lambda name: name.strip() == '', self.names)
 
-            if self.date.year == 1979:
-                raise RuntimeError
-            ctype = e.get('Content-type', '')
-            if ctype != '' and 'text/plain' not in ctype:
-                raise RuntimeError
-            self.ctype = ctype
-                
+        self.subject = e.get('Subject', '')
+        self.date = self.clean_date(e['Date'])
+        self.mid = self.extract_refs(e.get('Message-ID', ''))[0]
+        replyto = self.extract_refs(e.get('In-Reply-To', ''))
+        self.replyto = replyto and replyto[0] or None
+
+        if self.date.year == 1979:
+            raise RuntimeError, self.date.year
+        ctype = e.get('Content-type', '')
+        if ctype != '' and 'text/plain' not in ctype and 'multipart/alternative' not in ctype:
+            #import pdb
+            #pdb.set_trace()
+            raise RuntimeError, ctype
+        self.ctype = ctype
+
     def clean_date(self, txt):
         if '(' in txt:
             txt = txt[:txt.index('(')]
@@ -77,13 +102,12 @@ class Email(object):
         for block in txt.strip(' ,').split(','):
             res = Email.contacts_prog.search(block)
             if res:
-                name = res.group('realname')
+                name = res.group('realname') or ''
                 email = res.group('email')
                 if email: email = email.lower()
                 if email in emails: continue
                 emails.add(email)
-                #contacts.append((name, email))
-                contacts.append(email)
+                contacts.append((name.lower(), email))
 
         return contacts
 
@@ -93,6 +117,8 @@ class EmailWalker(object):
     def __init__(self, root):
         self.root = root
         self.curdir = None
+        self.skipped = 0
+        self.parsed = 0
 
     def __iter__(self):
         class EmailIter():
@@ -105,8 +131,12 @@ class EmailWalker(object):
                     folder = os.path.basename(root)
                     for fname in files:
                         try:
-                            yield Email(os.path.join(root, fname))
-                        except:
+                            with file(os.path.join(root, fname)) as f:
+                                yield Email(f.read(), folder).to_dict()
+                            self.w.parsed += 1
+                        except Exception as e:
+
+                            self.w.skipped += 1
                             pass
                 
             def next(self):
@@ -123,13 +153,16 @@ if __name__ == '__main__':
     w = EmailWalker(sys.argv[1])
     ns = defaultdict(lambda:0)
     for x in w:
-        ns[x.date.date()] += 1
+        ns[x['date'].date()] += 1
+    print "skipped", w.skipped
+    print "parsed ", w.parsed
 
     import matplotlib.pyplot as plt
     fig = plt.figure(figsize=(30, 10))
     subplot = fig.add_subplot(111)
 
     xs, ys = zip(*sorted(ns.items(), key=lambda (email, c): email))
+    subplot.bar(xs, ys)
     ys = [sum(ys[:idx+1]) for idx in xrange(len(ys))]
     subplot.plot(xs, ys)
     subplot.set_xlim(min(xs), max(xs))

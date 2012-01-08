@@ -10,35 +10,21 @@ The techniques will include
 
 * [Tf-Idf](http://en.wikipedia.org/wiki/Tfidf)
 * [Regular Expressions](http://en.wikipedia.org/wiki/Regular_expression) and data cleaning
-* [N-gram](http://en.wikipedia.org/wiki/N-gram)
 * [Cosine Similarity](http://en.wikipedia.org/wiki/Cosine_similarity)
+* [N-gram](http://en.wikipedia.org/wiki/N-gram)
 
 
 ## Setting Up
 
-### Datasets
+### Dataset: Kenneth Lay's Emails
 
+Unzip Kenneth Lay's (Pre-bankruptcy Enron CEO) emails that were made public after the accounting fraud scandal.
 
-#### 1. Your Own Email
+    dataiap/datasets/emails/kenneth.zip
 
-We have provided a [script]() that you can use to download your email.  However before you can run it, you will need to install the following python modules:
+The full dataset (400MB zipped) can be found [here](http://www.cs.cmu.edu/~enron/).
 
-* [dateutil]()
-* [pyparsing]()
-
-You can now run the script using the following command:
-
-    python download_emails.py [IMAP ADDRESS]
-
-You can pass the optional imap address parameter, otherwise it will default to gmail's imap address.  The script will then ask you to input your email and password, then create the folder `email_root/` and download your email folders into that directory.
-
-#### 2. Kenneth Lay's Emails
-
-Alternatively, if you would rather not use your own emails, or could not get the script working, you can download and unzip Kenneth Lay's  (Pre-bankruptcy Enron CEO) emails that were made public after the accounting fraud scandal.
-
-[Download the emails]()
-
-### Reading Email Files
+### Reading the Emails
 
 You will need some code to parse and read the emails.  `email_root` contains a bunch of folders like `_sent` (sent folder), `inbox`, and other folders depending how Kenneth or you organized your emails.  Each folder contains a list of files.  Each file corresponds to a single email.
 
@@ -48,24 +34,23 @@ We have written a module that makes it easier to manage the emails.  To use it a
     sys.path.append('PATHTODATAIAP/resources/util/')
     import email_util
 
-The module contains two classes, `Email` and `EmailWalker`.  The first class reads and parses an email into an easy to use object and the second class iterates through and creates an `Email` object for each email file in the directory.
+The module contains a class `EmailWalker` and a dictionary that represents an email.  `EmailWalker`  iterates through all the files under a directory and creates a `dict` for each email file in the directory.
 
-**`Email`**
 
-* `__init__(self, file_path)`: pass in the path to an email file.
-* Class Members
-    * `path`: full path to the email file in the file system
+**`Email` dictionary object**
+
+* dictionary keys
     * `folder`: name of the folder the email is in (e.g., inbox, _sent)
-    * `frame`: name of the email file in the file system
     * `sender`: the email address of the sender
-    * `recipients` a list containing all emails in the `to`, `cc`, and `bcc` fields
+    * `sendername`: the name of the sender (if we found it), or ''
+    * `recipients`: a list containing all emails in the `to`, `cc`, and `bcc` fields
+    * `names`: a list of all full names or '' found in senders, to, cc, and bcc list.  
     * `to`: list of emails in `to` field
     * `cc`: list of emails in `cc` field
     * `bcc`: list of emails in `bcc` field
     * `subject`: subject line
     * `date`: `datetime` object of when the email was sent
     * `text`: the text content in the email
-    
     
 
 **`EmailWalker`**
@@ -76,10 +61,10 @@ The module contains two classes, `Email` and `EmailWalker`.  The first class rea
 The `__iter__` method means that `EmailWalker` is an iterator, and can be conveniently used in a loop:
 
     walker = EmailWalker('./email_root')
-    for email_object in walker:
-        print email_object.subject
+    for email_dict in walker:
+        print email_dict['subject']
 
-
+    
 
 
 ## Folder Summaries
@@ -100,8 +85,8 @@ One way to do this is to count the number of times each term occurs in all of th
     folder_tf = defaultdict(Counter)
     
     for e in EmailWalker(sys.argv[1]):
-        terms_in_email = e.text.split() # split the email text using whitespaces
-        folder_tf[e.folder].update(terms_in_email)
+        terms_in_email = e['text'].split() # split the email text using whitespaces
+        folder_tf[e['folder']].update(terms_in_email)
     
     for folder, counter in folder_tf.items():
         print folder
@@ -138,13 +123,13 @@ In our case, the numerator is the total number of emails and the denominator is 
 
     TF * IDF
 
-The following code will construct a dictionary that maps a term to its IDF value:
+The following code will construct a dictionary that maps a term to its IDF value.  Fill in the last part to calculate the tf-idf.
 
 
     allterms = Counter()
     nemails = 0
     for e in EmailWalker(sys.argv[1]):
-        terms_in_email = e.text.split() # split the email text using whitespaces
+        terms_in_email = e['text'].split() # split the email text using whitespaces
         unique_terms_in_email = set(terms_in_email)
         allterms.update(unique_terms_in_email)
         nemails += 1
@@ -154,9 +139,11 @@ The following code will construct a dictionary that maps a term to its IDF value
         idfs[term] = math.log( nemails / (1 + allterms[term]) )
 
 
-    tfidfs = {} # key is folder name
+    tfidfs = {} # key is folder name, value is a list of (term, tfidf score) pairs
     for folder, tfs in folder.iteritems:
+        #
         # write code to calculate tf-idfs yourself!
+        # 
         pass
 
 If we combine `idfs` with each folder's `tf` value, we would compute the `tf-idf`.  If we print the top values for each folder, we would see something like:
@@ -192,7 +179,7 @@ Let's tackle each of these requirements one by one!
 
 We can deal with these by lower casing all of the terms and filtering out the short terms.
 
-    terms = e.text.lower().split()
+    terms = e['text']lower().split()
     terms = filter(lambda term: len(term) <= 3, terms)
 
 #### 3. Stop Words
@@ -208,7 +195,7 @@ The `email_util` module defines a variable `STOPWORDS` that contains a list of c
 
 The last requirement is more difficult to enforce.  One way is to iterate through the characters in every term, and make sure they are valid:
 
-    arr = e.text.split()
+    arr = e['text'].split()
     terms = []
     for term in arr:
         valid = True
@@ -258,7 +245,7 @@ For example, `[0-9]{3}-[0-9]{3}-[0-9]{4}` matches phone numbers that contain are
 Finally, `^` and `$` are special characters for the beginning and the end of the text, respectively.  For example `^enron` means that `"enron"` must be at the beginning of the string.  `enron$` means that the `"enron"` should be at the end.  `^enron$` means the term should be exactly `"enron"`.
 
 
-Great!  You should know enough to create a pattern to find "reasonable words", and use it to re-compute the `tfidfs` dictionary!
+Great!  You should know enough to create a pattern to find "reasonable words", and use it to re-compute the `tfidfs` dictionary and print the 10 most highly scored terms in each folder!
 
 
 
@@ -270,49 +257,115 @@ It would be helpful to find email senders that send similar emails to Kenneth La
 The main idea is that emails that share terms with high tf-idf values are probably similar.  Also, they are more similar if they share more terms.  
 
 
-Let's say we have a total of 1000 terms across all of the email senders.  Every email sender has a tf-idf score for each of the 1000 terms.  We could model all of the scores as a 1000-dimensional vector, where each dimension corresponds to a term, and the distance along the dimension is the term's tf-idf value.  The cosine of the two email senders' vectors measures the similarity between them.  -1 means they are completely opposite, and 1 means they are identical.  0 means the senders are independent from each other (the vectors are orthogonal).  
+Let's say we have a total of 1000 terms across all of the email senders.  Every email sender has a tf-idf score for each of the 1000 terms.  We could model all of the scores as a 1000-dimensional vector, where each dimension corresponds to a term, and the distance along the dimension is the term's tf-idf value.  The cosine of the two email senders' vectors measures the similarity between them.  Suppose the vectors were A and B.  Then the cosine would be:
 
-Here is how we would calculate the cosines similarity of two _folders_, using the `tfidfs` dictionary you computed in the previous section.
+    cos(A,B) = (A·B) / ((|A| * |B|) + 1)
 
-    sec_scores = tfidfs['sec_panel']
+The numerator is the sum of all the tfidf terms the senders have in common.  The denominator is the product of the vector lengths.  We typically add `1` in case the vectors are both 0.
+
+A `cos(A,B)` of 1 means they are identical and 0 means the senders are independent from each other (the vectors are orthogonal).  
+
+Here is how we would calculate the cosine similarity of two _folders_, using the `tfidfs` dictionary you computed in the previous section.  We assume that each value in `tfidfs` is a list of `(term, tfidf-score)` pairs
     
+    from math import *
+    sec_scores = dict(tfidfs['sec_panel'])
+    fam_scores = dict(tfidfs['family'])
 
+    # loop through terms in sec_scores
+    # if term also exists in fam_scores, multiply both tfidf values and 
+    # add to numerator
+    numerator = 0.0
+    for sec_key, sec_score in sec_scores.iteritems():
+        dotscore = sec_score * fam_scores.get(sec_key, 0.0)
+        numerator += dotscore
+    
+    # compute the l2 norm of each vector
+    denominator = 0.0
+    sec_norm = sum( [score**2 for score in sec_scores.values()] )
+    sec_norm = math.sqrt(sec_norm)
+    fam_norm = sum( [score**2 for score in fam_scores.values()] )
+    fam_norm = math.sqrt(fam_norm)
+    denominator = sec_norm * fam_norm + 1.0
 
-
-We model every email sender's (term, tfidf score) pairs as a vector
-
+    similarity = numerator / denominator
 
     
-
-We warn you that running this can take a while.  There are 2000 emails 
-
-If we are reading an email, we would like to find other similar emails.  Cosine similarity is a common tool 
-
-
+Now, modify the code you have written so far to compute the cosine similarity between every pair of folders.  Which folders are most similar?
 
 ## N-grams
 
 Finally, only one word per term.  Not really clear.  "expensive", even though one could be part of the phrase "not expensive" whereas the other is "very expensive".  One popular way to add more context is to simply use more than one word per term (notice that we've used the word "term" instead of word for this reason).
 
+# Exercises
 
+## Exercise 1: Similar Email Senders
+
+We computed the tf-idf and cosine similarity between every folder in kenneth's emails.  Now do the same, but for email senders.
+
+## Exercise 2: Analyze Your Emails
+
+We have written a script (`dataiap/resources/download_emails.py`) that you can use to download your own email over IMAP.  However before you can run it, you will need to install the following python modules:
+
+- [dateutil](http://labix.org/python-dateutil#head-2f49784d6b27bae60cde1cff6a535663cf87497b)
+    * PIP users can type `sudo pip install python-dateutil`
+- [pyparsing](http://pyparsing.wikispaces.com/Download+and+Installation)
+    * PIP users can type `sudo pip install pyparsing`
+
+You can now run the script using the following command:
+
+    python download_emails.py [IMAP ADDRESS]
+
+You can pass the optional imap address parameter, otherwise it will default to gmail's imap address.  The script will then ask you to input your email and password, then create the folder `./[YOUR EMAIL]/` and download your email folders into that directory.  If you have a lot of emails, it can take a long time. 
+
+See if you can uncover something interesting!
+
+## Exercise 3: More Cleaning
+
+When we forward or reply to an email, the email client often includes the original email as well.  This can artificially boost the TF-IDF score, particularly if the email chain becomes very long.  The email usually looks like this:
+
+    ok.  10:40 to be safe:P
+    
+    On Fri, Jan 6, 2012 at 5:15 PM, Eugene Wu <sirrice@gmail.com> wrote:
+    
+    > i have a feeling that breakfast foods stop at 11 at clover because thats
+    > how it works at the truck.
+    > so maybe 1045 or something is better.
+    >
+    >
+    > On Fri, Jan 6, 2012 at 5:09 PM, Adam Marcus <marcua@csail.mit.edu> wrote:
+    >
+    >> see you there at 11!
+    >>
+    >>
+    >> On Fri, Jan 6, 2012 at 5:05 PM, Eugene Wu <sirrice@gmail.com> wrote:
+    >>
+    >>> lets have brunch at 11.  That way we skip the rush as well.
+    >>>
+
+Do some more data cleaning to remove the email copies before computing TF-IDF.  
+
+## Exercise 4: Normalizing Weights
+
+In our current version of TF-IDF, a person's terms will be artificially boosted if he/she sends you a ton of emails.  This will cause the person to have high cosine similarity with a majority of the people in your mailbox.  Fix this problem by normalizing a person's TF value by the number of emails they sent.
+
+Thus, calculate the TF as:
+
+    tf = tf / nemails
+
+## Exercise 5: Removing Names
+
+You'll find that names of people end up with very high tfidf scores often due to signatures.  Although it's correct, we want to find people that send similar email content (e.g., topics) so we would like non-name terms.  The email dictionary objects contain fields called `sendername` and `names` that store english names.  Add everyone's first name and last name to our list of stop words.  Do our results improve?
 
 ## Done!
 
+Today, you learned the basics of text analysis using an email dataset.  
 
+* We used TF-IDF to give each term in our emails a weight representing how well the term describes the email/folder/sender.  
+* We found that text documents require significant amounts of data cleaning before our analyses make sense.  To do so we
+    * Computed and removed stop words
+    * Used regular expressions to restrict our terms to "reasonable" words
+    * Removed copied email content (from replied-to/forwarded emails)
+    * Normalized tf-idf values
+* We used cosine similarity to find similar senders and folders
 
-## Notes
-
-Email dataset
-
-* Email script to download gmail email messages without attachments
-* Download the folders
-* Extract the data into files.  
-* 1 file per email
-
-
-TF-IDF
-
-Enron dataset
-* Kenneth Lay (lay-k)
-* Jeffery Skilling
-* `lay-k/ skilling-j/ whalley-g/ pereira-s/ `
+We've only touched the surface of text-analysis.  Each of the components we've discussed (tfidf, cleaning, and similarity) are broad enough for courses to be taught on them.    
