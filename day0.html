@@ -89,12 +89,13 @@ ones are:</p>
   <code>python --version</code> to make sure it is the right version</li>
 </ul>
 </li>
-<li><a href="http://pypi.python.org/pypi/setuptools#files">easy_install</a><ul>
+<li><a href="http://pypi.python.org/pypi/setuptools">easy_install</a> <ul>
 <li>python package manager.</li>
 </ul>
 </li>
 <li><a href="http://pypi.python.org/pypi/pip#downloads">pip</a><ul>
-<li>Makes installing python packages really easy.  Requires easy_install</li>
+<li>Makes installing python packages really easy.  Requires easy_install.</li>
+<li>Either install it by typing <code>sudo easy_install pip</code> or download the tar.gz file at the link above, untar it, go into the newly created directory, and type <code>sudo python setup.py install</code>.</li>
 </ul>
 </li>
 <li><a href="http://git-scm.com/">git</a><ul>
@@ -116,6 +117,7 @@ ones are:</p>
 <p><a href="http://sourceforge.net/projects/scipy/files/scipy/0.10.0/">scipy 0.10</a>: scientific computing module.</p>
 <ul>
 <li>PIP users can type <code>sudo pip install scipy</code></li>
+<li>Even if pip works, at least on MacOS you might have to <a href="https://www.scipy.org/Installing_SciPy/Mac_OS_X">install Fortran</a>.</li>
 <li>Ubuntu users can type <code>sudo apt-get install python-scipy</code></li>
 <li>Unfortunately, scipy installation might not work from PIP, and you may have to <a href="https://scipy.org/Installing_SciPy/Mac_OS_X">compile it from source</a> (see "Obtaining and Building NumPy and SciPy").  Try something akin to<ul>
 <li><code>git clone https://github.com/scipy/scipy.git</code></li>
@@ -132,6 +134,7 @@ ones are:</p>
 <li>PIP users can type <code>sudo pip install matplotlib</code></li>
 <li>Note: If compiling from source, matplot lib requires a number of other libraries: 
 (<a href="http://www.libpng.org/pub/png/libpng.html">libpng</a>, <a href="http://download.savannah.gnu.org/releases/freetype/">freetype 2</a>)</li>
+<li>Some MacOS users might run into issues and should just download <a href="http://sourceforge.net/projects/matplotlib/files/matplotlib/matplotlib-1.1.0/matplotlib-1.1.0-py2.7-python.org-macosx10.3.dmg/download">the binary</a>.</li>
 </ul>
 </li>
 <li><a href="https://github.com/yelp/mrjob">mrjob</a>:  This is a MapReduce package that we will use it in day 5.<ul>
@@ -152,7 +155,7 @@ ones are:</p>
 <code>dataiap/datasets/county_health_rankings/additional_measures_cleaned.csv</code><br />
 <code>dataiap/datasets/county_health_rankings/ypll.csv</code><br />
 </li>
-<li><a href="http://www.cs.cmu.edu/~enron/">The Enron email dataset</a>.<ul>
+<li><a href="http://www.cs.cmu.edu/~enron/">The Enron email dataset</a>: Don't download the dataset as it's huge, but instead take note of the files below<ul>
 <li><code>dataiap/datasets/emails/kenneth.zip</code> contains a subset of Kenneth Lay's emails that you will analyze in day 4.</li>
 <li><code>dataiap/datasets/emails/kenneth_json.zip</code> contains a JSON-encoded subset of Kenneth Lay's emails that you will analyze in day 5.</li>
 <li>We will upload a JSON encoded version of the full dataset to amazon's S3.<br />
