@@ -81,10 +81,11 @@ ones are:
 	* Python is
   usually installed in Mac OSX and major unix distributions.  Type
   `python --version` to make sure it is the right version
-* [easy_install](http://pypi.python.org/pypi/setuptools#files)
+* [easy_install](http://pypi.python.org/pypi/setuptools) 
 	* python package manager.
 * [pip](http://pypi.python.org/pypi/pip#downloads)
-	* Makes installing python packages really easy.  Requires easy_install
+	* Makes installing python packages really easy.  Requires easy_install.
+    * Either install it by typing `sudo easy_install pip` or download the tar.gz file at the link above, untar it, go into the newly created directory, and type `sudo python setup.py install`.
 * [git](http://git-scm.com/)
     * git is a version control system.  Using it, you can check out our code and examples.
     * If everything is working, check the dataiap sourcecode into a
@@ -98,6 +99,7 @@ We will also require a number of python modules:
 	* PIP users can type `sudo pip install numpy`
 * [scipy 0.10](http://sourceforge.net/projects/scipy/files/scipy/0.10.0/): scientific computing module.
     * PIP users can type `sudo pip install scipy`
+    * Even if pip works, at least on MacOS you might have to [install Fortran](https://www.scipy.org/Installing_SciPy/Mac_OS_X).
     * Ubuntu users can type `sudo apt-get install python-scipy`
     * Unfortunately, scipy installation might not work from PIP, and you may have to [compile it from source](https://scipy.org/Installing_SciPy/Mac_OS_X) (see "Obtaining and Building NumPy and SciPy").  Try something akin to
         * `git clone https://github.com/scipy/scipy.git`
@@ -110,6 +112,7 @@ We will also require a number of python modules:
     * PIP users can type `sudo pip install matplotlib`
     * Note: If compiling from source, matplot lib requires a number of other libraries: 
     ([libpng](http://www.libpng.org/pub/png/libpng.html), [freetype 2](http://download.savannah.gnu.org/releases/freetype/))
+    * Some MacOS users might run into issues and should just download [the binary](http://sourceforge.net/projects/matplotlib/files/matplotlib/matplotlib-1.1.0/matplotlib-1.1.0-py2.7-python.org-macosx10.3.dmg/download).
 - [mrjob](https://github.com/yelp/mrjob):  This is a MapReduce package that we will use it in day 5.
 	* PIP users can type `sudo pip install mrjob`
 	* If compiling from source, it requires [boto](http://code.google.com/p/boto/downloads/list) (try `sudo pip install boto`).
@@ -125,7 +128,7 @@ We will be working with several datasets in this course.  Some are fairly large,
 * [2011 County Health Rankings](http://www.countyhealthrankings.org/): The necessary data should already be in the git repository you cloned in   
     `dataiap/datasets/county_health_rankings/additional_measures_cleaned.csv`  
     `dataiap/datasets/county_health_rankings/ypll.csv`  
-* [The Enron email dataset](http://www.cs.cmu.edu/~enron/).
+* [The Enron email dataset](http://www.cs.cmu.edu/~enron/): Don't download the dataset as it's huge, but instead take note of the files below
     * `dataiap/datasets/emails/kenneth.zip` contains a subset of Kenneth Lay's emails that you will analyze in day 4.
     * `dataiap/datasets/emails/kenneth_json.zip` contains a JSON-encoded subset of Kenneth Lay's emails that you will analyze in day 5.
     * We will upload a JSON encoded version of the full dataset to amazon's S3.  
