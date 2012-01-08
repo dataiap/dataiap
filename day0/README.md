@@ -122,13 +122,23 @@ We will also require a number of python modules:
 	* If compiling from source, it requires [boto](http://code.google.com/p/boto/downloads/list) (try `sudo pip install boto`).
 
 
+## `dataiap/` Directory Structure
 
+The repository contains the contents of the full course.  We will be using
+
+* `dayX/`: files containing the lecture for day X
+* `datasets/`: the datasets we will be using should live here
+* `resources/`: contains python scripts that you will eventually run
+    * `util/`: contains python modules we have written that you will use in this course.
+    * `inst/`: instructor python files.  Used to setup and test the labs.  Please don't view during the course.
 
 
 
 ## Datasets
 
-We will be working with several datasets in this course.  We have packaged and uploaded several of them to [http://web.mit.edu/~eugenewu/Public/datasets.zip](http://web.mit.edu/~eugenewu/Public/datasets.zip).  Please download and uncompress this into your `dataiap/` directory before class.
+We will be working with several datasets in this course.  Most of them have been added to the git repository.
+
+<!--We have packaged and uploaded several of them to [http://web.mit.edu/~eugenewu/Public/datasets.zip](http://web.mit.edu/~eugenewu/Public/datasets.zip).  Please download and uncompress this into your `dataiap/` directory before class.-->
 
 The presidential contributions dataset is fairly large.  We will use it on the first day, so please download it from [ftp://ftp.fec.gov/FEC/Presidential_Map/2008/P00000001/P00000001-ALL.zip](ftp://ftp.fec.gov/FEC/Presidential_Map/2008/P00000001/P00000001-ALL.zip).
 
@@ -136,6 +146,7 @@ The datasets we will use are
 
 * [2008 Presidential Campaign Contributions](ftp://ftp.fec.gov/FEC/Presidential_Map/2008/P00000001/P00000001-ALL.zip)
     * The linked file contains all of the 2008 campaign contributions to each presidential candidate.  You can look at the [2012 campaign](http://fec.gov/disclosurep/PDownload.do) for various primary candidates as well, but we'll work with 2008 since it's complete.  
+    * unzip into `dataiap/datasets/pres_campaign/`
 * [2011 County Health Rankings](http://www.countyhealthrankings.org/)
     * The dataset contains per-county health and morbidity statistics.
     * The necessary data should already be uncompressed in
