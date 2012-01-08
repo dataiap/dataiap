@@ -142,7 +142,7 @@ The datasets we will use are
     `dataiap/datasets/county_health_rankings/additional_measures_cleaned.csv`  
     `dataiap/datasets/county_health_rankings/ypll.csv`  
 * [The Enron email dataset](http://www.cs.cmu.edu/~enron/)
-    * This is the complete set of emails on the enron email server that was released during the scandal. Don't download the dataset as it's huge, but instead take note of the files.
-    * `dataiap/datasets/emails/kenneth.zip` contains a subset of Kenneth Lay's emails that you will analyze in day 4.
-    * `dataiap/datasets/emails/kenneth_json.zip` contains a JSON-encoded subset of Kenneth Lay's emails that you will analyze in day 5.
+    * This is the complete set of emails on the enron email server that was released during the scandal. Don't download the dataset as it's huge.  We have included subsets of the datasets in the git repository.
+        * `dataiap/datasets/emails/kenneth.zip` contains a subset of Kenneth Lay's emails that you will analyze in day 4.
+        * `dataiap/datasets/emails/kenneth_json.zip` contains a JSON-encoded subset of Kenneth Lay's emails that you will analyze in day 5.
     * We will upload a JSON encoded version of the full dataset to amazon's S3.  
