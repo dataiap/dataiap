@@ -358,7 +358,7 @@ You'll find that names of people end up with very high tfidf scores often due to
 
 ## Done!
 
-Today, you learned the basics of text analysis using an email dataset.  
+Today, you learned the basics of text analysis using an email dataset!
 
 * We used TF-IDF to give each term in our emails a weight representing how well the term describes the email/folder/sender.  
 * We found that text documents require significant amounts of data cleaning before our analyses make sense.  To do so we
@@ -366,6 +366,6 @@ Today, you learned the basics of text analysis using an email dataset.
     * Used regular expressions to restrict our terms to "reasonable" words
     * Removed copied email content (from replied-to/forwarded emails)
     * Normalized tf-idf values
-* We used cosine similarity to find similar senders and folders
+* We used cosine similarity to find similar folders and senders
 
 We've only touched the surface of text-analysis.  Each of the components we've discussed (tfidf, cleaning, and similarity) are broad enough for courses to be taught on them.    

@@ -98,15 +98,14 @@ We will also require a number of python modules:
 * [numpy 1.6.x](http://sourceforge.net/projects/numpy/files/NumPy/1.6.1/): numerical processing module.
 	* PIP users can type `sudo pip install numpy`
 * [scipy 0.10](http://sourceforge.net/projects/scipy/files/scipy/0.10.0/): scientific computing module.
-    * PIP users can type `sudo pip install scipy`
-    * Even if pip works, at least on MacOS you might have to [install Fortran](https://www.scipy.org/Installing_SciPy/Mac_OS_X).
     * Ubuntu users can type `sudo apt-get install python-scipy`
+    * PIP users can type `sudo pip install scipy`
+    * Even if PIP works, at least on MacOS you might have to [install Fortran](https://www.scipy.org/Installing_SciPy/Mac_OS_X).  We strongly recommend reading and following the [installation instructions](https://www.scipy.org/Installing_SciPy/Mac_OS_X).
     * Unfortunately, scipy installation might not work from PIP, and you may have to [compile it from source](https://scipy.org/Installing_SciPy/Mac_OS_X) (see "Obtaining and Building NumPy and SciPy").  Try something akin to
         * `git clone https://github.com/scipy/scipy.git`
         * `cd scipy`
         * `python setup.py build`
         * `python setup.py install`
-
 
 - [matplotlib 1.1.0](http://sourceforge.net/projects/matplotlib/files/matplotlib/matplotlib-1.1.0/)
     * PIP users can type `sudo pip install matplotlib`
@@ -129,15 +128,21 @@ We will also require a number of python modules:
 
 ## Datasets
 
-We will be working with several datasets in this course.  Some are fairly large, so we ask that you download them before the class,
+We will be working with several datasets in this course.  We have packaged and uploaded several of them to [http://web.mit.edu/~eugenewu/Public/datasets.zip](http://web.mit.edu/~eugenewu/Public/datasets.zip).  Please download and uncompress this into your `dataiap/` directory before class.
+
+The presidential contributions dataset is fairly large.  We will use it on the first day, so please download it from [ftp://ftp.fec.gov/FEC/Presidential_Map/2008/P00000001/P00000001-ALL.zip](ftp://ftp.fec.gov/FEC/Presidential_Map/2008/P00000001/P00000001-ALL.zip).
+
+The datasets we will use are
 
 * [2008 Presidential Campaign Contributions](ftp://ftp.fec.gov/FEC/Presidential_Map/2008/P00000001/P00000001-ALL.zip)
-    * The linked file contains all of the 2008 campaign contributions to each presidential candidate.  You can look at the [2012 campaign](http://fec.gov/disclosurep/PDownload.do) for various primary candidates as well, but we'll work with 2008 since it's complete.
-): click "All.zip" and unzip the file
-* [2011 County Health Rankings](http://www.countyhealthrankings.org/): The necessary data should already be in the git repository you cloned in   
+    * The linked file contains all of the 2008 campaign contributions to each presidential candidate.  You can look at the [2012 campaign](http://fec.gov/disclosurep/PDownload.do) for various primary candidates as well, but we'll work with 2008 since it's complete.  
+* [2011 County Health Rankings](http://www.countyhealthrankings.org/)
+    * The dataset contains per-county health and morbidity statistics.
+    * The necessary data should already be uncompressed in
     `dataiap/datasets/county_health_rankings/additional_measures_cleaned.csv`  
     `dataiap/datasets/county_health_rankings/ypll.csv`  
-* [The Enron email dataset](http://www.cs.cmu.edu/~enron/): Don't download the dataset as it's huge, but instead take note of the files below
+* [The Enron email dataset](http://www.cs.cmu.edu/~enron/)
+    * This is the complete set of emails on the enron email server that was released during the scandal. Don't download the dataset as it's huge, but instead take note of the files.
     * `dataiap/datasets/emails/kenneth.zip` contains a subset of Kenneth Lay's emails that you will analyze in day 4.
     * `dataiap/datasets/emails/kenneth_json.zip` contains a JSON-encoded subset of Kenneth Lay's emails that you will analyze in day 5.
     * We will upload a JSON encoded version of the full dataset to amazon's S3.  

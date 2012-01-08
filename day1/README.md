@@ -11,6 +11,7 @@ A lot of other organizations have analyzed the data:
 * [The FEC](http://fec.gov/disclosurep/pnational.do) is the organization that published the dataset, but also offers basic summaries of the data.
 * [Pitch Interactive](http://www.pitchinteractive.com/election2008/) has some pretty sweet visualizations of the data.
 * [More from Pitch Interactive](http://www.pitchinteractive.com/election2008/jobarcs.html)
+* [Donor Occupations](http://neoformix.com/2008/ObamaMcCainDonorOccupations.html)
 
 These visualizations are beautiful but high level overviews, which
 tend to hide interesting details.  We have our own questions, and
@@ -269,3 +270,7 @@ Congrats!  You are now a data sleuth.  To recap the process we just went through
 
 Tomorrow, we will dive deeper into `matplotlib`'s visualization facilities, and further analyze the data using different visualizations.
 
+
+## Related Datasets
+
+If you are interested more campaign finance data, you can also [download the campaign expense data](ftp://ftp.fec.gov/FEC/Presidential_Map/2008/P00000001/P00000001-ALL.zip) from the same website, if you click the "expenditures" tab in the right table.
