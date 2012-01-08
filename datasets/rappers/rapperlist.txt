@@ -1,0 +1,993 @@
+{"geo": [40.65, -73.95], "name": "GZA", "id": "/en/gza"}
+{"geo": [45.8166666667, -77.1166666667], "name": "Tom Green", "id": "/en/tom_green"}
+{"geo": [40.65, -73.95], "name": "Lil' Kim", "id": "/en/lil_kim"}
+{"geo": [33.8958, -118.2192], "name": "Coolio", "id": "/en/coolio"}
+{"geo": [36.8857, -76.2599], "name": "Timbaland", "id": "/en/timbaland"}
+{"geo": [40.65, -73.95], "name": "Busta Rhymes", "id": "/en/busta_rhymes"}
+{"geo": [18.4112152674, -65.9710121155], "name": "Don Omar", "id": "/en/don_omar"}
+{"geo": [51.550832, 0.02739], "name": "Plan B", "id": "/en/plan_b"}
+{"geo": [40.85, -73.8667], "name": "Chino XL", "id": "/en/chino_xl"}
+{"geo": [39.9611, -82.9989], "name": "Randy Savage", "id": "/en/randy_savage"}
+{"geo": [52.523337, 13.412687], "name": "Meshell Ndegeocello", "id": "/en/meshell_ndegeocello"}
+{"geo": [51.3162, -0.561], "name": "Jentina", "id": "/en/jentina"}
+{"geo": [40.7142, -74.0064], "name": "Swizz Beatz", "id": "/en/swizz_beatz"}
+{"geo": [35.1494, -90.0489], "name": "Lord Infamous", "id": "/en/lord_infamous"}
+{"geo": [40.7142, -74.0064], "name": "Vico C", "id": "/en/vico_c"}
+{"geo": [20.0283333333, -75.8205555556], "name": "Konnan", "id": "/en/konnan"}
+{"geo": [53.48, -2.24], "name": "Blak Twang", "id": "/en/blak_twang"}
+{"geo": [40.7477777778, -74.2588888889], "name": "Lauryn Hill", "id": "/en/lauryn_hill"}
+{"geo": [40.65, -73.95], "name": "O.C.", "id": "/en/o_c"}
+{"geo": [null, null], "name": "Trina", "id": "/en/trina"}
+{"geo": [55.6883333333, 12.5597222222], "name": "Jokeren", "id": "/en/jokeren"}
+{"geo": [40.7143, -73.8204], "name": "Ja Rule", "id": "/en/ja_rule"}
+{"geo": [52.4421993206, 4.81269836426], "name": "Ali B", "id": "/en/ali_b"}
+{"geo": [22.3, 114.166666667], "name": "NYCCA", "id": "/en/nycca"}
+{"geo": [33.5991666667, -7.62], "name": "Bigg", "id": "/m/02rgdqd"}
+{"geo": [40.65, -73.95], "name": "Kovas", "id": "/en/kovas"}
+{"geo": [33.7489, -84.3881], "name": "Lil' Scrappy", "id": "/en/lil_scrappy"}
+{"geo": [38.63, -90.2], "name": "Murphy Lee", "id": "/en/murphy_lee"}
+{"geo": [39.9522, -75.1642], "name": "Charli Baltimore", "id": "/en/charli_baltimore"}
+{"geo": [10.5525925926, -61.3151962963], "name": "Poetic", "id": "/en/poetic"}
+{"geo": [40.65, -73.95], "name": "Jaz-O", "id": "/en/jaz-o"}
+{"geo": [40.85, -73.8667], "name": "Melvin Glover", "id": "/en/melle_mel"}
+{"geo": [40.7142, -74.0064], "name": "Styles P", "id": "/en/styles_p"}
+{"geo": [33.8958, -118.2192], "name": "MC Eiht", "id": "/en/mc_eiht"}
+{"geo": [30.7805555556, -89.8638888889], "name": "E.S.G.", "id": "/en/e_s_g"}
+{"geo": [38.63, -90.2], "name": "J-Kwon", "id": "/en/j-kwon"}
+{"geo": [41.85, -87.65], "name": "Yung Berg", "id": "/en/yung_berg"}
+{"geo": [43.2975, 5.3772], "name": "Soprano", "id": "/en/soprano_1979"}
+{"geo": [null, null], "name": "Wyclef Jean", "id": "/en/wyclef_jean"}
+{"geo": [33.7669, -118.1883], "name": "Nate Dogg", "id": "/en/nate_dogg"}
+{"geo": [40.65, -73.95], "name": "Omar Epps", "id": "/en/omar_epps"}
+{"geo": [40.7477777778, -74.2588888889], "name": "Adam Horovitz", "id": "/en/adam_horovitz"}
+{"geo": [null, null], "name": "Yas Taalat", "id": "/en/yas_taalat"}
+{"geo": [null, null], "name": "Headliner", "id": "/en/headliner_1967"}
+{"geo": [40.7552, -73.9453], "name": "Metta World Peace", "id": "/en/ron_artest"}
+{"geo": [49.794120143, 9.9271774292], "name": "Cage Kennylz", "id": "/en/cage_kennylz"}
+{"geo": [40.7672, -74.2053], "name": "Treach", "id": "/en/treach"}
+{"geo": [39.283333, -76.616667], "name": "Felicia Pearson", "id": "/en/felicia_pearson"}
+{"geo": [42.3583, -71.0603], "name": "Slaine", "id": "/en/slaine"}
+{"geo": [48.8361, 2.2422], "name": "Booba", "id": "/en/booba"}
+{"geo": [53.0769444444, 8.80888888889], "name": "Reyhan \u015eahin", "id": "/en/reyhan_ahin"}
+{"geo": [40.6914, -73.8061], "name": "Tony Yayo", "id": "/en/tony_yayo"}
+{"geo": [38.9697, -76.8803], "name": "Lloyd Banks", "id": "/en/lloyd_banks"}
+{"geo": [32.05071, -81.103762], "name": "Nivea", "id": "/en/nivea_1982"}
+{"geo": [33.7489, -84.3881], "name": "Bone Crusher", "id": "/en/bone_crusher"}
+{"geo": [42.3314, -83.0458], "name": "Obie Trice", "id": "/en/obie_trice"}
+{"geo": [36.4885198674, -119.701379437], "name": "Tairrie B", "id": "/en/tairrie_b"}
+{"geo": [40.85, -73.8667], "name": "Big Tigger", "id": "/en/big_tigger"}
+{"geo": [36.4692974125, 127.624277169], "name": "Jun Jin", "id": "/en/jun_jin"}
+{"geo": [51.5761, 0.4886], "name": "Qboy", "id": "/en/qboy"}
+{"geo": [40.85, -73.8667], "name": "Heather Hunter", "id": "/en/heather_hunter"}
+{"geo": [40.65, -73.95], "name": "Kirk Jones", "id": "/en/kirk_jones"}
+{"geo": [40.6914, -73.8061], "name": "Fredro Starr", "id": "/en/fredro_starr"}
+{"geo": [33.5861, -86.2861], "name": "Offwhyte", "id": "/en/offwhyte"}
+{"geo": [29.7631, -95.3631], "name": "Slim Thug", "id": "/en/slim_thug"}
+{"geo": [17.4963888889, -88.1827777778], "name": "Shyne", "id": "/en/shyne"}
+{"geo": [38.63, -90.2], "name": "Chingy", "id": "/en/chingy"}
+{"geo": [18.9473345185, -70.4810807407], "name": "Nicky Jam", "id": "/en/nicky_jam"}
+{"geo": [39.9611, -82.9989], "name": "Matt Johnson (MC)/", "id": "/en/matt_johnson_mc"}
+{"geo": [36.1658, -86.7844], "name": "Young Buck", "id": "/en/young_buck"}
+{"geo": [40.65, -73.95], "name": "Lil' Mama", "id": "/en/lil_mama"}
+{"geo": [41.1669, -73.2053], "name": "Lumidee", "id": "/en/lumidee"}
+{"geo": [23.1225, -82.3863888889], "name": "Sen Dog", "id": "/en/sen_dog"}
+{"geo": [30.6942, -88.0431], "name": "Rich Boy", "id": "/en/rich_boy"}
+{"geo": [33.7489, -84.3881], "name": "Killer Mike", "id": "/en/killer_mike"}
+{"geo": [34.0522, -118.2428], "name": "Glasses Malone", "id": "/en/glasses_malone"}
+{"geo": [39.9522, -75.1642], "name": "Steady B", "id": "/en/steady_b"}
+{"geo": [25.2697, 55.3095], "name": "The Narcicyst", "id": "/en/the_narcicyst"}
+{"geo": [52.48, -1.91], "name": "The Streets", "id": "/en/the_streets"}
+{"geo": [40.8, -73.3], "name": "Esham", "id": "/en/esham"}
+{"geo": [51.3727, -0.1099], "name": "GoldieLocks", "id": "/en/goldielocks"}
+{"geo": [53.5686111111, 10.0386111111], "name": "Denyo", "id": "/en/denyo_1977"}
+{"geo": [32.7153, -117.1564], "name": "Nick Cannon", "id": "/en/nick_cannon"}
+{"geo": [17.9911111111, -76.8036111111], "name": "Daddy Freddy", "id": "/en/daddy_freddy"}
+{"geo": [17.9911111111, -76.8036111111], "name": "Sandy Denton", "id": "/en/sandy_denton"}
+{"geo": [40.8, -73.3], "name": "Nas", "id": "/en/nas"}
+{"geo": [40.7142, -74.0064], "name": "Big Pun", "id": "/en/big_pun"}
+{"geo": [29.9728, -90.059], "name": "Juvenile", "id": "/en/juvenile"}
+{"geo": [34.1363945, -118.7745348], "name": "Mike Shinoda", "id": "/en/mike_shinoda"}
+{"geo": [32.3867, -83.3547], "name": "Blowfly", "id": "/en/blowfly"}
+{"geo": [null, null], "name": "Jin", "id": "/en/jin_1982"}
+{"geo": [51.8062, -0.1932], "name": "Alesha Dixon", "id": "/en/alesha_dixon"}
+{"geo": [40.7142, -74.0064], "name": "Amil", "id": "/en/amil"}
+{"geo": [40.8090333333, -73.9483722222], "name": "Young B.", "id": "/m/03h5vqj"}
+{"geo": [34.0885, -118.2342], "name": "Orlando Brown", "id": "/en/orlando_brown"}
+{"geo": [null, null], "name": "Devin the Dude", "id": "/en/devin_the_dude"}
+{"geo": [40.4230003233, -98.7372244786], "name": "Rico Love", "id": "/en/rico_love"}
+{"geo": [37.775, -122.4183], "name": "Chuck Nutt", "id": "/en/chuck_nutt"}
+{"geo": [52.523337, 13.412687], "name": "Dean Dawson", "id": "/en/dean_dawson"}
+{"geo": [41.85, -87.65], "name": "Ca$his", "id": "/en/ca_his"}
+{"geo": [31.1169, -97.7275], "name": "Danny!", "id": "/en/danny"}
+{"geo": [29.7631, -95.3631], "name": "South Park Mexican", "id": "/en/south_park_mexican"}
+{"geo": [-12.0236434108, 43.8069], "name": "Rohff", "id": "/en/rohff"}
+{"geo": [38.8162, -77.0713], "name": "Kiely Williams", "id": "/en/kiely_williams"}
+{"geo": [41.85, -87.65], "name": "Shawnna", "id": "/en/shawnna"}
+{"geo": [41.4994444, -81.6955556], "name": "Jason Popson", "id": "/en/jason_popson"}
+{"geo": [40.85, -73.8667], "name": "Daryl Mitchell", "id": "/en/daryl_mitchell"}
+{"geo": [53.81, -1.55], "name": "Skinnyman", "id": "/en/skinnyman"}
+{"geo": [48.8742, 2.346954], "name": "Stomy Bugsy", "id": "/en/stomy_bugsy"}
+{"geo": [40.7142, -74.0064], "name": "Nine", "id": "/en/nine_1969"}
+{"geo": [49.250494, -123.111934], "name": "Edison Chen", "id": "/en/edison_chen"}
+{"geo": [2.04109166667, 45.3426388889], "name": "K'naan", "id": "/en/knaan"}
+{"geo": [34.0522, -118.2428], "name": "Crooked i", "id": "/en/crooked_i"}
+{"geo": [53.81, -1.55], "name": "Braintax", "id": "/en/braintax"}
+{"geo": [30.2669, -97.7428], "name": "Nelly", "id": "/en/nelly"}
+{"geo": [40.65, -73.95], "name": "Jason Mizell", "id": "/en/jason_mizell"}
+{"geo": [37.0349, -76.3601], "name": "Allen Iverson", "id": "/en/allen_iverson"}
+{"geo": [33.7489, -84.3881], "name": "Stat Quo", "id": "/en/stat_quo"}
+{"geo": [43.0125, -83.6875], "name": "MC Breed", "id": "/en/mc_breed"}
+{"geo": [32.782778, -96.803889], "name": "Tha Realest", "id": "/en/tha_realest"}
+{"geo": [40.65, -73.95], "name": "Cormega", "id": "/en/cormega"}
+{"geo": [40.85, -73.8667], "name": "Inspectah Deck", "id": "/en/inspectah_deck"}
+{"geo": [50.116667, 8.683333], "name": "Senna Guemmour", "id": "/en/senna_guemmour"}
+{"geo": [42.3314, -83.0458], "name": "Guilty Simpson", "id": "/en/guilty_simpson"}
+{"geo": [15.4548637037, 106.576013518], "name": "Chuckie Akenz", "id": "/en/chuckie_akenz"}
+{"geo": [42.3314, -83.0458], "name": "J Dilla", "id": "/en/j_dilla"}
+{"geo": [22.3, 114.166666667], "name": "Sam Lee", "id": "/en/sam_lee"}
+{"geo": [14.5833333333, 121.0], "name": "Francis Magalona", "id": "/en/francis_magalona"}
+{"geo": [29.9728, -90.059], "name": "Brian Williams", "id": "/en/brian_williams_1969"}
+{"geo": [37.871667, -122.272778], "name": "MC Lars", "id": "/en/mc_lars"}
+{"geo": [39.1619, -84.4569], "name": "Katt Williams", "id": "/en/katt_williams"}
+{"geo": [51.517124, -0.106196], "name": "Ty", "id": "/en/ty"}
+{"geo": [33.8958, -118.2192], "name": "B.G. Knocc Out", "id": "/en/bg_knocc_out"}
+{"geo": [43.1593628258, -79.2426681519], "name": "Jason Lafreniere", "id": "/en/jason_lafreniere"}
+{"geo": [40.85, -73.8667], "name": "Pete Rock", "id": "/en/pete_rock"}
+{"geo": [29.9728, -90.059], "name": "C-Murder", "id": "/en/c_miller"}
+{"geo": [42.3314, -83.0458], "name": "Kon Artis", "id": "/en/kon_artis"}
+{"geo": [-2.19027777778, -79.8872222222], "name": "Gerardo", "id": "/en/gerardo"}
+{"geo": [39.0997, -94.5783], "name": "Eminem", "id": "/en/eminem"}
+{"geo": [39.9522, -75.1642], "name": "Cassidy", "id": "/en/cassidy"}
+{"geo": [null, null], "name": "White Dawg", "id": "/en/white_dawg"}
+{"geo": [-4.25888888889, 15.2830555556], "name": "Passi", "id": "/en/passi"}
+{"geo": [31.4484328889, -97.7816569778], "name": "Spice 1", "id": "/en/spice_1"}
+{"geo": [42.8014795, -70.989778], "name": "John Cena", "id": "/en/john_cena"}
+{"geo": [10.5167, 7.4333], "name": "Eldee", "id": "/en/eldee"}
+{"geo": [40.7356, -74.1728], "name": "Shaquille O'Neal", "id": "/en/shaquille_oneal"}
+{"geo": [37.775, -122.4183], "name": "T-Bone", "id": "/en/t_bone"}
+{"geo": [null, null], "name": "Trick Daddy", "id": "/en/trick_daddy"}
+{"geo": [29.9728, -90.059], "name": "Lil' Fizz", "id": "/en/lil_fizz"}
+{"geo": [40.65, -73.95], "name": "Pras", "id": "/en/pras"}
+{"geo": [40.65, -73.95], "name": "AZ", "id": "/en/az_1973"}
+{"geo": [51.45, -0.3333], "name": "M.I.A.", "id": "/en/m_i_a"}
+{"geo": [36.1658, -86.7844], "name": "Thai Ngo", "id": "/en/thai_ngo"}
+{"geo": [45.4333, 12.3167], "name": "Afrob", "id": "/en/afrob"}
+{"geo": [35.6008, -82.5542], "name": "Jermaine Dupri", "id": "/en/jermaine_dupri"}
+{"geo": [27.9472, -82.4586], "name": "Aaron Carter", "id": "/en/aaron_carter"}
+{"geo": [40.7356, -74.1728], "name": "Redman", "id": "/en/redman"}
+{"geo": [40.65, -73.95], "name": "Adam Yauch", "id": "/en/adam_yauch"}
+{"geo": [39.9522, -75.1642], "name": "Bahamadia", "id": "/en/bahamadia"}
+{"geo": [33.8958, -118.2192], "name": "DJ Quik", "id": "/en/dj_quik"}
+{"geo": [40.7142, -74.0064], "name": "Tony Touch", "id": "/en/tony_touch"}
+{"geo": [41.2589, -73.6858], "name": "Andy Milonakis", "id": "/en/andy_milonakis"}
+{"geo": [42.3314, -83.0458], "name": "Kuniva", "id": "/en/kuniva"}
+{"geo": [37.775, -122.4183], "name": "Rappin' 4-Tay", "id": "/en/rappin_4_tay"}
+{"geo": [41.9, 12.5], "name": "Jovanotti", "id": "/en/jovanotti"}
+{"geo": [43.6480555556, -79.4041666667], "name": "Promise", "id": "/en/promise_1982"}
+{"geo": [29.9728, -90.059], "name": "Silkk the Shocker", "id": "/en/silkk_the_shocker"}
+{"geo": [29.9728, -90.059], "name": "B.G.", "id": "/en/b_g"}
+{"geo": [33.8958, -118.2192], "name": "Dresta", "id": "/en/dresta"}
+{"geo": [29.9728, -90.059], "name": "Curren$y", "id": "/en/curren_y"}
+{"geo": [29.7631, -95.3631], "name": "Big Moe", "id": "/en/big_moe"}
+{"geo": [34.0522, -118.2428], "name": "Aceyalone", "id": "/en/aceyalone"}
+{"geo": [40.8090333333, -73.9483722222], "name": "Kurtis Blow", "id": "/en/kurtis_blow"}
+{"geo": [41.85, -87.65], "name": "Soulja Boy", "id": "/en/soulja_boy"}
+{"geo": [38.63, -90.2], "name": "Baby Huey", "id": "/en/baby_huey_1988"}
+{"geo": [52.523337, 13.412687], "name": "Harris", "id": "/en/harris_1976"}
+{"geo": [40.7142, -74.0064], "name": "Natina Reed", "id": "/en/natina_reed"}
+{"geo": [53.1142456495, -2.57711368423], "name": "Doc Brown", "id": "/en/doc_brown"}
+{"geo": [53.0769444444, 8.80888888889], "name": "Flowin Immo", "id": "/en/flowin_immo"}
+{"geo": [38.63, -90.2], "name": "Akon", "id": "/en/akon"}
+{"geo": [37.775, -122.4183], "name": "Ya Boy", "id": "/en/ya_boy"}
+{"geo": [38.1042, -122.2556], "name": "Droop-E", "id": "/en/droop-e"}
+{"geo": [41.85, -87.65], "name": "Skee-Lo", "id": "/en/skee-lo"}
+{"geo": [18.2612911111, -66.4360261111], "name": "Freak Nasty", "id": "/en/freak_nasty"}
+{"geo": [47.609722, -122.333056], "name": "Sir Mix-a-Lot", "id": "/en/sir_mix-a-lot"}
+{"geo": [37.8044, -122.2697], "name": "Mac Dre", "id": "/en/mac_dre"}
+{"geo": [38.89, -77.03], "name": "Layzie Bone", "id": "/en/layzie_bone"}
+{"geo": [40.0066019668, -86.2913991487], "name": "Travis McCoy", "id": "/en/travis_mccoy"}
+{"geo": [36.6666666667, -6.11666666667], "name": "Mala Rodr\u00edguez", "id": "/en/mala_rodriguez"}
+{"geo": [29.9728, -90.059], "name": "Mannie Fresh", "id": "/en/mannie_fresh"}
+{"geo": [40.5822, -74.1409], "name": "Method Man", "id": "/en/method_man"}
+{"geo": [44.4167, 26.1], "name": "Bitz\u0103", "id": "/en/bitza"}
+{"geo": [40.65, -73.95], "name": "Foxy Brown", "id": "/en/foxy_brown"}
+{"geo": [32.05071, -81.103762], "name": "Big Boi", "id": "/en/big_boi"}
+{"geo": [null, null], "name": "Rapper Big Pooh", "id": "/en/rapper_big_pooh"}
+{"geo": [54.0887982273, 12.1326828003], "name": "Pyranja", "id": "/en/pyranja"}
+{"geo": [42.2831, -87.9531], "name": "Mc chris", "id": "/en/mc_chris"}
+{"geo": [null, null], "name": "Luther Campbell", "id": "/en/luther_campbell"}
+{"geo": [48.20875, 16.372583], "name": "Falco", "id": "/en/falco_1957"}
+{"geo": [35.1494, -90.0489], "name": "Kinfolk Kia $hine", "id": "/en/kinfolk_kia_hine"}
+{"geo": [null, null], "name": "Phonte", "id": "/en/phonte"}
+{"geo": [40.7143, -73.8204], "name": "50 Cent", "id": "/en/50_cent"}
+{"geo": [40.7143, -73.8204], "name": "Roxanne Shant\u00e9", "id": "/en/roxanne_shante"}
+{"geo": [33.7489, -84.3881], "name": "Andr\u00e9 3000", "id": "/en/andre_3000"}
+{"geo": [40.725, -73.2458], "name": "LL Cool J", "id": "/en/ll_cool_j"}
+{"geo": [40.9114, -73.7828], "name": "Grand Puba", "id": "/en/grand_puba"}
+{"geo": [38.1042, -122.2556], "name": "E-40", "id": "/en/e-40"}
+{"geo": [33.9617, -118.3522], "name": "Mack 10", "id": "/en/mack_10"}
+{"geo": [18.3997222222, -66.05], "name": "Eddie Dee", "id": "/en/eddie_dee"}
+{"geo": [36.8857, -76.2599], "name": "Melvin Barcliff", "id": "/en/melvin_barcliff"}
+{"geo": [34.0522, -118.2428], "name": "Dr. Dre", "id": "/en/dr_dre"}
+{"geo": [51.0, 9.0], "name": "Eko Fresh", "id": "/en/eko_fresh"}
+{"geo": [48.8833, 2.63], "name": "Ridan", "id": "/en/ridan"}
+{"geo": [34.5794, -118.1156], "name": "Afroman", "id": "/en/afroman"}
+{"geo": [35.1494, -90.0489], "name": "Lil Wyte", "id": "/en/lil_wyte"}
+{"geo": [48.3518699, -116.547416], "name": "Mary J. Blige", "id": "/en/mary_j_blige"}
+{"geo": [40.9311, -73.8992], "name": "Black Rob", "id": "/en/black_rob"}
+{"geo": [50.116667, 8.683333], "name": "Sabrina Setlur", "id": "/en/sabrina_setlur"}
+{"geo": [37.213, -77.4004], "name": "Trey Songz", "id": "/en/trey_songz"}
+{"geo": [39.283333, -76.616667], "name": "DMX", "id": "/en/dmx"}
+{"geo": [40.65, -73.95], "name": "Jay-Z", "id": "/en/jay-z"}
+{"geo": [42.8028, -83.0131], "name": "Kid Rock", "id": "/en/kid_rock"}
+{"geo": [35.1494, -90.0489], "name": "Project Pat", "id": "/en/project_pat"}
+{"geo": [33.7489, -84.3881], "name": "Pastor Troy", "id": "/en/pastor_troy"}
+{"geo": [17.9911111111, -76.8036111111], "name": "Bushwick Bill", "id": "/en/bushwick_bill"}
+{"geo": [33.9275, -118.27722], "name": "Ice Cube", "id": "/en/ice_cube_1969"}
+{"geo": [35.6016666667, -77.3725], "name": "Petey Pablo", "id": "/en/petey_pablo"}
+{"geo": [30.3319, -81.6558], "name": "Mase", "id": "/en/mase"}
+{"geo": [40.1164, -88.2433], "name": "Ludacris", "id": "/en/ludacris"}
+{"geo": [48.7833, 2.0], "name": "La Fouine", "id": "/en/la_fouine"}
+{"geo": [36.8313, -76.3456], "name": "Missy Elliott", "id": "/en/missy_elliott"}
+{"geo": [39.9522, -75.1642], "name": "Lisa Lopes", "id": "/en/lisa_lopes"}
+{"geo": [29.9728, -90.059], "name": "Mystikal", "id": "/en/mystikal"}
+{"geo": [40.9311, -73.8992], "name": "Jadakiss", "id": "/en/jadakiss"}
+{"geo": [23.1225, -82.3863888889], "name": "Cuban Link", "id": "/en/cuban_link"}
+{"geo": [40.65, -73.95], "name": "Talib Kweli", "id": "/en/talib_kweli"}
+{"geo": [33.7669, -118.1883], "name": "Snoop Dogg", "id": "/en/snoop_dogg"}
+{"geo": [29.9728, -90.059], "name": "Lil Romeo", "id": "/en/lil_romeo"}
+{"geo": [40.65, -73.95], "name": "Keith Murray", "id": "/en/keith_murray"}
+{"geo": [38.63, -90.2], "name": "Jibbs", "id": "/en/jibbs"}
+{"geo": [40.6914, -73.8061], "name": "Mr. Cheeks", "id": "/en/mr_cheeks"}
+{"geo": [34.0522, -118.2428], "name": "The Game", "id": "/en/the_game"}
+{"geo": [50.4286111111, 7.46138888889], "name": "Ferris MC", "id": "/en/ferris_mc"}
+{"geo": [39.9522, -75.1642], "name": "Will Smith", "id": "/en/will_smith"}
+{"geo": [40.7143, -73.8204], "name": "Kool G Rap", "id": "/en/kool_g_rap"}
+{"geo": [40.85, -73.8667], "name": "Angie Martinez", "id": "/en/angie_martinez"}
+{"geo": [18.4408333333, -66.0472222222], "name": "Tego Calder\u00f3n", "id": "/en/tego_calderon"}
+{"geo": [55.7027777778, 13.1930555556], "name": "Timbuktu", "id": "/en/timbuktu_1975"}
+{"geo": [40.65, -73.95], "name": "Ali Shaheed Muhammad", "id": "/en/ali_shaheed_muhammad"}
+{"geo": [41.1497, -74.0342], "name": "Prodigy", "id": "/en/prodigy"}
+{"geo": [32.782778, -96.803889], "name": "Vanilla Ice", "id": "/en/vanilla_ice"}
+{"geo": [40.9311, -73.8992], "name": "Lil' Zane", "id": "/en/lil_zane"}
+{"geo": [51.517124, -0.106196], "name": "Roots Manuva", "id": "/en/roots_manuva"}
+{"geo": [40.65, -73.95], "name": "Ol' Dirty Bastard", "id": "/en/ol_dirty_bastard"}
+{"geo": [41.4994444, -81.6955556], "name": "Krayzie Bone", "id": "/en/krayzie_bone"}
+{"geo": [51.517124, -0.106196], "name": "Daniel Dumile", "id": "/en/daniel_dumile"}
+{"geo": [40.65, -73.95], "name": "Romany Malco", "id": "/en/romany_malco"}
+{"geo": [39.9522, -75.1642], "name": "Freeway", "id": "/en/freeway_1979"}
+{"geo": [33.7669, -118.1883], "name": "Lil J", "id": "/en/lil_j"}
+{"geo": [40.2169, -74.7433], "name": "Craig Mack", "id": "/en/craig_mack"}
+{"geo": [40.65, -73.95], "name": "El-P", "id": "/en/el-producto"}
+{"geo": [40.65, -73.95], "name": "The Notorious B.I.G.", "id": "/en/the_notorious_big"}
+{"geo": [34.0522, -118.2428], "name": "Candyman", "id": "/en/candyman_1968"}
+{"geo": [38.89, -77.03], "name": "Nonchalant", "id": "/en/nonchalant"}
+{"geo": [39.9522, -75.1642], "name": "Ms. Jade", "id": "/en/ms_jade"}
+{"geo": [14.8128490741, -5.50302654321], "name": "Oxmo Puccino", "id": "/en/oxmo_puccino"}
+{"geo": [43.2975, 5.3772], "name": "Akhenaton", "id": "/en/akhenaton"}
+{"geo": [48.306719257, 14.2860031128], "name": "Chakuza", "id": "/en/chakuza"}
+{"geo": [48.9097, 2.5481], "name": "Doc Gyn\u00e9co", "id": "/en/doc_gyneco"}
+{"geo": [40.6786, -73.5894], "name": "Flavor Flav", "id": "/en/flavor_flav"}
+{"geo": [32.4680555556, -93.7711111111], "name": "Hurricane Chris", "id": "/en/hurricane_chris"}
+{"geo": [40.65, -73.95], "name": "Phife Dawg", "id": "/en/phife_dawg"}
+{"geo": [51.517124, -0.106196], "name": "Estelle Swaray", "id": "/en/estelle_swaray"}
+{"geo": [26.85, 80.92], "name": "Baba Sehgal", "id": "/en/baba_sehgal"}
+{"geo": [13.1594328042, -59.5299626984], "name": "Doug E. Fresh", "id": "/en/doug_e_fresh"}
+{"geo": [34.0239, -118.1711], "name": "Veto Ali", "id": "/en/veto_ali"}
+{"geo": [40.7281, -74.0781], "name": "Attrell Cordes", "id": "/en/attrell_cordes"}
+{"geo": [35.1667, 33.35], "name": "Diam's", "id": "/en/diams"}
+{"geo": [37.75, -122.283333333], "name": "Ant Banks", "id": "/en/ant_banks"}
+{"geo": [50.1, 8.8], "name": "Smudo", "id": "/en/smudo"}
+{"geo": [42.3314, -83.0458], "name": "Bizarre", "id": "/en/bizarre"}
+{"geo": [51.5004, -0.1909], "name": "Betty Boo", "id": "/en/betty_boo"}
+{"geo": [40.85, -73.8667], "name": "Afrika Bambaataa", "id": "/en/afrika_bambaataa"}
+{"geo": [40.65, -73.95], "name": "E-Moneybags", "id": "/en/e_moneybags"}
+{"geo": [35.3167, 47.0], "name": "Azad", "id": "/en/azad_1974"}
+{"geo": [50.7666666667, 6.1], "name": "Kool Savas", "id": "/en/kool_savas"}
+{"geo": [32.8, 34.9833333333], "name": "SHI 360", "id": "/en/shi_360"}
+{"geo": [31.3167, -110.95], "name": "MC Magic", "id": "/en/mc_magic"}
+{"geo": [38.89, -77.03], "name": "Chamillionaire", "id": "/en/chamillionaire"}
+{"geo": [39.9522, -75.1642], "name": "Black Thought", "id": "/en/black_thought"}
+{"geo": [40.8258, -74.2094], "name": "Hussein Fatal", "id": "/en/hussein_fatal"}
+{"geo": [40.6336, -74.4078], "name": "Vita", "id": "/en/vita"}
+{"geo": [31.4484328889, -97.7816569778], "name": "WC", "id": "/en/wc_texas"}
+{"geo": [41.6639, -83.5553], "name": "Dub Deuce", "id": "/en/dub_deuce"}
+{"geo": [32.7153, -117.1564], "name": "TIMZ", "id": "/en/timz"}
+{"geo": [60.170833, 24.9375], "name": "Mariska", "id": "/en/mariska"}
+{"geo": [51.46, -2.6], "name": "Tricky", "id": "/en/tricky"}
+{"geo": [18.2612911111, -66.4360261111], "name": "Q-Unique", "id": "/en/q-unique"}
+{"geo": [32.4564, 35.2958], "name": "Belly", "id": "/m/03f7xj4"}
+{"geo": [40.7142, -74.0064], "name": "N.O.R.E.", "id": "/en/n_o_r_e"}
+{"geo": [35.1494, -90.0489], "name": "Jazze Pha", "id": "/en/jazze_pha"}
+{"geo": [49.2041400138, -122.91469574], "name": "Robbie Engelquist", "id": "/en/robbie_engelquist"}
+{"geo": [48.3518699, -116.547416], "name": "Fat Joe", "id": "/en/fat_joe"}
+{"geo": [33.8833333333, -5.55], "name": "Cut Killer", "id": "/en/cut_killer"}
+{"geo": [37.6666466469, -78.6145553005], "name": "Danny Ahn", "id": "/en/danny_ahn"}
+{"geo": [38.1042, -122.2556], "name": "Baby Bash", "id": "/en/baby_bash"}
+{"geo": [40.8090333333, -73.9483722222], "name": "Q-Tip", "id": "/en/q_tip"}
+{"geo": [39.9283, -75.2742], "name": "Jamie Kennedy", "id": "/en/jamie_kennedy"}
+{"geo": [39.9522, -75.1642], "name": "Schoolly D", "id": "/en/schoolly_d"}
+{"geo": [34.0522, -118.2428], "name": "CJ Mac", "id": "/en/cj_mac"}
+{"geo": [33.7489, -84.3881], "name": "Cee-Lo", "id": "/en/cee_lo_1974"}
+{"geo": [52.523337, 13.412687], "name": "Sido", "id": "/en/sido"}
+{"geo": [50.73, 7.1], "name": "Bushido", "id": "/en/bushido_1978"}
+{"geo": [40.65, -73.95], "name": "Memphis Bleek", "id": "/en/memphis_bleek"}
+{"geo": [29.7631, -95.3631], "name": "Mike Jones", "id": "/en/mike_jones"}
+{"geo": [40.4298247444, -88.9244490556], "name": "Paris", "id": "/en/paris_1967"}
+{"geo": [35.6833, 139.7667], "name": "Lyrics Born", "id": "/en/lyrics_born"}
+{"geo": [33.5206, -86.8025], "name": "Gucci Mane", "id": "/en/gucci_mane"}
+{"geo": [40.65, -73.95], "name": "Killah Priest", "id": "/en/killah_priest"}
+{"geo": [40.65, -73.95], "name": "Papoose", "id": "/en/papoose"}
+{"geo": [51.517124, -0.106196], "name": "Monie Love", "id": "/en/monie_love"}
+{"geo": [52.1358061173, -7.91702270508], "name": "Slug", "id": "/en/slug_1972"}
+{"geo": [33.7489, -84.3881], "name": "Big Gipp", "id": "/en/big_gipp"}
+{"geo": [null, null], "name": "Sage Francis", "id": "/en/sage_francis"}
+{"geo": [25.9403, -80.2458], "name": "Flo Rida", "id": "/en/flo_rida"}
+{"geo": [34.0522, -118.2428], "name": "MURS", "id": "/en/murs"}
+{"geo": [40.65, -73.95], "name": "Shyheim Franklin", "id": "/en/shyheim_franklin"}
+{"geo": [43.6614, -70.2558], "name": "Sole", "id": "/m/01w7nvl"}
+{"geo": [40.8, -73.3], "name": "Aesop Rock", "id": "/en/aesop_rock"}
+{"geo": [33.9547, -118.2111], "name": "B-Real", "id": "/en/b-real"}
+{"geo": [40.65, -73.95], "name": "Ill Bill", "id": "/en/ill_bill"}
+{"geo": [33.9270076923, 35.6951136752], "name": "K-Maro", "id": "/en/k-maro"}
+{"geo": [40.65, -73.95], "name": "Necro", "id": "/en/necro"}
+{"geo": [43.6480555556, -79.4041666667], "name": "K-os", "id": "/en/k_os"}
+{"geo": [41.85, -87.65], "name": "Common", "id": "/en/common"}
+{"geo": [46.5166666667, 6.63333333333], "name": "Carlos Leal", "id": "/en/carlos_leal"}
+{"geo": [39.9522, -75.1642], "name": "The Last Emperor", "id": "/en/last_emperor"}
+{"geo": [-12.0433, -77.0283], "name": "Immortal Technique", "id": "/en/immortal_technique"}
+{"geo": [40.65, -73.95], "name": "Masta Ace", "id": "/en/masta_ace"}
+{"geo": [18.1314940972, -77.2735576389], "name": "Canibus", "id": "/en/canibus"}
+{"geo": [48.8333, 9.0667], "name": "Thomas D", "id": "/en/thomas_d"}
+{"geo": [27.9472, -82.4586], "name": "KJ-52", "id": "/en/kj-52"}
+{"geo": [43.87, 21.41], "name": "Mar\u010delo", "id": "/en/mar_elo"}
+{"geo": [48.8742, 2.346954], "name": "Sinik", "id": "/en/sinik"}
+{"geo": [null, null], "name": "Jacki-O", "id": "/en/jacki-o"}
+{"geo": [29.8986, -93.9286], "name": "Bun B", "id": "/en/bun_b"}
+{"geo": [14.5530132899, 121.019897461], "name": "Carlos Agassi", "id": "/en/carlos_agassi"}
+{"geo": [29.8986, -93.9286], "name": "Pimp C", "id": "/en/pimp_c"}
+{"geo": [32.05071, -81.103762], "name": "Carlos Galvan", "id": "/en/carlos_galvan"}
+{"geo": [40.7142, -74.0064], "name": "Big L", "id": "/en/big_l"}
+{"geo": [50.9718325091, 11.0244369507], "name": "Clueso", "id": "/en/clueso"}
+{"geo": [39.0997, -94.5783], "name": "Tech N9ne", "id": "/en/tech_n9ne"}
+{"geo": [38.5817, -121.4933], "name": "Chief Xcel", "id": "/en/chief_xcel"}
+{"geo": [33.7669, -118.1883], "name": "Warren G", "id": "/en/warren_g"}
+{"geo": [40.65, -73.95], "name": "RZA", "id": "/en/rza"}
+{"geo": [37.775, -122.4183], "name": "MC Frontalot", "id": "/en/mc_frontalot"}
+{"geo": [39.9606, -75.6058], "name": "Matisyahu", "id": "/en/matisyahu"}
+{"geo": [40.4, -3.6833], "name": "Aflie", "id": "/en/aflie"}
+{"geo": [26.6403, -81.8725], "name": "Plies", "id": "/en/plies"}
+{"geo": [45.070929, 7.685838], "name": "Frankie Hi-NRG MC", "id": "/en/frankie_hi-nrg_mc"}
+{"geo": [40.65, -73.95], "name": "Rampage", "id": "/en/rampage"}
+{"geo": [33.9617, -118.3522], "name": "Will.i.am", "id": "/en/will_i_am"}
+{"geo": [40.7142, -74.0064], "name": "Fatman Scoop", "id": "/en/fatman_scoop"}
+{"geo": [33.7669, -118.1883], "name": "Daz Dillinger", "id": "/en/daz_dillinger"}
+{"geo": [40.8090333333, -73.9483722222], "name": "Darryl McDaniels", "id": "/en/darryl_mcdaniels"}
+{"geo": [43.0389, -87.9064], "name": "Speech", "id": "/en/speech_1968"}
+{"geo": [42.3314, -83.0458], "name": "Trick-Trick", "id": "/en/trick-trick"}
+{"geo": [41.85, -87.65], "name": "Da Brat", "id": "/en/da_brat"}
+{"geo": [40.8090333333, -73.9483722222], "name": "Charles Wingate", "id": "/en/max_b"}
+{"geo": [40.8090333333, -73.9483722222], "name": "Jim Jones", "id": "/m/03f2xf1"}
+{"geo": [40.85, -73.8667], "name": "Remy Ma", "id": "/en/remy_ma"}
+{"geo": [34.0522, -118.2428], "name": "Fatlip", "id": "/en/fatlip"}
+{"geo": [41.85, -87.65], "name": "Twista", "id": "/en/twista"}
+{"geo": [34.0522, -118.2428], "name": "Greydon Square", "id": "/en/greydon_square"}
+{"geo": [5.55, -0.216666666667], "name": "Nana", "id": "/m/03f1rx9"}
+{"geo": [18.4516666667, -66.0688888889], "name": "Daddy Yankee", "id": "/en/daddy_yankee"}
+{"geo": [50.7, -86.05], "name": "Aubrey Graham", "id": "/en/aubrey_graham"}
+{"geo": [40.7142, -74.0064], "name": "Raekwon", "id": "/en/raekwon"}
+{"geo": [39.9611, -82.9989], "name": "Bow Wow", "id": "/en/bow_wow"}
+{"geo": [42.3314, -83.0458], "name": "Skillz", "id": "/en/skillz"}
+{"geo": [52.2900026062, 8.92158508301], "name": "Curse", "id": "/en/curse_1978"}
+{"geo": [40.7142, -74.0064], "name": "Sean Combs", "id": "/en/sean_combs"}
+{"geo": [33.7489, -84.3881], "name": "Derek Watkins", "id": "/en/fonzworth_bentley"}
+{"geo": [37.2491666667, -77.3325], "name": "Dee Dee Ramone", "id": "/en/dee_dee_ramone"}
+{"geo": [null, null], "name": "The Alchemist", "id": "/en/the_alchemist"}
+{"geo": [33.7489, -84.3881], "name": "Kanye West", "id": "/en/kanye_west"}
+{"geo": [38.89, -77.03], "name": "20Bello", "id": "/en/20bello"}
+{"geo": [39.9611, -82.9989], "name": "Bizzy Bone", "id": "/en/bizzy_bone"}
+{"geo": [40.8090333333, -73.9483722222], "name": "Cam'ron", "id": "/m/03f17nl"}
+{"geo": [40.8090333333, -73.9483722222], "name": "40 Cal.", "id": "/en/40_cal"}
+{"geo": [36.8313, -76.3456], "name": "Jayo Felony", "id": "/en/jayo_felony"}
+{"geo": [null, null], "name": "Pitbull", "id": "/en/pitbull"}
+{"geo": [41.6, -72.7], "name": "Apathy", "id": "/en/apathy_1979"}
+{"geo": [29.7631, -95.3631], "name": "Webbie", "id": "/en/webbie_1985"}
+{"geo": [41.85, -87.65], "name": "Rhymefest", "id": "/en/rhymefest"}
+{"geo": [51.517124, -0.106196], "name": "Slick Rick", "id": "/en/slick_rick"}
+{"geo": [40.8090333333, -73.9483722222], "name": "Biz Markie", "id": "/en/biz_markie"}
+{"geo": [34.0006, -81.035], "name": "Young Jeezy", "id": "/en/young_jeezy"}
+{"geo": [37.8044, -122.2697], "name": "Michael Franti", "id": "/en/michael_franti"}
+{"geo": [43.6480555556, -79.4041666667], "name": "Peaches", "id": "/en/peaches"}
+{"geo": [33.9172, -118.0111], "name": "YTCracker", "id": "/en/ytcracker"}
+{"geo": [-11.015, -37.2058333333], "name": "Marcelo D2", "id": "/en/marcelo_d2"}
+{"geo": [37.5833333333, 127.0], "name": "Rain", "id": "/en/rain_1982"}
+{"geo": [35.2269, -80.8433], "name": "Ron Killings", "id": "/en/ron_killings"}
+{"geo": [40.7255555556, -74.2319444444], "name": "Yaki Kadafi", "id": "/en/yaki_kadafi"}
+{"geo": [34.0522, -118.2428], "name": "Tone-L\u014dc", "id": "/en/tone_loc"}
+{"geo": [40.65, -73.95], "name": "MC Lyte", "id": "/en/mc_lyte"}
+{"geo": [34.03389, -118.20444], "name": "Taboo", "id": "/en/taboo_1975"}
+{"geo": [38.63, -90.2], "name": "Ali", "id": "/en/ali_1972"}
+{"geo": [32.7153, -117.1564], "name": "Sonny Sandoval", "id": "/en/sonny_sandoval"}
+{"geo": [33.8958, -118.2192], "name": "Eazy-E", "id": "/en/eazy-e"}
+{"geo": [51.75, 19.4667], "name": "O.S.T.R.", "id": "/en/ostr"}
+{"geo": [29.7631, -95.3631], "name": "The D.O.C.", "id": "/en/the_doc"}
+{"geo": [51.517124, -0.106196], "name": "Soweto Kinch", "id": "/en/soweto_kinch"}
+{"geo": [40.7142, -74.0064], "name": "Jeru the Damaja", "id": "/en/jeru_the_damaja"}
+{"geo": [40.7356, -74.1728], "name": "Queen Latifah", "id": "/en/queen_latifah"}
+{"geo": [40.7142, -74.0064], "name": "Tupac Shakur", "id": "/en/tupac_shakur"}
+{"geo": [35.1494, -90.0489], "name": "Yo Gotti", "id": "/en/yo_gotti"}
+{"geo": [37.8044, -122.2697], "name": "MC Hammer", "id": "/en/mc_hammer"}
+{"geo": [32.0833, 34.8], "name": "Subliminal", "id": "/en/subliminal"}
+{"geo": [33.7489, -84.3881], "name": "Canton Jones", "id": "/en/canton_jones"}
+{"geo": [51.5323, 0.0554], "name": "Kano", "id": "/en/kano_1985"}
+{"geo": [41.85, -87.65], "name": "Chali 2na", "id": "/en/chali_2na"}
+{"geo": [40.7142, -74.0064], "name": "Imani Coppola", "id": "/en/imani_coppola"}
+{"geo": [39.9522, -75.1642], "name": "Khia", "id": "/en/khia"}
+{"geo": [-26.3366666667, 28.1466666667], "name": "Rashid Kay", "id": "/en/rashid_thokozas_finest_member"}
+{"geo": [40.85, -73.8667], "name": "Drag-On", "id": "/en/drag_on"}
+{"geo": [29.7631, -95.3631], "name": "Paul Wall", "id": "/en/paul_wall"}
+{"geo": [39.9077777778, -75.2891666667], "name": "Kurupt", "id": "/en/kurupt"}
+{"geo": [34.0522, -118.2428], "name": "MC Ren", "id": "/en/mc_ren"}
+{"geo": [33.8958, -118.2192], "name": "Antoine Carraby", "id": "/en/dj_yella"}
+{"geo": [40.7142, -74.0064], "name": "Michael Diamond", "id": "/en/michael_diamond"}
+{"geo": [-34.6036, -58.3817], "name": "Alex Romano", "id": "/en/alex_romano"}
+{"geo": [33.8958, -118.2192], "name": "Arabian Prince", "id": "/en/arabian_prince"}
+{"geo": [32.9125, -96.6386], "name": "Mitchel Musso", "id": "/en/mitchel_musso"}
+{"geo": [49.250494, -123.111934], "name": "Shane Bunting", "id": "/en/shane_bunting"}
+{"geo": [40.65, -73.95], "name": "Cheryl James", "id": "/en/cheryl_james"}
+{"geo": [45.42144, -75.69189], "name": "Josh Dolgin", "id": "/en/josh_dolgin"}
+{"geo": [42.2972, -71.0744], "name": "Mark Wahlberg", "id": "/en/mark_wahlberg"}
+{"geo": [40.7142, -74.0064], "name": "Everlast", "id": "/en/everlast"}
+{"geo": [32.9911, -117.2703], "name": "Lil Rob", "id": "/en/lil_rob"}
+{"geo": [40.85, -73.8667], "name": "Diamond D", "id": "/en/diamond_d"}
+{"geo": [51.556, -0.3042], "name": "Lady Sovereign", "id": "/en/lady_sovereign"}
+{"geo": [29.9728, -90.059], "name": "Lil Wayne", "id": "/en/lil_wayne"}
+{"geo": [42.3583, -71.0603], "name": "Guru", "id": "/en/guru_1966"}
+{"geo": [34.0522, -118.2428], "name": "Too $hort", "id": "/en/too_hort"}
+{"geo": [42.3314, -83.0458], "name": "Feloni", "id": "/en/feloni"}
+{"geo": [51.517124, -0.106196], "name": "Dizzee Rascal", "id": "/en/dizzee_rascal"}
+{"geo": [40.65, -73.95], "name": "Shock G", "id": "/en/shock_g"}
+{"geo": [43.89, -78.86], "name": "Phil Groeneveld", "id": "/en/phil_groeneveld"}
+{"geo": [13.9201940982, 101.016765829], "name": "Joey Boy", "id": "/en/joey_boy"}
+{"geo": [51.81, 4.67], "name": "Cilvaringz", "id": "/en/cilvaringz"}
+{"geo": [51.587131, -0.12195], "name": "Sway", "id": "/en/sway_dasafo"}
+{"geo": [59.33, 18.07], "name": "Neneh Cherry", "id": "/en/neneh_cherry"}
+{"geo": [33.0392, -85.0314], "name": "Bubba Sparxxx", "id": "/en/bubba_sparxxx"}
+{"geo": [32.2986, -90.1847], "name": "David Banner", "id": "/en/david_banner"}
+{"geo": [34.0522, -118.2428], "name": "David Faustino", "id": "/en/david_faustino"}
+{"geo": [40.8, -73.3], "name": "Rakim", "id": "/en/rakim"}
+{"geo": [42.3314, -83.0458], "name": "Proof", "id": "/en/proof_1975"}
+{"geo": [42.2625, -71.8028], "name": "Crisis", "id": "/en/crisis_1991"}
+{"geo": [41.85, -87.65], "name": "Lupe Fiasco", "id": "/en/lupe_fiasco"}
+{"geo": [39.7392, -104.9842], "name": "A-Plus", "id": "/en/a_plus"}
+{"geo": [36.7478, -119.7714], "name": "Planet Asia", "id": "/en/planet_asia"}
+{"geo": [-33.9766666667, 18.4244444444], "name": "Jean Grae", "id": "/en/jean_grae"}
+{"geo": [59.6666666667, 16.5833333333], "name": "Sebastian Fronda", "id": "/en/sebastian_fronda"}
+{"geo": [40.4230003233, -98.7372244786], "name": "Deezer D", "id": "/en/deezer_d"}
+{"geo": [40.65, -73.95], "name": "Fabolous", "id": "/en/fabolous"}
+{"geo": [34.0522, -118.2428], "name": "Busdriver", "id": "/en/busdriver"}
+{"geo": [52.4081, -1.5106], "name": "Panjabi MC", "id": "/en/panjabi_mc"}
+{"geo": [39.9522, -75.1642], "name": "DJ Drama", "id": "/en/dj_drama"}
+{"geo": [41.2, 16.6], "name": "Caparezza", "id": "/en/caparezza"}
+{"geo": [40.5822, -74.1409], "name": "Ghostface Killah", "id": "/en/ghostface_killah"}
+{"geo": [34.2482, -90.5742], "name": "Rick Ross", "id": "/en/rick_ross_1977"}
+{"geo": [38.89, -77.03], "name": "Rob Sonic", "id": "/en/rob_sonic"}
+{"geo": [42.3314, -83.0458], "name": "Royce da 5'9\"", "id": "/en/royce_da_59"}
+{"geo": [40.85, -73.8667], "name": "P-Star", "id": "/en/p_star"}
+{"geo": [29.7631, -95.3631], "name": "Trae", "id": "/en/trae"}
+{"geo": [33.9547, -118.2111], "name": "Mellow Man Ace", "id": "/en/mellow_man_ace"}
+{"geo": [40.7356, -74.1728], "name": "Rah Digga", "id": "/en/rah_digga"}
+{"geo": [53.456, -2.24], "name": "MC Tunes", "id": "/en/mc_tunes"}
+{"geo": [6.8, -58.1667], "name": "Red Caf\u00e9", "id": "/en/red_cafe"}
+{"geo": [36.7478, -119.7714], "name": "Kevin Federline", "id": "/en/kevin_federline"}
+{"geo": [-6.91666666667, 107.6], "name": "Iwa K", "id": "/en/iwa_k"}
+{"geo": [44.820556, 20.462222], "name": "\u0160kabo", "id": "/en/skabo"}
+{"geo": [41.5033, -74.0108], "name": "Saul Williams", "id": "/en/saul_williams"}
+{"geo": [40.65, -73.95], "name": "General Steele", "id": "/en/steele"}
+{"geo": [46.4333, 14.05], "name": "Jure Ko\u0161ir", "id": "/en/jure_kosir"}
+{"geo": [40.7143, -73.8204], "name": "Marley Marl", "id": "/en/marley_marl"}
+{"geo": [39.9522, -75.1642], "name": "Beanie Sigel", "id": "/en/beanie_sigel"}
+{"geo": [33.7669, -118.1883], "name": "Zack de la Rocha", "id": "/en/zack_de_la_rocha"}
+{"geo": [51.0, 9.0], "name": "Timo Rose", "id": "/en/timo_rose"}
+{"geo": [14.6961911833, -17.444229126], "name": "MC Solaar", "id": "/en/mc_solaar"}
+{"geo": [29.9728, -90.059], "name": "Master P", "id": "/en/master_p"}
+{"geo": [34.0975, -117.6475], "name": "Litefoot", "id": "/en/litefoot"}
+{"geo": [38.8526, -77.3044], "name": "tobyMac", "id": "/en/toby_mckeehan"}
+{"geo": [-0.42517, 36.751730303], "name": "Ken", "id": "/m/01vz7xj"}
+{"geo": [43.0389, -87.9064], "name": "Coo Coo Cal", "id": "/en/coo_coo_cal"}
+{"geo": [36.8345, -76.0872], "name": "Pharrell Williams", "id": "/en/pharrell"}
+{"geo": [40.7142, -74.0064], "name": "Whoopi Goldberg", "id": "/en/whoopi_goldberg"}
+{"geo": [34.0522, -118.2428], "name": "Curtis Williams", "id": "/en/curtis_williams"}
+{"geo": [37.8044, -122.2697], "name": "Lateef Daumont", "id": "/en/lateef"}
+{"geo": [35.6833, 139.7667], "name": "SHING02", "id": "/en/shing02"}
+{"geo": [32.9604601566, -83.1131966831], "name": "Don Chezina", "id": "/en/don_chezina"}
+{"geo": [40.7142, -74.0064], "name": "Juelz Santana", "id": "/en/juelz_santana"}
+{"geo": [43.7737, -79.2446], "name": "Kardinal Offishall", "id": "/en/kardinal_offishall"}
+{"geo": [41.4994444, -81.6955556], "name": "QP", "id": "/m/047ntsm"}
+{"geo": [44.820556, 20.462222], "name": "Sin", "id": "/m/047l93t"}
+{"geo": [29.9728, -90.059], "name": "Lil' Wil", "id": "/en/lil_wil"}
+{"geo": [33.8958, -118.2192], "name": "Tyga", "id": "/en/tyga"}
+{"geo": [51.5298, -0.0288], "name": "Aggi Dukes", "id": "/en/aggi_dukes"}
+{"geo": [40.7142, -74.0064], "name": "Jumz", "id": "/en/jumz"}
+{"geo": [50.116667, 8.683333], "name": "VL Mike", "id": "/en/vl_mike"}
+{"geo": [51.5344416667, 9.93514722222], "name": "D-Bo", "id": "/en/d_bo"}
+{"geo": [45.2833, 18.8], "name": "Shorty", "id": "/en/shorty_1980"}
+{"geo": [37.8044, -122.2697], "name": "J Stalin", "id": "/en/j_stalin"}
+{"geo": [40.6914, -73.8061], "name": "Quran Pender", "id": "/en/quran_pender"}
+{"geo": [40.852, -73.936], "name": "MIMS", "id": "/en/mims_1981"}
+{"geo": [44.8746056925, 18.8147735596], "name": "Edo Maajka", "id": "/en/edo_maajka"}
+{"geo": [29.7631, -95.3631], "name": "Z-Ro", "id": "/en/z-ro"}
+{"geo": [14.5256, -75.8183], "name": "Kery James", "id": "/en/kery_james"}
+{"geo": [37.775, -122.4183], "name": "Andre Nickatina", "id": "/en/andre_nickatina"}
+{"geo": [40.4230003233, -98.7372244786], "name": "Swift", "id": "/en/swift_1976"}
+{"geo": [42.3481810333, -75.1889929444], "name": "J-Live", "id": "/en/j-live"}
+{"geo": [39.1619, -84.4569], "name": "Hi-Tek", "id": "/en/hi-tek"}
+{"geo": [40.7356, -74.1728], "name": "Ice T", "id": "/en/ice_t"}
+{"geo": [40.7142, -74.0064], "name": "Chuck D", "id": "/en/chuck_d"}
+{"geo": [52.523337, 13.412687], "name": "Tony D", "id": "/m/043qlxk"}
+{"geo": [41.85, -87.65], "name": "Infinito 2017", "id": "/en/infinito_2017"}
+{"geo": [29.7631, -95.3631], "name": "O.G. Style", "id": "/en/o_g_style"}
+{"geo": [49.2, 7.6], "name": "Massiv", "id": "/m/03qmk7b"}
+{"geo": [52.523337, 13.412687], "name": "Bass Sultan Hengzt", "id": "/m/03mc6vl"}
+{"geo": [26.6403, -81.8725], "name": "Ivy Box", "id": "/en/ivy_box"}
+{"geo": [39.9258, -75.12], "name": "Scratch", "id": "/m/026m321"}
+{"geo": [48.8361, 2.2422], "name": "Keny Arkana", "id": "/en/keny_arkana"}
+{"geo": [44.820556, 20.462222], "name": "Ajs Nigrutin", "id": "/en/ajs_nigrutin"}
+{"geo": [40.7697, -73.9735], "name": "Jae Millz", "id": "/en/jae_millz"}
+{"geo": [40.85, -73.8667], "name": "Grap Luva", "id": "/en/grap_luva"}
+{"geo": [28.805, -97.0033], "name": "Cowboy Troy", "id": "/en/cowboy_troy"}
+{"geo": [42.3583, -71.0603], "name": "Shar Jackson", "id": "/en/shar_jackson"}
+{"geo": [50.93393, -1.396087], "name": "Craig David", "id": "/en/craig_david"}
+{"geo": [52.966, -1.173], "name": "Ian Campbell", "id": "/en/ian_campbell"}
+{"geo": [27.8769, -97.3236], "name": "Tasha Reid", "id": "/en/tasha_reid"}
+{"geo": [40.7143, -73.8204], "name": "DJ Clue", "id": "/en/dj_clue"}
+{"geo": [33.5844, -92.8342], "name": "Ne-Yo", "id": "/en/ne-yo"}
+{"geo": [34.0522, -118.2428], "name": "J-Boog", "id": "/en/j-boog"}
+{"geo": [30.4381, -84.2808], "name": "T-Pain", "id": "/en/t-pain"}
+{"geo": [52.5833, -0.25], "name": "Trevor McNevan", "id": "/en/trevor_mcnevan"}
+{"geo": [40.7142, -74.0064], "name": "Armel", "id": "/m/03yf6yl"}
+{"geo": [27.8003, -97.3961], "name": "Roland Gutierrez", "id": "/en/roland_gutierrez"}
+{"geo": [44.5402777778, 18.6652777778], "name": "Jasmin Dervisevic", "id": "/en/jasmin_dervisevic"}
+{"geo": [48.133333, 11.566667], "name": "Lou Bega", "id": "/en/lou_bega"}
+{"geo": [35.1494, -90.0489], "name": "Drumma Boy", "id": "/en/drumma_boy"}
+{"geo": [44.75, 19.2167], "name": "Adnan Hamidovi\u0107", "id": "/en/frenkie"}
+{"geo": [33.4295, -82.0284], "name": "Boondox", "id": "/en/boondox"}
+{"geo": [43.8, -79.417], "name": "Stu Stone", "id": "/en/stu_stone"}
+{"geo": [32.7253, -97.3206], "name": "Kirk Franklin", "id": "/en/kirk_franklin"}
+{"geo": [31.2436, -90.4531], "name": "Ray J", "id": "/en/ray_j"}
+{"geo": [40.7142, -74.0064], "name": "Joe Budden", "id": "/en/joe_budden"}
+{"geo": [39.2403, -76.8397], "name": "Asheru", "id": "/en/asheru"}
+{"geo": [33.9792, -118.0319], "name": "Fergie", "id": "/en/fergie"}
+{"geo": [9.3333, -79.9], "name": "Fito Blanko", "id": "/en/fito_blanko"}
+{"geo": [32.4314, -80.67], "name": "C. Renegade", "id": "/en/c_renegade"}
+{"geo": [40.65, -73.95], "name": "BB Jay", "id": "/en/bb_jay"}
+{"geo": [null, null], "name": "Sean Kingston", "id": "/en/sean_kingston"}
+{"geo": [34.9392, -79.7742], "name": "The-Dream", "id": "/m/02wwwv5"}
+{"geo": [40.65, -73.95], "name": "Daddy-O", "id": "/en/daddy_o"}
+{"geo": [31.7333333333, -106.475], "name": "Johnny \"J\"", "id": "/en/johnny_j"}
+{"geo": [43.6480555556, -79.4041666667], "name": "Miles Jones", "id": "/m/04q6qgz"}
+{"geo": [52.37, 4.89], "name": "Ray Slijngaard", "id": "/en/ray_slijngaard"}
+{"geo": [29.7631, -95.3631], "name": "Fat Tony", "id": "/m/04ycf8j"}
+{"geo": [29.7631, -95.3631], "name": "B L A C K I E", "id": "/en/b_l_a_c_k_i_e"}
+{"geo": [9.49689478458, 36.8960623583], "name": "Angel Melaku", "id": "/en/angel_melaku"}
+{"geo": [40.7142, -74.0064], "name": "Rondell Turner", "id": "/en/rondell_turner"}
+{"geo": [37.775, -122.4183], "name": "Sammy Totah", "id": "/en/sammy_totah"}
+{"geo": [52.97, -1.18], "name": "Andy Cole", "id": "/en/andy_cole"}
+{"geo": [37.9253, -76.8594], "name": "Chris Brown", "id": "/en/chris_brown"}
+{"geo": [29.9728, -90.059], "name": "Fiend", "id": "/en/fiend"}
+{"geo": [32.0833, 34.8], "name": "50 Shekel", "id": "/en/50_shekel"}
+{"geo": [34.0305555556, -118.778611111], "name": "Shwayze", "id": "/en/shwayze"}
+{"geo": [38.0281, -121.8836], "name": "Dante Basco", "id": "/en/dante_basco"}
+{"geo": [33.8833333333, 35.5], "name": "Baba Saad", "id": "/en/baba_saad"}
+{"geo": [29.9728, -90.059], "name": "Lloyd", "id": "/en/lloyd"}
+{"geo": [38.63, -90.2], "name": "Domino", "id": "/m/03npsc_"}
+{"geo": [43.6480555556, -79.4041666667], "name": "JDiggz", "id": "/en/jdiggz"}
+{"geo": [40.7142, -74.0064], "name": "V.I.C.", "id": "/en/v_i_c"}
+{"geo": [29.4239, -98.4933], "name": "Choice", "id": "/m/0415ns1"}
+{"geo": [57.0333, 9.9167], "name": "Niarn", "id": "/m/047rxpr"}
+{"geo": [40.85, -73.8667], "name": "Nu Jerzey Devil", "id": "/m/04gg7bx"}
+{"geo": [40.2114, -74.7883], "name": "Asher Roth", "id": "/en/asher_roth"}
+{"geo": [42.3481810333, -75.1889929444], "name": "Antoinette", "id": "/m/04n2b2t"}
+{"geo": [41.4994444, -81.6955556], "name": "Charles Hamilton", "id": "/m/051y6j7"}
+{"geo": [46.3775, -120.3075], "name": "Abraham Quintanilla III", "id": "/en/abraham_quintanilla_iii"}
+{"geo": [38.89, -77.03], "name": "Yannique Barker", "id": "/en/yannique_barker"}
+{"geo": [40.65, -73.95], "name": "Danny Boy", "id": "/m/08b38r"}
+{"geo": [40.65, -73.95], "name": "Big Daddy Kane", "id": "/en/big_daddy_kane"}
+{"geo": [42.3314, -83.0458], "name": "Brandon T. Jackson", "id": "/en/brandon_t_jackson"}
+{"geo": [34.0194, -118.4903], "name": "Big Sean", "id": "/en/big_sean"}
+{"geo": [41.4739, -81.5372], "name": "Kid Cudi", "id": "/en/kid_cudi"}
+{"geo": [41.0814, -81.5192], "name": "Chino Nino", "id": "/en/chino_nino"}
+{"geo": [37.775, -122.4183], "name": "Simon Rex", "id": "/en/simon_rex"}
+{"geo": [33.8833333333, 35.5], "name": "Massari", "id": "/en/massari"}
+{"geo": [51.1092, -0.1872], "name": "Akala", "id": "/en/akala"}
+{"geo": [40.7281, -74.0781], "name": "Apache", "id": "/m/03ynq_r"}
+{"geo": [40.65, -73.95], "name": "Epic Mazur", "id": "/en/epic_mazur"}
+{"geo": [33.7489, -84.3881], "name": "Ryan Leslie", "id": "/en/ryan_leslie"}
+{"geo": [13.2167, -59.6167], "name": "Shontelle", "id": "/en/shontelle"}
+{"geo": [53.1142456495, -2.57711368423], "name": "Nadia Oh", "id": "/en/nadia_oh"}
+{"geo": [40.85, -73.8667], "name": "Funkmaster Flex", "id": "/en/funkmaster_flex"}
+{"geo": [38.89, -77.03], "name": "Stacks", "id": "/m/0g9s2z"}
+{"geo": [51.517124, -0.106196], "name": "Tinchy Stryder", "id": "/en/tinchy_stryder"}
+{"geo": [40.73497, -73.86497], "name": "Johnny Blanco", "id": "/en/johnny_blanco"}
+{"geo": [29.2811111111, -94.8258333333], "name": "40 Glocc", "id": "/en/40_glocc"}
+{"geo": [53.5686111111, 10.0386111111], "name": "Samy Deluxe", "id": "/en/samy_deluxe"}
+{"geo": [40.4406, -79.9961], "name": "Bud'da", "id": "/en/budda"}
+{"geo": [43.6480555556, -79.4041666667], "name": "Chuggo", "id": "/en/chuggo"}
+{"geo": [40.7142, -74.0064], "name": "Arcangel", "id": "/m/043s9v8"}
+{"geo": [null, null], "name": "Bobby Ray", "id": "/m/047ts85"}
+{"geo": [37.5833333333, 127.0], "name": "T.O.P", "id": "/m/04cy5lg"}
+{"geo": [33.3667, 126.5333], "name": "G-Dragon", "id": "/en/g_dragon"}
+{"geo": [37.5833333333, 127.0], "name": "Hwangbo", "id": "/en/hwangbo"}
+{"geo": [53.327484225, 27.4014421125], "name": "FlyEr", "id": "/m/04n0c_8"}
+{"geo": [39.9611, -82.9989], "name": "MC Funky J", "id": "/en/mc_funky_j"}
+{"geo": [7.44899884259, -0.905563657408], "name": "Abrewa Nana", "id": "/en/abrewa_nana"}
+{"geo": [40.7142, -74.0064], "name": "Christopher Wallace, Jr.", "id": "/en/christopher_wallace_jr"}
+{"geo": [51.517124, -0.106196], "name": "Ben Mount", "id": "/en/ben_mount"}
+{"geo": [50.8725, 20.6319], "name": "Funky Polak", "id": "/en/funky_polak"}
+{"geo": [33.8958, -118.2192], "name": "D Kamlo", "id": "/en/d_kamlo"}
+{"geo": [50.116667, 8.683333], "name": "J.Cole", "id": "/en/j_cole"}
+{"geo": [34.1511173, -118.4492482], "name": "Fannius III", "id": "/en/fan_3"}
+{"geo": [52.091, 5.122], "name": "Nicolay", "id": "/en/nicolay"}
+{"geo": [6.45, 3.38333333333], "name": "Rex", "id": "/m/04y92tz"}
+{"geo": [52.523337, 13.412687], "name": "Kitty Kat", "id": "/m/0641sv9"}
+{"geo": [39.7683, -86.1581], "name": "Chief Stockton", "id": "/en/chief_stockton"}
+{"geo": [44.98, -93.2636], "name": "Brother Ali", "id": "/en/brother_ali"}
+{"geo": [40.7142, -74.0064], "name": "Maino", "id": "/en/maino"}
+{"geo": [37.75, 14.4], "name": "Marracash", "id": "/en/marracash"}
+{"geo": [39.7392, -104.9842], "name": "Jamie Laurie", "id": "/en/jamie_laurie"}
+{"geo": [36.1539, -95.9925], "name": "Jellyroll", "id": "/en/jellyroll"}
+{"geo": [14.7805680851, -87.4383765957], "name": "Lenny Martinez", "id": "/en/lenny_martinez"}
+{"geo": [29.7631, -95.3631], "name": "Gemini", "id": "/m/03cy6w8"}
+{"geo": [51.517124, -0.106196], "name": "Durrty Goodz", "id": "/m/03qfnr1"}
+{"geo": [33.7489, -84.3881], "name": "OJ da Juiceman", "id": "/en/oj_da_juiceman"}
+{"geo": [52.523337, 13.412687], "name": "D-Irie", "id": "/en/d_irie"}
+{"geo": [51.5333, -0.0833], "name": "Tre Sosa", "id": "/en/tre_sosa"}
+{"geo": [41.85, -87.65], "name": "R. Kelly", "id": "/en/r_kelly"}
+{"geo": [43.6867450175, -85.0101500936], "name": "Fredwreck", "id": "/en/fredwreck"}
+{"geo": [40.9167, -74.1722], "name": "Justin Smith", "id": "/en/just_blaze"}
+{"geo": [54.9833333333, -1.58333333333], "name": "Jason Porter", "id": "/en/jason_porter"}
+{"geo": [53.1926, -2.8912], "name": "Shortyo", "id": "/en/shortyo"}
+{"geo": [40.7143, -73.8204], "name": "Irving Lorenzo", "id": "/en/irving_lorenzo"}
+{"geo": [40.8, -73.3], "name": "Rick Rubin", "id": "/en/rick_rubin"}
+{"geo": [40.4406, -79.9961], "name": "Mel-Man", "id": "/en/mel-man"}
+{"geo": [43.1547, -77.6158], "name": "DJ Green Lantern", "id": "/en/dj_green_lantern"}
+{"geo": [-1.28333333333, 36.8166666667], "name": "Jua Cali", "id": "/en/jua_cali"}
+{"geo": [35.5666666667, -5.36666666667], "name": "RedOne", "id": "/m/0415mzy"}
+{"geo": [34.0522, -118.2428], "name": "Joel William Gonzales", "id": "/m/07ww6zs"}
+{"geo": [38.63, -90.2], "name": "Joe Torry", "id": "/en/joe_torry"}
+{"geo": [48.2325, -101.2958], "name": "Wiz Khalifa", "id": "/en/wiz_khalifa"}
+{"geo": [-40.355, 175.6117], "name": "PNC", "id": "/en/pnc"}
+{"geo": [-29.8191423168, 25.3498974783], "name": "Jonathan Rotem", "id": "/en/jonathan_rotem"}
+{"geo": [43.0389, -87.9064], "name": "Lamont Bentley", "id": "/en/lamont_bentley"}
+{"geo": [38.89, -77.03], "name": "DJ Kool", "id": "/en/dj_kool"}
+{"geo": [39.9522, -75.1642], "name": "Santi White", "id": "/en/santi_white"}
+{"geo": [-22.9083, -43.2436], "name": "MV Bill", "id": "/m/02vrj67"}
+{"geo": [51.4668, -0.3507], "name": "Jay Sean", "id": "/en/jay_sean"}
+{"geo": [50.73, 7.1], "name": "MC Zwieback", "id": "/en/mc_zwieback"}
+{"geo": [34.0686, -117.9381], "name": "Natalie Mejia", "id": "/en/natalie_mejia"}
+{"geo": [18.1314940972, -77.2735576389], "name": "Heavy D", "id": "/en/heavy_d_the_boyz"}
+{"geo": [40.9311, -73.8992], "name": "Sheek Louch", "id": "/en/sheek_louch"}
+{"geo": [41.85, -87.65], "name": "Gil Scott-Heron", "id": "/en/gil_scott-heron"}
+{"geo": [50.33528, 8.755], "name": "Kollegah", "id": "/en/kollegah"}
+{"geo": [33.7489, -84.3881], "name": "Big Kuntry King", "id": "/m/07sbrxs"}
+{"geo": [40.65, -73.95], "name": "Eric Singleton", "id": "/m/09gbn0d"}
+{"geo": [42.3314, -83.0458], "name": "Illa J", "id": "/en/illa_j"}
+{"geo": [18.4408333333, -66.0472222222], "name": "Voltio", "id": "/en/voltio"}
+{"geo": [40.7143, -73.8204], "name": "DJ Envy", "id": "/en/dj_envy"}
+{"geo": [40.65, -73.95], "name": "Cheka", "id": "/m/02r6smx"}
+{"geo": [51.9, -0.4333], "name": "RKZ", "id": "/en/rkz"}
+{"geo": [42.3481810333, -75.1889929444], "name": "Morgan Jackson", "id": "/en/morgan_jackson"}
+{"geo": [35.683333, 51.416667], "name": "Yas", "id": "/m/05c4g38"}
+{"geo": [41.2875, 36.3347222222], "name": "Sagopa kajmer", "id": "/m/05zvb2_"}
+{"geo": [51.517124, -0.106196], "name": "Dappy", "id": "/en/dappy"}
+{"geo": [52.523337, 13.412687], "name": "Frauenarzt", "id": "/m/07kc55r"}
+{"geo": [36.4692974125, 127.624277169], "name": "Tiger JK", "id": "/en/tiger_jk"}
+{"geo": [34.0252777778, -6.83611111111], "name": "French Montana", "id": "/en/french_montana"}
+{"geo": [37.5833333333, 127.0], "name": "Boom", "id": "/m/080hl9c"}
+{"geo": [52.523337, 13.412687], "name": "Manny Marc", "id": "/en/manny_marc"}
+{"geo": [45.464044, 9.191567], "name": "J Ax", "id": "/m/080mk44"}
+{"geo": [36.4692974125, 127.624277169], "name": "Hyuna", "id": "/en/hyuna"}
+{"geo": [37.6333, 127.8167], "name": "Eun Hyuk", "id": "/en/eun_hyuk"}
+{"geo": [32.6729048697, 51.6666412354], "name": "Erfan", "id": "/en/erfan"}
+{"geo": [34.0522, -118.2428], "name": "Nipsey hussle", "id": "/m/05nztsk"}
+{"geo": [34.0522, -118.2428], "name": "Marques Houston", "id": "/en/marques_houston"}
+{"geo": [34.7667, 126.35], "name": "Lee Dong Hae", "id": "/en/lee_dong_hae"}
+{"geo": [37.5833333333, 127.0], "name": "U;Nee", "id": "/en/u_nee"}
+{"geo": [29.9728, -90.059], "name": "J.Reu", "id": "/en/j_reu"}
+{"geo": [null, null], "name": "Trapp Mendoza", "id": "/en/trapp_mendoza"}
+{"geo": [34.0522, -118.2428], "name": "Brian Joo", "id": "/en/brian_joo"}
+{"geo": [29.9728, -90.059], "name": "Deezle", "id": "/en/deezle"}
+{"geo": [40.8, -73.3], "name": "88-keys", "id": "/m/04jk9ln"}
+{"geo": [31.7619, -95.6306], "name": "Donte J", "id": "/en/donte_j"}
+{"geo": [42.3481810333, -75.1889929444], "name": "Mayteana Morales", "id": "/en/mayteana_morales"}
+{"geo": [32.782778, -96.803889], "name": "Dorrough", "id": "/en/dorrough"}
+{"geo": [35.1508333333, 129.056666667], "name": "Sandara Park", "id": "/en/sandara_park"}
+{"geo": [-22.57, 17.0836111111], "name": "Jericho", "id": "/m/06w6jb0"}
+{"geo": [30.3656, -88.5561], "name": "Damien Dragonetti", "id": "/en/damien_dragonetti"}
+{"geo": [34.0522, -118.2428], "name": "Novel", "id": "/m/047fnc3"}
+{"geo": [47.609722, -122.333056], "name": "No Clue", "id": "/en/no_clue"}
+{"geo": [33.2447, -81.3589], "name": "James Brown", "id": "/en/james_brown"}
+{"geo": [42.7325, -84.5556], "name": "Needlz", "id": "/en/needlz"}
+{"geo": [40.8090333333, -73.9483722222], "name": "Sacario", "id": "/en/sacario"}
+{"geo": [51.4875, -0.1684], "name": "Mr. C", "id": "/en/mr_c"}
+{"geo": [36.5938888989, 128.201388899], "name": "Shin Dong", "id": "/en/shin_dong"}
+{"geo": [51.4593550731, 7.01614379883], "name": "Favorite", "id": "/m/07kfrs5"}
+{"geo": [47.7847880705, 9.60823059082], "name": "Kay One", "id": "/m/05mryh0"}
+{"geo": [34.1742, -97.1433], "name": "Faymus", "id": "/m/0bwm1v8"}
+{"geo": [50.2667, 19.0167], "name": "Magik", "id": "/m/05zn0b2"}
+{"geo": [35.1494, -90.0489], "name": "Josey Scott", "id": "/en/josey_scott"}
+{"geo": [37.0349, -76.3601], "name": "DJ Andrew Townsend", "id": "/en/dj_andrew_townsend"}
+{"geo": [48.133333, 11.566667], "name": "Raptile", "id": "/m/063yb7b"}
+{"geo": [34.1397, -118.0344], "name": "Jeff Duran", "id": "/en/jeff_duran"}
+{"geo": [null, null], "name": "Uffie", "id": "/en/uffie"}
+{"geo": [55.675, 12.5687], "name": "Isam Bachiri", "id": "/en/isam_bachiri"}
+{"geo": [9.102097, 18.28125], "name": "Iras", "id": "/m/0c1vx_k"}
+{"geo": [40.7744444444, -73.9041666667], "name": "Miss Jones", "id": "/en/miss_jones"}
+{"geo": [51.5333, -0.1667], "name": "Richard Rawson", "id": "/en/richard_rawson"}
+{"geo": [25.0333333333, 121.533333333], "name": "\u5ebe\u6f84\u6176", "id": "/en/harlem_yu"}
+{"geo": [51.5243, 0.0245], "name": "Crazy Titch", "id": "/en/crazy_titch"}
+{"geo": [34.1975, -119.1761], "name": "Basic Instinct", "id": "/m/02r7gmq"}
+{"geo": [29.9728, -90.059], "name": "DAPPA", "id": "/m/0cmrdh8"}
+{"geo": [37.5833333333, 127.0], "name": "Ham Eun-jeong", "id": "/m/0cm878b"}
+{"geo": [34.0708333333, -117.6975], "name": "Donnis", "id": "/m/0cm821_"}
+{"geo": [35.6833, 139.7667], "name": "Verbal", "id": "/m/0cp09p4"}
+{"geo": [1.3667, 103.75], "name": "Tila Tequila", "id": "/en/tila_nguyen"}
+{"geo": [41.85, -87.65], "name": "Dolla", "id": "/m/01wglpw"}
+{"geo": [43.6480555556, -79.4041666667], "name": "Jordan Francis", "id": "/en/jordan_francis"}
+{"geo": [51.5974, -0.0716], "name": "Chipmunk", "id": "/m/03xnjyl"}
+{"geo": [34.0522, -118.2428], "name": "Mickey Avalon", "id": "/en/mickey_avalon"}
+{"geo": [6.45, 3.38333333333], "name": "Lil' O", "id": "/en/lil_o"}
+{"geo": [33.7489, -84.3881], "name": "Polow da Don", "id": "/en/polow_da_don"}
+{"geo": [51.517124, -0.106196], "name": "Subroc", "id": "/en/dj_subroc"}
+{"geo": [52.4167, 30.9833], "name": "Seryoga\n", "id": "/en/seryoga"}
+{"geo": [33.6533, -84.4494], "name": "Slimm Calhoun", "id": "/en/slimm_calhoun"}
+{"geo": [51.517124, -0.106196], "name": "Luciana Caporaso", "id": "/en/luciana_caporaso"}
+{"geo": [38.2542, -85.7594], "name": "Stephen Garrett", "id": "/en/steve_static_garrett"}
+{"geo": [29.9728, -90.059], "name": "DJ Khaled", "id": "/en/dj_khaled"}
+{"geo": [null, null], "name": "Bryan-Michael Cox", "id": "/en/bryan_michael_cox"}
+{"geo": [42.3314, -83.0458], "name": "Black Milk", "id": "/en/black_milk"}
+{"geo": [30.4211, -87.2169], "name": "Roy Jones Jr.", "id": "/en/roy_jones_jr"}
+{"geo": [40.8090333333, -73.9483722222], "name": "Bloodshed", "id": "/en/bloodshed"}
+{"geo": [27.2758333333, -80.355], "name": "Ace Hood", "id": "/en/ace_hood"}
+{"geo": [52.523337, 13.412687], "name": "Kitty Kat", "id": "/en/kitty_kat"}
+{"geo": [39.9522, -75.1642], "name": "Eve", "id": "/en/eve_1978"}
+{"geo": [35.45, 139.65], "name": "Taku Takahashi", "id": "/m/0crh7yp"}
+{"geo": [29.9728, -90.059], "name": "Ronald \"Slim\" Williams", "id": "/en/ronald_slim_williams"}
+{"geo": [34.0522, -118.2428], "name": "Brandon Smith", "id": "/m/02p9s_p"}
+{"geo": [35.7894, -83.9739], "name": "Mr. Mack", "id": "/en/mr_mack"}
+{"geo": [40.7672, -74.2053], "name": "Naturi Naughton", "id": "/en/naturi_naughton"}
+{"geo": [40.2169, -74.7433], "name": "Carman", "id": "/en/carman_1956"}
+{"geo": [41.85, -87.65], "name": "Gerald Walker", "id": "/en/gerald_walker"}
+{"geo": [-35.2828, 149.1314], "name": "Big Dave", "id": "/m/07s4rrg"}
+{"geo": [40.85, -73.8667], "name": "Davy Fresh", "id": "/m/0ddbv8v"}
+{"geo": [37.6922, -97.3372], "name": "XV", "id": "/m/09v6mb_"}
+{"geo": [34.0522, -118.2428], "name": "Nicole Jung", "id": "/m/0cnyjks"}
+{"geo": [55.5833, 13.0333], "name": "Rebstar", "id": "/en/rebstar"}
+{"geo": [25.0416666667, 102.705], "name": "Zhao Yongxin", "id": "/m/0cnz7wh"}
+{"geo": [null, null], "name": "Grandmaster Jay", "id": "/m/0bxzf0h"}
+{"geo": [18.9411444444, -72.7033907407], "name": "Paul Frappier", "id": "/en/paul_frappier"}
+{"geo": [33.4708, -81.975], "name": "12 Gauge", "id": "/m/03byhy_"}
+{"geo": [34.0142, -86.0067], "name": "Yelawolf", "id": "/en/yelawolf"}
+{"geo": [32.7153, -117.1564], "name": "Taki Tsan", "id": "/en/taki_tsan"}
+{"geo": [21.4667, 109.1], "name": "Tan Jianci", "id": "/m/0cm7vb3"}
+{"geo": [40.45, -3.4833], "name": "El Chojin", "id": "/m/0bh7b0k"}
+{"geo": [36.6305555556, 101.773055556], "name": "Xiao Shunyao", "id": "/m/0cp0d_y"}
+{"geo": [29.7631, -95.3631], "name": "LaTavia Roberson", "id": "/en/latavia_roberson"}
+{"geo": [-8.83083333333, 13.245], "name": "Diamondog", "id": "/m/0c3_n5r"}
+{"geo": [36.4692974125, 127.624277169], "name": "Jeon ji yoon", "id": "/m/0dgqxc5"}
+{"geo": [1.3667, 103.75], "name": "Masia One", "id": "/en/masia_one"}
+{"geo": [29.7631, -95.3631], "name": "Charles Shaw", "id": "/en/charles_shaw"}
+{"geo": [43.0731, -89.4011], "name": "Nick Hexum", "id": "/en/nick_hexum_1970"}
+{"geo": [35.073, -89.971], "name": "Playa Fly", "id": "/en/playa_fly"}
+{"geo": [28.1458, -82.7569], "name": "2 Pistols", "id": "/en/2_pistols"}
+{"geo": [32.2986, -90.1847], "name": "Pep Love", "id": "/en/pep_love"}
+{"geo": [51.5974, -0.0716], "name": "Black Radical Mk II", "id": "/en/black_radical_mk_ii"}
+{"geo": [29.9728, -90.059], "name": "Soulja Slim", "id": "/en/soulja_slim"}
+{"geo": [51.517124, -0.106196], "name": "Asher D", "id": "/en/asher_d"}
+{"geo": [3.15972222222, 101.7], "name": "Joe Flizzow", "id": "/en/joe_flizzow"}
+{"geo": [38.1042, -122.2556], "name": "Young Lay", "id": "/en/young_lay"}
+{"geo": [34.1833333333, -118.433333333], "name": "Brian Green", "id": "/en/brian_austin_green"}
+{"geo": [40.85, -73.8667], "name": "Cory Gunz", "id": "/en/cory_gunz"}
+{"geo": [38.89, -77.03], "name": "Wale", "id": "/en/wale"}
+{"geo": [40.85, -73.8667], "name": "Lovebug Starski", "id": "/en/lovebug_starski"}
+{"geo": [51.517124, -0.106196], "name": "Derek B", "id": "/en/derek_b"}
+{"geo": [37.775, -122.4183], "name": "Ray Luv", "id": "/en/ray_luv"}
+{"geo": [33.7489, -84.3881], "name": "Shawty Lo", "id": "/en/shawty_lo"}
+{"geo": [33.7489, -84.3881], "name": "Gorilla Zoe", "id": "/en/gorilla_zoe"}
+{"geo": [43.7737, -79.2446], "name": "Ed Robertson", "id": "/en/ed_robertson"}
+{"geo": [null, null], "name": "Chester Bennington", "id": "/en/chester_bennington"}
+{"geo": [18.0, -66.6167], "name": "Tempo", "id": "/en/tempo_1969"}
+{"geo": [51.0, 9.0], "name": "Black Pegasus", "id": "/m/0ch41x7"}
+{"geo": [47.609722, -122.333056], "name": "Kid Sensation", "id": "/en/kid_sensation"}
+{"geo": [10.4264, 123.7981], "name": "Devon Seron", "id": "/m/0cc8_4j"}
+{"geo": [33.7489, -84.3881], "name": "Kyle Massey", "id": "/en/kyle_massey"}
+{"geo": [40.9311, -73.8992], "name": "King Phaze", "id": "/m/0dgrp0z"}
+{"geo": [41.4994444, -81.6955556], "name": "Ray Cash", "id": "/m/09g8ygc"}
+{"geo": [-0.42517, 36.751730303], "name": "AG Dolla", "id": "/m/0ch5m97"}
+{"geo": [34.0305555556, -118.778611111], "name": "Colette Carr", "id": "/m/0ch2lkr"}
+{"geo": [47.8108, -122.3761], "name": "Jay Park", "id": "/en/jay_park"}
+{"geo": [34.0522, -118.2428], "name": "Elf Tranzporter", "id": "/en/elf_tranzporter"}
+{"geo": [40.7281, -74.0781], "name": "Chris Phoenix", "id": "/m/080kb01"}
+{"geo": [40.7143, -73.8204], "name": "Big Ali", "id": "/m/0crcb_h"}
+{"geo": [40.7142, -74.0064], "name": "Beedie", "id": "/m/0dsbqwz"}
+{"geo": [41.85, -87.65], "name": "Aaron Fresh", "id": "/m/0bwkdrm"}
+{"geo": [56.9496, 24.104], "name": "Gustavs Butelis", "id": "/m/0cc5rrl"}
+{"geo": [33.7489, -84.3881], "name": "L.A.C.", "id": "/m/0dlk0bg"}
+{"geo": [40.65, -73.95], "name": "Afrika Baby Bam", "id": "/en/afrika_baby_bam"}
+{"geo": [34.0522, -118.2428], "name": "Jay Blaze", "id": "/en/jay_blaze"}
+{"geo": [40.65, -73.95], "name": "MeLo-X", "id": "/m/0cc6f_m"}
+{"geo": [17.9911111111, -76.8036111111], "name": "Sean Paul", "id": "/en/sean_paul"}
+{"geo": [52.23, 21.0108], "name": "Pezet", "id": "/m/0bh75qb"}
+{"geo": [32.8342, -97.2286], "name": "Logan Henderson", "id": "/en/logan_henderson"}
+{"geo": [-37.78333, 144.9667], "name": "Bias B", "id": "/m/02vrwhh"}
+{"geo": [41.85, -87.65], "name": "Scoopastar", "id": "/m/0ds6prk"}
+{"geo": [34.7464, -92.2894], "name": "Roscoe Dash", "id": "/m/0bwltkw"}
+{"geo": [42.6361, -70.8436], "name": "Bo Burnham", "id": "/en/bo_burnham"}
+{"geo": [35.6911111111, -0.641666666667], "name": "Ahmed Mekky", "id": "/m/0cz87pr"}
+{"geo": [51.9333, 15.5], "name": "L.U.C", "id": "/m/064nr82"}
+{"geo": [18.2612911111, -66.4360261111], "name": "Speedy", "id": "/en/speedy"}
+{"geo": [50.8333333333, -1.11666666667], "name": "Mac Miller", "id": "/m/0dln428"}
+{"geo": [33.8958, -118.2192], "name": "Slim da Mobster", "id": "/en/slim_da_mobster"}
+{"geo": [52.3353, -2.0579], "name": "Dan Bull", "id": "/en/dan_bull"}
+{"geo": [-22.3833, 26.7167], "name": "Zeus", "id": "/m/0dsc3zt"}
+{"geo": [41.525, -88.0817], "name": "Jaye", "id": "/m/0fq2n5m"}
+{"geo": [35.3733, -119.0178], "name": "Yung Cali", "id": "/m/0fp_bv4"}
+{"geo": [37.5833333333, 127.0], "name": "Gong Min-ji", "id": "/en/gong_min_ji"}
+{"geo": [37.5833333333, 127.0], "name": "CL", "id": "/m/0fphr2s"}
+{"geo": [40.65, -73.95], "name": "DJ Cocoa Chanelle", "id": "/m/0cc9glc"}
+{"geo": [35.683333, 51.416667], "name": "Sahand Quazi", "id": "/m/0fqmyz2"}
+{"geo": [40.7142, -74.0064], "name": "Troy Jamerson", "id": "/en/troy_jamerson"}
+{"geo": [32.1533, -90.1311], "name": "Paul McCoy", "id": "/en/paul_mccoy"}
+{"geo": [35.705, -89.9694], "name": "Fice Musaveni", "id": "/m/0g4mp7t"}
+{"geo": [38.1042, -122.2556], "name": "Turf Talk", "id": "/en/turf_talk"}
+{"geo": [33.0392, -85.0314], "name": "Qu1k", "id": "/m/0g58906"}
+{"geo": [-23.5, -46.6166666667], "name": "Ferr\u00e9z", "id": "/en/ferrez"}
+{"geo": [34.0522, -118.2428], "name": "Malcolm Mays", "id": "/m/0g57mgv"}
+{"geo": [40.7356, -74.1728], "name": "Chris Akinyemi", "id": "/m/0g53fxp"}
+{"geo": [36.4692974125, 127.624277169], "name": "Teddy Park", "id": "/m/0ds416c"}
+{"geo": [37.5833333333, 127.0], "name": "Taecyeon", "id": "/m/0cc8952"}
+{"geo": [45.96, 23.57], "name": "Tataee", "id": "/en/tataee"}
+{"geo": [32.7253, -97.3206], "name": "Kitty Katana", "id": "/en/kitty_katana"}
+{"geo": [24.65, 46.71], "name": "Qusai", "id": "/m/0g5rfg3"}
+{"geo": [-45.7833, -67.4667], "name": "Negro Dollar", "id": "/m/0g5ql_w"}
+{"geo": [13.9201940982, 101.016765829], "name": "Traphik", "id": "/m/0g9vptn"}
+{"geo": [36.4692974125, 127.624277169], "name": "Kwon So Hyun", "id": "/m/0g9vxlp"}
+{"geo": [51.517124, -0.106196], "name": "Mumzy", "id": "/en/mumzy"}
+{"geo": [-17.7835998333, 15.6994], "name": "Kanibal", "id": "/m/0g9zltt"}
+{"geo": [32.782778, -96.803889], "name": "Trai'D", "id": "/m/0fpgvdx"}
+{"geo": [39.9522, -75.1642], "name": "MidNite", "id": "/m/0gg9czq"}
+{"geo": [9.6167, 6.55], "name": "Ice Prince", "id": "/m/0gg9mp_"}
+{"geo": [34.0522, -118.2428], "name": "Earl Sweatshirt", "id": "/m/0g588b7"}
+{"geo": [41.9164, -83.3978], "name": "Frankie Biggz", "id": "/m/0gfg1t2"}
+{"geo": [34.0686, -118.0267], "name": "Scatman John", "id": "/en/scatman_john"}
+{"geo": [51.517124, -0.106196], "name": "N'fa", "id": "/m/0gg73bg"}
+{"geo": [17.9911111111, -76.8036111111], "name": "Shaggy", "id": "/en/shaggy"}
+{"geo": [21.4667, 109.1], "name": "Chi YueHan", "id": "/m/0gg7fs0"}
+{"geo": [37.5833333333, 127.0], "name": "Yong Jun Hyung", "id": "/m/0gffky8"}
+{"geo": [35.925, -86.8689], "name": "Truett McKeehan", "id": "/m/0gg90k2"}
+{"geo": [9.9167, 8.9], "name": "Jude Abaga", "id": "/en/jude_abaga"}
+{"geo": [33.7489, -84.3881], "name": "Kilo Ali", "id": "/en/kilo_ali"}
+{"geo": [40.8090333333, -73.9483722222], "name": "Queen Pen", "id": "/en/queen_pen"}
+{"geo": [30.3319, -81.6558], "name": "Fred Durst", "id": "/en/fred_durst_1970"}
+{"geo": [33.8958, -118.2192], "name": "Yo-Yo", "id": "/en/yo_yo"}
+{"geo": [41.4994444, -81.6955556], "name": "Flesh-N-Bone", "id": "/en/flesh_n_bone"}
+{"geo": [40.65, -73.95], "name": "Wordsworth", "id": "/en/wordsworth"}
+{"geo": [35.1494, -90.0489], "name": "Juicy J", "id": "/en/juicy_j"}
+{"geo": [29.9728, -90.059], "name": "Mia X", "id": "/en/mia_x"}
+{"geo": [36.1658, -86.7844], "name": "Koopsta Knicca", "id": "/en/koopsta_knicca"}
+{"geo": [49.4033778395, 8.67919921875], "name": "Torch", "id": "/m/01kxrq2"}
+{"geo": [40.85, -73.8667], "name": "Sister Souljah", "id": "/en/sister_souljah"}
+{"geo": [34.0522, -118.2428], "name": "Young Maylay", "id": "/en/young_maylay"}
+{"geo": [33.7489, -84.3881], "name": "Sean Garrett", "id": "/en/sean_garrett"}
+{"geo": [40.65, -73.95], "name": "Grandmaster Caz", "id": "/en/grandmaster_caz"}
+{"geo": [41.4994444, -81.6955556], "name": "Wi$h Bone", "id": "/en/wi_h_bone"}
+{"geo": [39.3897, -74.5244], "name": "Rodney Jerkins", "id": "/en/rodney_jerkins"}
+{"geo": [33.7747, -84.2964], "name": "I-20", "id": "/en/i_20"}
+{"geo": [31.5492, -97.1464], "name": "X-Raided", "id": "/en/x_raided"}
+{"geo": [60.170833, 24.9375], "name": "Elastinen", "id": "/en/elastinen"}
+{"geo": [41.2586, -95.9375], "name": "S.A. Martinez", "id": "/en/s_a_martinez"}
+{"geo": [40.9114, -73.7828], "name": "Scram Jones", "id": "/en/scram_jones"}
+{"geo": [34.0194, -118.4903], "name": "Defari", "id": "/en/defari"}
+{"geo": [40.7142, -74.0064], "name": "Large Professor", "id": "/en/the_large_professor"}
+{"geo": [30.4581, -91.1402], "name": "Lil Boosie", "id": "/en/lil_boosie"}
+{"geo": [40.7142, -74.0064], "name": "Osten Harvey, Jr.", "id": "/en/osten_harvey_jr"}
+{"geo": [41.9, 12.5], "name": "Piotta", "id": "/en/piotta_1973"}
+{"geo": [40.7143, -73.8204], "name": "Ali Vegas", "id": "/en/ali_vegas"}
+{"geo": [24.2872, -98.5633], "name": "Chingo Bling", "id": "/en/chingo_bling"}
+{"geo": [40.7258, -73.5147], "name": "Kevin Covais", "id": "/en/kevin_covais"}
+{"geo": [33.7489, -84.3881], "name": "Yung Joc", "id": "/en/yung_joc"}
+{"geo": [33.7669, -118.1883], "name": "Goldie Loc", "id": "/en/goldie_loc"}
+{"geo": [40.65, -73.95], "name": "Mars Black", "id": "/en/mars_black"}
+{"geo": [33.9617, -118.3522], "name": "Big Syke", "id": "/en/big_syke"}
+{"geo": [20.6543, -74.9213], "name": "Addys D'Mercedes", "id": "/en/addys_dmercedes"}
+{"geo": [40.65, -73.95], "name": "Half-A-Mil", "id": "/en/half_a_mil"}
+{"geo": [33.8314, -118.0719], "name": "Bad Azz", "id": "/en/bad_azz"}
+{"geo": [40.85, -73.8667], "name": "Percee P", "id": "/en/percy_p"}
+{"geo": [32.7253, -97.3206], "name": "Big Lurch", "id": "/en/big_lurch"}
+{"geo": [31.5758333333, 74.3269444444], "name": "Bohemia the Punjabi Rapper", "id": "/en/bohemia_the_punjabi_rapper"}
+{"geo": [29.7631, -95.3631], "name": "Big Pokey", "id": "/en/big_pokey"}
+{"geo": [33.7489, -84.3881], "name": "Young Dro", "id": "/en/young_dro"}
+{"geo": [6.45, 3.38333333333], "name": "Skepta", "id": "/en/skepta"}
+{"geo": [39.9522, -75.1642], "name": "Roscoe", "id": "/en/roscoe"}
+{"geo": [40.7142, -74.0064], "name": "Dre", "id": "/en/dre"}
+{"geo": [53.8, -1.75], "name": "Aki Nawaz", "id": "/en/aki_nawaz"}
+{"geo": [37.3167, 13.5833], "name": "Vinnie Paz", "id": "/en/vinnie_paz"}
+{"geo": [33.7489, -84.3881], "name": "Baby D", "id": "/en/baby_d_1984"}
+{"geo": [42.0347, -93.6197], "name": "Leslie Hall", "id": "/en/leslie_hall"}
+{"geo": [45.5236, -122.675], "name": "Pete Miser", "id": "/en/pete_miser"}
+{"geo": [40.7142, -74.0064], "name": "Joell Ortiz", "id": "/en/joel_ortiz"}
+{"geo": [51.4652, 0.0429], "name": "Q Tee", "id": "/en/q_tee"}
+{"geo": [40.65, -73.95], "name": "Lil' Cease", "id": "/en/lil_cease"}
+{"geo": [32.7153, -117.1564], "name": "Mitchy Slick", "id": "/en/mitchy_slick"}
+{"geo": [33.9617, -118.3522], "name": "Blu", "id": "/m/01tyr17"}
+{"geo": [59.6166666667, 16.5333333333], "name": "Promoe", "id": "/en/promoe_1976"}
+{"geo": [39.0616685311, -76.7854797575], "name": "Tina Harris", "id": "/en/tina_harris"}
+{"geo": [null, null], "name": "Aztek Escobar", "id": "/en/aztek_escobar"}
+{"geo": [34.1, -118.3333], "name": "J-five", "id": "/en/j_five"}
+{"geo": [40.6914, -73.8061], "name": "Freaky Tah", "id": "/en/freaky_tah"}
+{"geo": [39.9611, -82.9989], "name": "Camu Tao", "id": "/en/camu_tao"}
+{"geo": [39.0997, -94.5783], "name": "Kutt Calhoun", "id": "/en/kutt_calhoun"}
+{"geo": [40.85, -73.8667], "name": "Kid Creole", "id": "/en/nathaniel_glover"}
+{"geo": [29.9728, -90.059], "name": "Big Mike", "id": "/en/big_mike"}
+{"geo": [40.65, -73.95], "name": "Skyzoo", "id": "/en/skyzoo"}
+{"geo": [43.6833333333, -79.7666666667], "name": "Don Cash", "id": "/en/don_cash"}
+{"geo": [29.7631, -95.3631], "name": "Machine Gun Kelly", "id": "/m/0gjcnwm"}
+{"geo": [-25.85, 25.6333], "name": "Tuks Senganga", "id": "/m/0dgp3md"}
+{"geo": [37.5833333333, 127.0], "name": "Doo Joon", "id": "/m/0gffqbq"}
+{"geo": [10.5167, 7.4333], "name": "Jonathan Cyril", "id": "/m/0gjclxk"}
+{"geo": [29.7631, -95.3631], "name": "KooL CrAzE", "id": "/m/0fpjz4v"}
+{"geo": [51.517124, -0.106196], "name": "Wiley", "id": "/en/wiley"}
+{"geo": [42.6667, 21.1667], "name": "Getoar Selimi", "id": "/en/getoar_selimi"}
+{"geo": [-2.19027777778, -79.8872222222], "name": "Gerardo Mej\u00eda", "id": "/m/0gkxl4j"}
+{"geo": [50.083333, 14.416667], "name": "Vaclav Zacek", "id": "/m/0gkyvs8"}
+{"geo": [51.517124, -0.106196], "name": "Tinie Tempah", "id": "/en/tinie_tempah"}
+{"geo": [32.3642, -88.7036], "name": "Big K.R.I.T.", "id": "/m/0cc9l01"}
+{"geo": [33.8444603, -117.7772773], "name": "Rebecca Black", "id": "/m/0gjd8f0"}
+{"geo": [40.7142, -74.0064], "name": "De La Ghetto", "id": "/en/de_la_ghetto"}
+{"geo": [-17.8513888889, 31.0477777778], "name": "Sugaspott", "id": "/m/0glpt_l"}
+{"geo": [-1.28333333333, 36.8166666667], "name": "Jimw@t", "id": "/m/0dd8yc2"}
+{"geo": [51.4235, -0.2171], "name": "Steve-O", "id": "/en/steve-o"}
+{"geo": [53.456, -2.2], "name": "Gorilla Chilla", "id": "/m/0glsb8k"}
+{"geo": [35.8636111111, 128.580833333], "name": "Key", "id": "/m/04f_90s"}
+{"geo": [26.525, -80.0667], "name": "Jo\u00e9l Filsaime", "id": "/m/0gmg8jp"}
+{"geo": [33.7689, -89.8083], "name": "Top Dogg", "id": "/en/top_dogg"}
+{"geo": [35.8636111111, 128.580833333], "name": "Uee", "id": "/en/uee"}
+{"geo": [33.9380555556, -118.130833333], "name": "Bobby Edner", "id": "/en/bobby_edner"}
+{"geo": [37.5833333333, 127.0], "name": "Hyomin", "id": "/m/0gtw3xl"}
+{"geo": [31.2436, -90.4531], "name": "Brandy Norwood", "id": "/base/ranker/rankerurlname/brandy$002F142259"}
+{"geo": [51.9217, 4.4811], "name": "U-Niq", "id": "/en/u_niq"}
+{"geo": [51.5902777778, 4.7725], "name": "Jossy", "id": "/m/0gvr6q1"}
+{"geo": [52.37, 4.89], "name": "Lange Frans", "id": "/m/0gx200d"}
+{"geo": [33.9097222222, -81.5341666667], "name": "Quell Keith", "id": "/m/0gx1r1b"}
+{"geo": [36.7478, -119.7714], "name": "Fashawn", "id": "/m/09gnw9x"}
+{"geo": [37.775, -122.4183], "name": "Kreayshawn", "id": "/m/0gtvz1_"}
+{"geo": [52.37, 4.89], "name": "Baas B", "id": "/m/0gx2gfv"}
+{"geo": [9.102097, 18.28125], "name": "The Kid Gashi", "id": "/m/0gwyqcx"}
+{"geo": [52.37, 4.89], "name": "Brutus", "id": "/m/0gw_fnw"}
+{"geo": [52.37, 4.89], "name": "Yes-R", "id": "/m/0gx07z_"}
+{"geo": [45.5236, -122.675], "name": "Nonstop", "id": "/m/0gx1s1p"}
+{"geo": [null, null], "name": "Sam Adams", "id": "/en/samuel_adams_wisner"}
+{"geo": [37.871667, -122.272778], "name": "Andy Samberg", "id": "/en/andy_samberg"}
+{"geo": [40.8090333333, -73.9483722222], "name": "Vado", "id": "/m/0dln50p"}
+{"geo": [41.85, -87.65], "name": "R.O.E.", "id": "/m/0gy1prj"}
+{"geo": [40.2169, -74.7433], "name": "Hodgy Beats", "id": "/m/0gvqss_"}
+{"geo": [36.7478, -119.7714], "name": "J Peezy", "id": "/m/0gyvr8g"}
+{"geo": [-22.57, 17.0836111111], "name": "Quido", "id": "/m/0h1dy03"}
+{"geo": [40.7142, -74.0064], "name": "DJ Muggs", "id": "/en/dj_muggs"}
+{"geo": [34.9056, -117.8836], "name": "Donald Glover", "id": "/en/donald_glover"}
+{"geo": [33.0461, -96.9939], "name": "Cody Linley", "id": "/en/cody_linley"}
+{"geo": [39.7683, -86.1581], "name": "Mike Epps", "id": "/en/mike_epps"}
+{"geo": [38.8903, -77.0844], "name": "Destorm", "id": "/m/0h1b_sp"}
+{"geo": [26.1219, -80.1436], "name": "Cordell Francis", "id": "/m/0bc4wbw"}
+{"geo": [13.0961111111, -59.6083333333], "name": "Grandmaster Flash", "id": "/m/076y52r"}
+{"geo": [51.517124, -0.106196], "name": "Lowkey", "id": "/en/lowkey"}
+{"geo": [36.4692974125, 127.624277169], "name": "So Hyun", "id": "/m/0h551lm"}
+{"geo": [41.85, -87.65], "name": "Pennjamin Bannekar", "id": "/m/0h56hxq"}
+{"geo": [51.5468, -0.2295], "name": "Ismael Lea South", "id": "/m/0h63gvv"}
+{"geo": [38.7217, -76.6608], "name": "Wax", "id": "/m/0glp910"}
+{"geo": [51.5333, -0.0833], "name": "Professor Green", "id": "/m/03f353h"}
+{"geo": [35.0525, -78.8786], "name": "Affion Crockett", "id": "/m/0cc5jvj"}
+{"geo": [32.7358, -96.275], "name": "Jamie Foxx", "id": "/en/jamie_foxx"}
+{"geo": [53.4301, -1.3572], "name": "Jay Mya", "id": "/m/0h7pyj5"}
+{"geo": [39.0333, 121.7667], "name": "Wang Hao", "id": "/m/0hhvrpp"}
+{"geo": [34.1975, -119.1761], "name": "Spinz", "id": "/m/0gmbwvv"}
