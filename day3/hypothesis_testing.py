@@ -40,7 +40,9 @@
 #
 # Let's start by comparing a simple statistic, to see if in the data
 # we observe there's any difference.  We'll start by comparing the
-# average heights of the two towns
+# average heights of the two towns.  (As an aside: it would help if
+# you wrote and ran your code in `dataiap/day3/...` today, since
+# several modules like `ols.py` are available in that directory).
 
 import numpy
 town1_heights = [5, 6, 7, 6, 7.1, 6, 4]
