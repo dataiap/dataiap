@@ -274,3 +274,7 @@ Tomorrow, we will dive deeper into `matplotlib`'s visualization facilities, and 
 ## Related Datasets
 
 If you are interested more campaign finance data, you can also [download the campaign expense data](ftp://ftp.fec.gov/FEC/Presidential_Map/2008/P00000001/P00000001-ALL.zip) from the same website, if you click the "expenditures" tab in the right table.
+
+
+# Feedback
+<iframe src="https://docs.google.com/spreadsheet/embeddedform?formkey=dExoSTVxbUh6SGVhdmhiYlhTVFItV0E6MQ" width="760" height="962" frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe>
