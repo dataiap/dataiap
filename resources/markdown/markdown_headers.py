@@ -16,4 +16,5 @@ html = """
 </html>
 """ % (html)
 
-print html
+with codecs.open(sys.argv[2], mode='w', encoding='utf8', errors='ignore') as out:
+    out.write(html)
