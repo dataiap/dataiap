@@ -8,7 +8,7 @@ html = """
 <html>
 <head>
 <title>Data IAP Day 1</title>
-<link rel="stylesheet" type="text/css" href="clearness.css"/>
+<link rel="stylesheet" type="text/css" href="../clearness.css"/>
 </head>
 <body>
 %s
