@@ -54,10 +54,12 @@ class Email(object):
         self.recipients.extend(self.to)
         self.recipients.extend(self.cc)
         self.recipients.extend(self.bcc)
-        self.names = []
+        self.names = set()
         for names in [[self.sendername], self.tonames, self.ccnames, self.bccnames]:
-            self.names.extend(names)
-        self.names = filter(lambda name: name.strip() == '', self.names)
+            for name in names:
+                self.names.update(name.strip().split())
+        self.names = filter(lambda name: len(name) > 0, self.names)
+        self.names = map(lambda s: s.lower(), self.names)
 
         self.subject = e.get('Subject', '')
         self.date = self.clean_date(e['Date'])
@@ -135,7 +137,6 @@ class EmailWalker(object):
                                 yield Email(f.read(), folder).to_dict()
                             self.w.parsed += 1
                         except Exception as e:
-
                             self.w.skipped += 1
                             pass
                 

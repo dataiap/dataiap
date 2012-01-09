@@ -24,6 +24,8 @@ In the exercises, we will use this to further visualize and analyze the campaign
 
 [a good link about color](http://www.perceptualedge.com/articles/b-eye/choosing_colors.pdf)
 
+# TODO: Use subject instead of email text
+
 # Problem: internet says matplotlib not good for network graphs.  Talk about them at all?
 
 ## Introduction
