@@ -20,19 +20,23 @@ In the exercises, we will use this to further visualize and analyze the campaign
 
 `matplotlib` is quite powerful, and is intended to emulate matlab's visualization facilities.   We will give you a basic understanding of how plotting works, which should be enough for a majority of the charts that you will want to create.
 
+Note: plotting [network graphs](http://infosthetics.com/archives/facebook_graph2.jpg) is a topic unto itself, and isn't well supported in `matplotlib`.  There are other libraries for drawing them, but we unfortunately don't have the time to talk about it in this class.  At the end of today's lab,  we'll point you to some other python plotting libraries to make network graphs and other types of charts.
+
 # TODO: Add Comments about when to use each type of graph, and a section on colors/contrast?
 
 [a good link about color](http://www.perceptualedge.com/articles/b-eye/choosing_colors.pdf)
 
 # TODO: Use subject instead of email text
 
-# Problem: internet says matplotlib not good for network graphs.  Talk about them at all?
-
 ## Introduction
 
-When should you use visualizations
+Visualizations are used to succinctly and visually describe different parts or different interpretations of your data.  They give the reader, who is not necessarily an expert in the dataset, an intuition of trends or relationships.
 
-Purpose of visualizations.
+I typically use visualizations for two purposes:
+
+1. **Exploring**: Quickly viewing the dataset to spot outliers and trends and form hypotheses.
+1. **Storytelling**: Illustrating a piece of data that I've cleaned, and processed in order to make a point.
+
 
 ### Figure and Subplots
 
@@ -42,22 +46,24 @@ A `figure` is the area that we will draw in.  We can specify that it is 50 inche
 
 	import matplotlib.pyplot as plt
 	fig = plt.figure(figsize=(50, 30))
+
+It is common to create multiple subfigures or `subplots` in a single figure.  `fig.add_subplot(nrows, ncols, i)` tells the figure to treat the area as a nrows x ncols grid, and return an [Axes](http://matplotlib.sourceforge.net/api/axes_api.html) object that represents the i'th grid cell.  You will then create your chart by calling methods on object.  It helps me to think of an Axes object as a subplot.
+
+
 	subplot1 = fig.add_subplot(2, 3, 1)
 	subplot2 = fig.add_subplot(2, 3, 2)
 
-
-It is common to create multiple subfigures or `subplots` in a single figure.  `fig.add_subplot(nrows, ncols, i)` tells the figure to treat the area as a nrows x ncols grid, and return an [Axes](http://matplotlib.sourceforge.net/api/axes_api.html) object that represents the i'th grid cell.  You will then create your chart by calling methods on object.  It helps me to think of an Axes object as a subplot.
 
 For example, the above code creates a figure with the following layout.  The black box is the area of the figure, while each blue box is a subplot in a 2x3 grid.  The number in a blue box is the subplot's index.  
 
 <center><img src="./subplotlayout.png" width="50%"/></center>
 
-It's important to mention that `add_subplot` does not actually create a grid, it just finds the area in an imaginary grid where a `subplot` should be and return an object that represents the area.  Thus it is possible to do draw on overlapping `subplots`.
+It's important to mention that `add_subplot` does not actually create a grid, it just finds the area in an imaginary grid where a `subplot` should be and return an object that represents the area.  Thus it is possible to do draw on overlapping `subplots`.  <span style="color:red">Be careful!</span>
 
 	fig.add_subplot(2, 3, 1)
 	fig.add_subplot(2, 1, 1)
 
-You will often see a shorthand for creating subplots when the number of rows and number of columns are less than 10.  `fig.add_subplot(xyz)` returns the z'th subplot in a x by y grid.  So `fig.add_subplot(231)` returns the first subplot in a 2x3 grid.  
+When you read matplotlib code on the internet, you will often see a shorthand for creating subplots when the subplot index, number of rows, and number of columns are all less than 10.  `fig.add_subplot(xyz)` returns the z'th subplot in a x by y grid.  So `fig.add_subplot(231)` returns the first subplot in a 2x3 grid.  
 
 ### How Drawing Works
 
@@ -69,13 +75,13 @@ As you use `matplotlib`, keep in mind that:
 * When you call a drawing function, it won't rearrange the layout of what was drawn before.  It simply draws the pixels **on top of** what has been drawn before.
 * You are ultimately adding points, lines and polygons on top of one another.
 
-## Let's Plot Some Graphs!
+# Let's Plot Some Graphs!
 
 Let's get to drawing graphs!  By the end of this tutorial, you will have experience creating bar charts, line charts, box plots, scatter plots, and choropleths (map plots).   We will walk you through how to create a figure similar to
 
 <img src="./final_graph.png" width="750"/>
 
-This figure creates subplots in a 3x2 grid, so let's first setup the figure and generate two sets of data.  Both sets have the same x values, but different y values.
+This figure creates subplots in a 3x2 grid, so let's first setup the figure and generate two sets of data.  Both sets have the same x values, but different y values.  Think "obama" and "mccain" from yesterday :)
 
 	import matplotlib.pyplot as plt
 	import random
@@ -92,20 +98,21 @@ This figure creates subplots in a 3x2 grid, so let's first setup the figure and 
 
 ### Bar Plots [documentation](http://matplotlib.sourceforge.net/api/axes_api.html#matplotlib.axes.Axes.bar)
 
+Bar plots are typically used when you have categories of data that you want to compare.  The `subplot` function is:
 
 `subplot.bar(left, height, width=0.8, bottom=None, **kwargs)`
 
 The bar plot function either takes a single left and height value, which will be used to draw a rectangle whose left edge is at `left`, and is `height` tall:
 
-	subplot.bar(10, 30)
+	subplot.bar(10, 30) # left edge at 10, and the height is 30.
 
 or you can pass a list of lefts values and a list of height values, and it will draw bars for each pair of left,height value.  For example, the following will create three bars at the x coordinates 10, 20 and 30.  The bars will be 5, 8, 2 units tall.
 
 	subplot.bar([10, 20, 30], [5, 8, 2])
 
-`matplotlib` will automatically scale the x and y axes so that the figure looks good.  While the numbers along the x and y axes depend on the values of `lefts` and `heights`, the sizes of the bars just depend on their relative values.
+`matplotlib` will automatically scale the x and y axes so that the figure looks good.  While the numbers along the x and y axes depend on the values of `left` and `height`, the sizes of the bars just depend on their relative values.  That's why we've used the word "unit" instead of "pixel".
 
-The `width` keyword argument sets width of the bars  It can be a single value, which sets the width of all of the bars, or a list that specifies the list of each bar.  Set it relative to the differences of the `left` values.  If the `left` values are spaced one unit apart and I am drawing 2 sets of bars, then I usually set the width to `1 unit / (2 + 1)`.
+The `width` keyword argument sets width of the bars  It can be a single value, which sets the width of all of the bars, or a list that specifies the list of each bar.  Set it relative to the differences of the `left` values.  For example, the code above sets each bar 10 units apart (`left=[10, 20, 30]`), so I would set `width = 10 / 2.0`.
 
 The `bottom` keyword argument specifies the bottom edge of the bars. 
 
@@ -113,7 +120,9 @@ The `bottom` keyword argument specifies the bottom edge of the bars.
 
 <img src="./bar1.png" width=300/>
 
-The following code reproduces the bar graph.  Since we want the bars to be evenly spaced apart, we set `left` to the `numpy` equivalent of `range(len(xs))`.  Numpy arrays let us perform math operations on every element in the array.  So `left+width` adds `width` to every element in `left`, which serves to shift the second set of bars to the right by `width` units.
+What if you want to draw 2 sets of bars?  We simply call `subplot.bar()` multiple times.  However, we would need to set the `left` argument appropriately.  If we used the same `left` list for all the calls, then the bars would be drawn on top of each other.  
+
+What if we want to shift the second set of bars by `width` units?  One way to do this is to turn `left` into a `numpy` list.  Numpy arrays let us perform math operations (e.g., `+,-,/,*`) on every element in the array, and `matplotlib` methods also accept `numpy` lists.  So `left+width` adds `width` to every element in `left`, which serves to shift the second set of bars to the right by `width` units.  The following code should reproduce the first subplot in the figure.
 
 	import numpy as np
 	left = np.arange(len(xs))
@@ -130,11 +139,17 @@ You can further customize your bar charts using the following popular keyword ar
 *  `edgecolor='blue'`: set the color of the bar's border.
 * `label='a name'`: give a set of bars a name.  Later, we will teach you how to create legends that will display the labels.
 
+For example, the following would draw a set of red bars:
+
+    subplot.bar(left, ys, color='red')
+
 ### Line Plots [documentation](http://matplotlib.sourceforge.net/api/axes_api.html#matplotlib.axes.Axes.plot)
+
+Line plots are typically used when graphing data with two continuous dimensions.  In addition, drawing the line implies that we can extrapolate values between adjacent points on the line.  This is a key difference between line plots and scatter plots.
 
 `subplot.plot(xs, ys, **kwargs)`
 
-The `plot` command draws a line graph.  It takes a list of x values and y values, and draws a line between every adjacent pair of points.
+The `plot` command draws a line graph.  It takes a list of x values and y values, and draws a line between every adjacent pair of points.  Try it out using the data in the previous section.
 
 `subplot.plot(xs1, ys1, xs2, ys2, ...)` is a convenient shorthand for:
 
@@ -165,6 +180,8 @@ Boxplots are used to summarize and compare groups of numerical data.  Each box s
 * The upper quartile
 * The largest observation
 
+Don't worry if it looks foreign to you.  We will discuss box plots in more detail tomorrow.  This is just an introduction on how to draw them.
+
 `subplot.boxplot` will automatically compute these values, and also ignore numbers that it thinks are outliers.  Don't worry about when and why they are used -- we will discuss that tomorrow.  Just know that **one box summarizes a set of numbers**.
 
 Unlike the other charts, you can't draw each box individually.  The `data` variable is either a list of numbers, in which case it will compute and draw a single box:
@@ -187,6 +204,8 @@ You can customize your box plots with the following keyword arguments
 
 ### Scatter Plots [documentation](http://matplotlib.sourceforge.net/api/axes_api.html#matplotlib.axes.Axes.scatter)
 
+Scatter plots are used to graph data along two continuous dimensions.  In contrast to line graphs, each point is independent.
+
 `subplot.scatter(x, y, s=20, c='blue', marker='o', alpha=None)`
 
 This method will draw a single point if you give it a single x,y pair
@@ -203,6 +222,7 @@ I've included the commonly used keyword arguments
 * `c='blue'`: sets the color of each point to blue
 * `marker='o'`: each point will be drawn as a circle.  The [documentation](http://matplotlib.sourceforge.net/api/axes_api.html#matplotlib.axes.Axes.scatter) lists  large number of other markers
 * `alpha=None`: the alpha (transparency) value of the points.  Between `0` and `1`.
+* `linewidth=4`: sets the width of the line around the point to 4 pixels.  I usually set it to `0`.
 
 ### Choropleths/Maps
 
@@ -244,7 +264,7 @@ We also included a list of all fips county codes and state names in `datasets/ge
 The files are in JSON format, so we call `json.load(file)`, which parses the files into python lists.  The rest of the code simply iterates through the fips' and states, and draws them.
 
 
-#### The gritty details
+#### The gritty details (advanced)
 
 The process of drawing maps yourself requires a number of steps:
 
@@ -293,7 +313,7 @@ We only touched a small part of what `matplotlib` can do.  Here are some additio
 
 We will use yesterday's Obama vs McCain dataset and visualize it using different chart types.  
 
-Many people say that Obama was able to attract votes from "the common man", and had far more smaller contributions that his competitors.  Let's plot a [histogram](LINK HERE) of each candidate's contribution amounts in $100 increments to see if this is the case.  A histogram breaks a data range (donation amounts, in this case) into fixed size bucks (100 in this case), and counts the number of items that fall into each bucket.  Plot both candidates on the same graph.  You'll want to use a bar chart.
+Many people say that Obama was able to attract votes from "the common man", and had far more smaller contributions that his competitors.  Let's plot a [histogram](LINK HERE) of each candidate's contribution amounts in $100 increments to see if this is the case.  A histogram breaks a data range (donation amounts, in this case) into fixed size buckets (100 in this case), and counts the number of items that fall into each bucket.  Plot both candidates on the same graph.  You'll want to use a bar chart.
 
 You'll find that it's difficult to read the previous chart because the donation amounts vary from -$1 Million to $8 Million, while the majority of the donations are less than 2000.  One method is to ignore the outliers and focus on the majority of the data points.  Let's only print histogram buckets within 3 standard deviations of the overall average donation.
 
@@ -303,7 +323,10 @@ For Obama, that's donations between `[-$18000, $19000]`.  For McCain, that's bet
 
 ## Exercise 2: 
 
-Now create a cumulative line graph of Obama and McCain's donations.  We can see that even though Obama and McCain have some very large contributions, the vast majority of their total donations were from small contributors.  Also, not only did Obama get more donations, he also received larger donations.
+Now create a cumulative line graph of Obama and McCain's donations.  The x-axis should be the donation amount, and the y-axis should be the cumulative donations up to that amount.
+
+We can see that even though Obama and McCain have some very large contributions, the vast majority of their total donations were from small contributors.  Also, not only did Obama get more donations, he also received larger donations.
+
 
 <img src="ex2_line1.png" width="700" />
 
@@ -313,15 +336,19 @@ Only after we've verified that the small donations were the major contributors, 
 
 ## Exercise 3:
 
-Scatter plot of re-attribution by spouses for all candidates.  It seems to be concentrated in a small group of Republican candidates.
+Scatter plot of re-attribution by spouses for all candidates.  Find all re-attribution by spouses data points for each candidate and plot them on a scatter plot.  The x-axis is the donation date and the y-axis is the donation amount.   
 
 <!--<img src="ex3_scatter1.png" width="700" />-->
 
 <img src="ex3_scatter2.png" width="700" />
 
+It seems to be concentrated in a small group of Republican candidates.
+
 At this point, we've only scratched the surface of one dimension (reattributions) of this interesting dataset.  You could continue our investigation by correlating professions with candidates, visualize donations by geography, or see if there are any more suspicious and interesting data points.  
 
-Also, the 2012 campaign contributions are also available on the website, so you could use your analysis on the current election!
+For example, which professions and companies are using this "re-attribution to spouse" trick?
+
+Also, the 2012 campaign contributions are also [available on the website](http://fec.gov/disclosurep/PDownload.do), so you could use your analysis on the current election!
 
 
 
@@ -329,7 +356,7 @@ Also, the 2012 campaign contributions are also available on the website, so you 
 
 Per-State amount on a map.  Tricky, need to pick proper mapping between data range and color range (probably research in this!)-->
 
-
+<!--
 ## Exercise 4: Visualize County Health Data
 
 The following are CSV files that contain the 2011 per-county health metrics.  The first three columns contain the FIPS county code, the state and the county.  The subsequent columns contain different metric values.  The first file contains only Years of Preventable Life Loss (YPLL) values, which is used as a proxy for the health of a population.  It is calculated as the sum of (Reference Age - Age at Death) for all deaths in a year.  The reference age is often 75.  The second file contains other metric values about each county.
@@ -358,25 +385,26 @@ The final charts should look something like
 
 <img src="ex_map.png" width="500" />
 
+-->
+
 # Done!
 
-Now you have hands on experience with the most popular python plotting library!  `Matplotlib` is far more power than what we have covered.  Check out its documentation ()
+Now you have hands on experience with the most popular python plotting library!  `Matplotlib` is far more power than what we have covered.  To cover the general process of using visualizations:
 
 * Always start by looking at your data with the simplest visualizations possible.  For most datasets, a scatter plot or line graph is sufficient.
 * First view a summary of the whole dataset so that you know which subsets are worth visualizing in more detail, and how significant the details really are.
-* 
+* Plot your interesting data along a bunch of different dimensions.
+* Stare at your data, try to identify trends, outliers and other interesting regions and form hypotheses.
+* Use statistics to see if your hypotheses were correct (tomorrow's lecture)
+* Repeat
 
 
-### Where do you go from here?
-More info about visualizations
-Animations
-Interactive visualizations
 
-#### Domain specific visualizations
+### Domain specific visualizations
 
-Lots of visualizations specialized for unique applications.  
+We only covered a small number of core visualizations in this lab.  There are lots of other types of visualizations specialized for different domains.  A few of them are listed below.
 
-Biology<br/>
+Gene Expression Matrix<br/>
 <img src="done_gene.jpg" width="400" />
 
 [Network graphs](http://networkx.lanl.gov/)<br/>
@@ -388,7 +416,12 @@ Biology<br/>
 
 #### Other visualization tools
 
-http://orange.biolab.si/features.html
+Some other visualization tools.  A few are in python, and many are in other languages like javascript or java.
+
+* [http://orange.biolab.si/features.html](http://orange.biolab.si/features.html): visualization and machine learning package for python
+* [Processing](http://processing.org/): a fantastic java-based visualization language.
+* [ProcessingJs](http://processingjs.org/): Processing ported to javascript
+* [d3](http://mbostock.github.com/d3/): A javascript based visualization library that makes drawing on `canvas` much much easier.
 
 #### Interactive visualizations
 Applications.  hard!
