@@ -22,6 +22,9 @@
 </ul>
 <p>In the exercises, we will use this to further visualize and analyze the campaign donations data.</p>
 <p><code>matplotlib</code> is quite powerful, and is intended to emulate matlab's visualization facilities.   We will give you a basic understanding of how plotting works, which should be enough for a majority of the charts that you will want to create.</p>
+<h2>Plotting Large Datasets</h2>
+<p>The dataset that we are working with is fairly large for a single computer, and it can take a long time to process the whole dataset, especially if you will process it repeatedly during the labs.</p>
+<p>Use the sampling technique we discussed in yesterday's lab!  You can change the sampling frequency (<code>1000</code> yesterday) to change the size of the sample.</p>
 <h2>Introduction</h2>
 <p>Visualizations are used to succinctly and visually describe different parts or different interpretations of your data.  They give the reader, who is not necessarily an expert in the dataset, an intuition of trends or relationships.</p>
 <p>I typically use visualizations for two purposes:</p>
@@ -296,6 +299,11 @@ colors[color_idx]
 </code></pre>
 <p>Using this, you should be able to create something like the following:</p>
 <p><a href="ex4_map.png"><img src="ex4_map.png" width="500" /></a></p>
+<p>You'll notice that if you plot more candidates, they are very difficult to see because their donations are eclipsed by Obama's.  One way is to use a log scale instead of a linear scale when mapping donations</p>
+<p>Here's some sample code for computing a log</p>
+<pre><code>import math
+math.log(100) # log of 100
+</code></pre>
 <!--## Exercise 4:
 
 Per-State amount on a map.  Tricky, need to pick proper mapping between data range and color range (probably research in this!)-->
