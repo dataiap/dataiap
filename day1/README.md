@@ -121,9 +121,9 @@ The dataset is quite large, and processing the full dataset can be pretty slow. 
 	with file(sys.argv[1], 'r') as f: 
 		i = 0
 		for line in f:
-			if i % 1000 == 0:
-				print line[:-1]
-			i += 1
+	        if i % 1000 == 0:
+	            print line[:-1]
+	        i += 1
 
 The line `print line[:-1]` prints the entire line except its last
 character to the screen.  Why skip the last character?  Because each
@@ -142,29 +142,30 @@ We will be analyzing Obama vs McCain data, so you can modify this code to create
 
 We learned how to iterate and extract data from the dataset, and how to plot lines, so we will now combine the two  to plot Obama's campaign contributions by date.  We will compute the total amount of donations for each day, and use `matplotlib` to create the charts.
 
-	from collections import defaultdict
-	import  matplotlib.pyplot as plt
+    from collections import defaultdict
+    import  matplotlib.pyplot as plt
+    import csv
 	
-	reader = csv.DictReader(open(sys.argv[1], 'r'))
-	
-	obamadonations = defaultdict(lambda:0)
-	
-	for row in reader:
-	    name = row['cand_nm']
-	    datestr = row['contb_receipt_dt']
-	    amount = float(row['contb_receipt_amt'])
-	    date = datetime.datetime.strptime(datestr, '%d-%b-%y')
-	
-	    if 'Obama' in name:
-	        obamadonations[date] += amount
-	
-	
-	# dictionaries 
-	sorted_by_date = sorted(obamadonations.items(), key=lambda (key,val): key)
-	xs,ys = zip(*sorted_by_date)
-	plt.plot(xs, ys, label='line 1')
-	plt.legend(loc='upper center', ncol = 4)
-	plt.savefig('/tmp/test.png', format='png')
+    reader = csv.DictReader(open(sys.argv[1], 'r'))
+    
+    obamadonations = defaultdict(lambda:0)
+    
+    for row in reader:
+        name = row['cand_nm']
+        datestr = row['contb_receipt_dt']
+        amount = float(row['contb_receipt_amt'])
+        date = datetime.datetime.strptime(datestr, '%d-%b-%y')
+    
+        if 'Obama' in name:
+            obamadonations[date] += amount
+    
+    
+    # dictionaries 
+    sorted_by_date = sorted(obamadonations.items(), key=lambda (key,val): key)
+    xs,ys = zip(*sorted_by_date)
+    plt.plot(xs, ys, label='line 1')
+    plt.legend(loc='upper center', ncol = 4)
+    plt.savefig('/tmp/test.png', format='png')
 
 A few notes about the code 
 
