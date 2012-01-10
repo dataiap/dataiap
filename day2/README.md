@@ -19,6 +19,12 @@ In the exercises, we will use this to further visualize and analyze the campaign
 
 `matplotlib` is quite powerful, and is intended to emulate matlab's visualization facilities.   We will give you a basic understanding of how plotting works, which should be enough for a majority of the charts that you will want to create.
 
+## Plotting Large Datasets
+
+The dataset that we are working with is fairly large for a single computer, and it can take a long time to process the whole dataset, especially if you will process it repeatedly during the labs.
+
+Use the sampling technique we discussed in yesterday's lab!  You can change the sampling frequency (`1000` yesterday) to change the size of the sample.  Use `100` as a starting point, but realize the graphs we show are with sampling set to `1` (all rows are included).
+
 ## Introduction
 
 Visualizations are used to succinctly and visually describe different parts or different interpretations of your data.  They give the reader, who is not necessarily an expert in the dataset, an intuition of trends or relationships.
@@ -368,6 +374,15 @@ The tricky part is mapping the donation amount to a color.  Here's some sample c
 Using this, you should be able to create something like the following:
 
 <a href="ex4_map.png"><img src="ex4_map.png" width="500" /></a>
+
+You'll notice that if you plot more candidates, they are very difficult to see because their donations are eclipsed by Obama's.  One way is to use a log scale instead of a linear scale when mapping donations
+
+Here's some sample code for computing a log
+
+    import math
+    math.log(100) # log of 100
+
+
 
 <!--## Exercise 4:
 
