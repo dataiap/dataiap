@@ -478,4 +478,7 @@ plt.savefig('figures/parabola-linearized.png', format='png')
 #  assume statistical significance (you collect boatloads of data) and
 #  develop algorithms to classify, cluster, and otherwise find
 #  patterns in the underlying datasets.
+#
+#
+# <iframe src="https://docs.google.com/spreadsheet/embeddedform?formkey=dFczUHpKMXA5ZmhaaVZIb1JOS29tcGc6MQ" width="760" height="939" frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe>
 
