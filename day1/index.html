@@ -126,6 +126,7 @@ standard output rediretor.</p>
 <p>We learned how to iterate and extract data from the dataset, and how to plot lines, so we will now combine the two  to plot Obama's campaign contributions by date.  We will compute the total amount of donations for each day, and use <code>matplotlib</code> to create the charts.</p>
 <pre><code>from collections import defaultdict
 import  matplotlib.pyplot as plt
+import csv
 
 reader = csv.DictReader(open(sys.argv[1], 'r'))
 
