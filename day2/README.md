@@ -23,7 +23,7 @@ In the exercises, we will use this to further visualize and analyze the campaign
 
 The dataset that we are working with is fairly large for a single computer, and it can take a long time to process the whole dataset, especially if you will process it repeatedly during the labs.
 
-Use the sampling technique we discussed in yesterday's lab!  You can change the sampling frequency (`1000` yesterday) to change the size of the sample.
+Use the sampling technique we discussed in yesterday's lab!  You can change the sampling frequency (`1000` yesterday) to change the size of the sample.  Use `100` as a starting point, but realize the graphs we show are with sampling set to `1` (all rows are included).
 
 ## Introduction
 
