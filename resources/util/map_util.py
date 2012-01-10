@@ -52,7 +52,11 @@ def draw_state(subplot, name, **kwargs):
     """
     global _color_idx
     if name not in state2poly:
-        raise RuntimeError, "state %s not found" % names
+        if get_statename(name) in state2poly:
+            name = get_statename(name)
+        else:
+            print "state %s not found" % name
+            return
     if 'color' not in kwargs:
         color = blues[_color_idx]
         _color_idx = (_color_idx+1) % len(blues)
@@ -77,6 +81,7 @@ def draw_county(subplot, fips, **kwargs):
     if fips not in fips2poly:
         #raise RuntimeError, 'County fips %s not found' % fips
         print 'County fips %s not found' % fips
+        return
     if 'color' not in kwargs:
         color = blues[_color_idx]
         _color_idx = (_color_idx+1) % len(blues)

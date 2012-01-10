@@ -22,11 +22,7 @@ In the exercises, we will use this to further visualize and analyze the campaign
 
 Note: plotting [network graphs](http://infosthetics.com/archives/facebook_graph2.jpg) is a topic unto itself, and isn't well supported in `matplotlib`.  There are other libraries for drawing them, but we unfortunately don't have the time to talk about it in this class.  At the end of today's lab,  we'll point you to some other python plotting libraries to make network graphs and other types of charts.
 
-# TODO: Add Comments about when to use each type of graph, and a section on colors/contrast?
 
-[a good link about color](http://www.perceptualedge.com/articles/b-eye/choosing_colors.pdf)
-
-# TODO: Use subject instead of email text
 
 ## Introduction
 
@@ -307,9 +303,15 @@ We only touched a small part of what `matplotlib` can do.  Here are some additio
 - `subplot.set_yscale()`
 - `subplot.set_ylim(minval, maxval)`: Set the y-axis limits
 
+### Color
+
+[This document](http://www.perceptualedge.com/articles/b-eye/choosing_colors.pdf) provides a good summary of what to think about when choosing colors.
+
+[Color Brewer 2](http://colorbrewer2.org/) is a fantastic tool for picking colors for a map.  We used it to pick the default colors for the choropleth library.
+
 # Exercises
 
-## Exercise 1: 
+## Exercise 1: Histograms
 
 We will use yesterday's Obama vs McCain dataset and visualize it using different chart types.  
 
@@ -321,7 +323,7 @@ For Obama, that's donations between `[-$18000, $19000]`.  For McCain, that's bet
 
 <img src="ex1_bar1.png" width="700" />
 
-## Exercise 2: 
+## Exercise 2: More line graphs
 
 Now create a cumulative line graph of Obama and McCain's donations.  The x-axis should be the donation amount, and the y-axis should be the cumulative donations up to that amount.
 
@@ -330,11 +332,11 @@ We can see that even though Obama and McCain have some very large contributions,
 
 <img src="ex2_line1.png" width="700" />
 
-Only after we've verified that the small donations were the major contributors, is it safe to zoom in on the graph!
+Only after we've verified that the small donations were the major contributors, is it safe to zoom in on the graph!  Use the ranges in the previous exercise.
 
 <img src="ex2_line2.png" width="700" />
 
-## Exercise 3:
+## Exercise 3: Scatter plots
 
 Scatter plot of re-attribution by spouses for all candidates.  Find all re-attribution by spouses data points for each candidate and plot them on a scatter plot.  The x-axis is the donation date and the y-axis is the donation amount.   
 
@@ -351,6 +353,26 @@ For example, which professions and companies are using this "re-attribution to s
 Also, the 2012 campaign contributions are also [available on the website](http://fec.gov/disclosurep/PDownload.do), so you could use your analysis on the current election!
 
 
+## Exercise 4
+
+Now create a figure where each subgraph plots the total amount of per-state donations to a candidate.  Thus, if there are 5 candidates (for example), there would be 5 subplots.
+
+The tricky part is mapping the donation amount to a color.  Here's some sample code to pick a shade of blue depending on the value of a donation between 0 and MAXDONATION.  The bigger index means a darker shade.
+    
+    # this creates an array of grey colors from white to black
+    colors = ['0','1','2','3','4','5','6','7','8','9','a', 'b', 'c', 'd', 'e', 'f']
+    colors = map(lambda s: '#%s' % (s*6), colors)
+    colors.sort(reverse=True)
+
+    # assume MAXDONATION was defined
+    # assume curdonation is the donation to pick a color for
+    ratio = (curdonation/float(MAXDONATION))
+    color_idx = int( ratio * (len(colors) - 1) )
+    colors[color_idx]
+
+Using this, you should be able to create something like the following:
+
+<a href="ex4_map.png"><img src="ex4_map.png" width="500" /></a>
 
 <!--## Exercise 4:
 
@@ -423,6 +445,7 @@ Some other visualization tools.  A few are in python, and many are in other lang
 * [ProcessingJs](http://processingjs.org/): Processing ported to javascript
 * [d3](http://mbostock.github.com/d3/): A javascript based visualization library that makes drawing on `canvas` much much easier.
 
-#### Interactive visualizations
-Applications.  hard!
 
+# Feedback
+
+<iframe src="https://docs.google.com/spreadsheet/embeddedform?formkey=dGtOSW5fd3l4eVFtRDNPYTZPWHJPM1E6MQ" width="760" height="939" frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe>
