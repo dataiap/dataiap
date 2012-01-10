@@ -1,4 +1,4 @@
 all: page
 
 page: 
-	cp /tmp/dataiap_html/* .
+	cp -r /tmp/dataiap_html/* .
