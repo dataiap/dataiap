@@ -28,7 +28,7 @@ status</a>.  Iodine
 supplementation in infants is <a href="https://www.ncbi.nlm.nih.gov/pubmed/15734706">correlated with higher
 IQ</a>.  Models are
 everywhere as well.  An object falling for t seconds moves .5gt^2
-meters.  You can calculate correlation and built approximate models
+meters.  You can calculate correlation and build approximate models
 using several techniques, but the simplest and most popular
 technique by far is <strong> linear regression </strong>.  Let's see how it
 works!</p>
@@ -42,8 +42,8 @@ Lost</a>
 and <a href="https://github.com/dataiap/dataiap/blob/master/datasets/county_health_rankings/additional_measures_cleaned.csv">Additional
 Measures</a>.</p>
 <p><a href="https://en.wikipedia.org/wiki/Years_of_potential_life_lost">Years of potential life lost</a> (YPLL) is an early mortality measure.  It
-measures, across 100,000 people, how many total of the number of
-years below the age of 75 that 100,000-person cohort loses.  For
+measures, across 100,000 people, the total number of
+years below the age of 75 that a 100,000-person group loses.  For
 example, if a person dies at age 73, they contribute 2 years to this
 sum.  If they die at age 77, they contribute 0 years to the sum.
 The YPLL for each 100,000 people, averaged across counties in the
@@ -135,7 +135,7 @@ datasets will be considered.  This is handled by the function
         </div>
         <p>We return numpy arrays (matrices) with rows corresponding to
 counties and columns corresponding to the columns we read from the
-spreadsheet.  We can finally call the <code>get_arrs</code> function to laod
+spreadsheet.  We can finally call the <code>get_arrs</code> function to load
 the desired columns from each file.</p>
       </div>
       <div class=code>
@@ -166,8 +166,8 @@ the desired columns from each file.</p>
 <p>Like we did during hypothesis testing, our first step is to look at
 the data to identify correlations.  The best visualization to
 identify correlations is a scatterplot, since that shows us the
-relationship between a potentially dependent variable (ypll) and an
-independent variable like % diabetes.</p>
+relationship between two potentially related variables like ypll and
+% diabetes.</p>
 <p>Let's start by looking at scatterplots of ypll versus three
 potentially correlated variables: % of a community that has
 diabetes, % of the community under the age of 18, and median income.</p>
@@ -198,19 +198,35 @@ diabetes, % of the community under the age of 18, and median income.</p>
         </div>
         <p>Your plots should look something like this:</p>
 <p><img alt="YPLL vs. population with diabetes, population less than 18 years of age, and median household income" src="figures/three-scatters.png" /></p>
-<p>We picked these three examples because they show visual evidence of three forms of correlation:
- * In the first plot, we can see that when the percentage of people
- in a county with diabetes is higher so is the mortality rate
- (YPLL)---evidence of a positive correlation.
- * The second plot looks like a blob.  It's hard to see a
+<p>We picked these three examples because they show visual evidence of three forms of correlation:</p>
+<ul>
+<li>In the first plot, we can see that when the percentage of people
+ in a county with diabetes is higher, so is the mortality rate
+ (YPLL)---evidence of a positive correlation.</li>
+<li>The second plot looks like a blob.  It's hard to see a
  relationship between mortality and the fraction of people under the
- age of 18 in a community.
- * The final plot shows evidence of negative correlation.  Counties
- with higher median incomes appear to have lower mortality rates.</p>
-<p><strong> Exercise </strong> Look at scatter plots of other variables vs. YPLL.
+ age of 18 in a community.</li>
+<li>The final plot shows evidence of negative correlation.  Counties
+ with higher median incomes appear to have lower mortality rates.</li>
+</ul>
+      </div>
+      
+    </tr><tr id='section-8'>
+      <div class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-">#</a>
+        </div>
+        <p><strong> Exercise </strong> Look at scatter plots of other variables vs. YPLL.
 We found the percent of children eligible for school lunch to be
 alarmingly correlated with YPLL!</p>
-<h3>Your First Regression</h3>
+      </div>
+      
+    </tr><tr id='section-9'>
+      <div class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-">#</a>
+        </div>
+        <h3>Your First Regression</h3>
 
 <p>It's time we turn the intuition from our scatterplots into math!
 We'll do this using the <code>ols</code> module, which stands for <strong> ordinary
@@ -222,7 +238,7 @@ least squares </strong> regression.  Let's run a regression for YPLL vs. % Diabe
 <span class="n">model</span> <span class="o">=</span> <span class="n">ols</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="n">ypll_arr</span><span class="p">,</span> <span class="n">measures_arr</span><span class="p">[:,</span><span class="mi">6</span><span class="p">],</span> <span class="s">&quot;YPLL Rate&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s">&quot;% Diabetes&quot;</span><span class="p">])</span> <span class="c"># 6 = diabetes</span>
 <span class="n">model</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span></pre></div></pre></div>
       </div>
-    </tr><tr id='section-8'>
+    </tr><tr id='section-10'>
       <div class=docs>
         <div class="octowrap">
           <a class="octothorpe" href="#section-">#</a>
@@ -273,7 +289,8 @@ the YPLL vs. % Diabetes regression:</p>
   ranges from 0 (none of the change in YPLL is predicted by the
   above equation) to 1 (100% of the change in YPLL is predicted by
   the above equation).  In our case, 51% of the changes YPLL can be
-  predicted by a linear equation on %Diabetes.</li>
+  predicted by a linear equation on %Diabetes.  That's a reasonably
+  strong correlation.</li>
 </ul>
 <p>Putting this all together, we've just discovered that, without
 knowing the YPLL of a community, we can take data on the percentage
@@ -287,7 +304,7 @@ than print a large table, you can access the data individually</p>
 <span class="k">print</span> <span class="s">&quot;coefficients&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">b</span>
 <span class="k">print</span> <span class="s">&quot;R-squared and adjusted R-squared:&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">R2</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">R2adj</span></pre></div></pre></div>
       </div>
-    </tr><tr id='section-9'>
+    </tr><tr id='section-11'>
       <div class=docs>
         <div class="octowrap">
           <a class="octothorpe" href="#section-">#</a>
@@ -302,7 +319,7 @@ we've calculated through the scatterplot we built before</p>
 <span class="n">subplot</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">measures_arr</span><span class="p">[:,</span><span class="mi">6</span><span class="p">],</span> <span class="n">ypll_arr</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;#1f77b4&quot;</span><span class="p">)</span> <span class="c"># 6 = diabetes</span>
 <span class="n">subplot</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">&quot;ypll vs. </span><span class="si">% o</span><span class="s">f population with diabetes&quot;</span><span class="p">)</span></pre></div></pre></div>
       </div>
-    </tr><tr id='section-10'>
+    </tr><tr id='section-12'>
       
       <div class=code>
         <div class='highlight'><pre><div class="highlight"><pre><span class="k">def</span> <span class="nf">best_fit</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span> <span class="c"># calculates y = mx + b</span>
@@ -313,7 +330,7 @@ we've calculated through the scatterplot we built before</p>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s">&#39;figures/scatter-line.png&#39;</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s">&#39;png&#39;</span><span class="p">)</span></pre></div></pre></div>
       </div>
-    </tr><tr id='section-11'>
+    </tr><tr id='section-13'>
       <div class=docs>
         <div class="octowrap">
           <a class="octothorpe" href="#section-">#</a>
@@ -323,21 +340,56 @@ we've calculated through the scatterplot we built before</p>
 <p>We can see that our line slopes upward (the beta coefficient in
 front of the %Diabetes term is positive) indicating a positive
 correlation.</p>
-<p><strong> Exercise </strong> Run the correlations for percentage of population
+      </div>
+      
+    </tr><tr id='section-14'>
+      <div class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-">#</a>
+        </div>
+        <p><strong> Exercise </strong> Run the correlations for percentage of population
 under 18 years of age and median household income.</p>
-<p>We got statistically significant results for all of these tests.
+      </div>
+      
+    </tr><tr id='section-15'>
+      <div class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-">#</a>
+        </div>
+        <p>We got statistically significant results for all of these tests.
 Median household income is negatively correlated (the slope beta is
 -.13), and explains a good portion of YPLL (R-squared is .48).
 Remember that we saw a blob in the scatterplot for percentage of
 population under 18.  The regression backs this up: the R-squared of
 .005 suggests little predictive power of YPLL.</p>
-<p><strong> Exercise </strong> Plot the lines calculated from the regression for
+      </div>
+      
+    </tr><tr id='section-16'>
+      <div class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-">#</a>
+        </div>
+        <p><strong> Exercise </strong> Plot the lines calculated from the regression for
 each of these independent variables.  Do they fit the models?</p>
-<p><strong> Exercise </strong> Run the correlation for % of children eligible for
+      </div>
+      
+    </tr><tr id='section-17'>
+      <div class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-">#</a>
+        </div>
+        <p><strong> Exercise </strong> Run the correlation for % of children eligible for
 school lunches.  Is it significant?  Positively or negatively
 correlated?  How does this R-squared value compare to the ones we
 just calculated?</p>
-<h3>Explaining R-squared</h3>
+      </div>
+      
+    </tr><tr id='section-18'>
+      <div class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-">#</a>
+        </div>
+        <h3>Explaining R-squared</h3>
 
 <p>R-squared roughly tells us how well the linear model (the line) we
 get from a linear regression explains the independent variable.</p>
@@ -370,7 +422,7 @@ the population under 18 into one regression.</p>
 <span class="k">print</span> <span class="s">&quot;coefficients&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">b</span>
 <span class="k">print</span> <span class="s">&quot;R-squared and adjusted R-squared:&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">R2</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">R2adj</span></pre></div></pre></div>
       </div>
-    </tr><tr id='section-12'>
+    </tr><tr id='section-19'>
       <div class=docs>
         <div class="octowrap">
           <a class="octothorpe" href="#section-">#</a>
@@ -385,7 +437,7 @@ read of the beta coefficients suggests the best linear combination
 of all of these variables is <strong> YPLL = 4115 + 131<em>(% under 18) + 516</em>(% Diabetes) - 877*(median household income) </strong>.</p>
       </div>
       
-    </tr><tr id='section-13'>
+    </tr><tr id='section-20'>
       <div class=docs>
         <div class="octowrap">
           <a class="octothorpe" href="#section-">#</a>
@@ -394,13 +446,65 @@ of all of these variables is <strong> YPLL = 4115 + 131<em>(% under 18) + 516</e
 we should look at the adjusted R-squared value, which is .583.  This
 value penalizes you for needlessly adding variables to the
 regression that don't give you more information about YPLL.  Anyway,
-check out that R-squared---nice!  That's larger than the Rsquare value
+check out that R-squared---nice!  That's larger than the R-squared value
 for any one of the regressions we ran on their own!  We can explain
 more of YPLL with these variables.</p>
-<p><strong> Exercise </strong> Try combining other variables.  What's the largest
-adjusted R-squares you can achieve?  We can reach .715 by an
+      </div>
+      
+    </tr><tr id='section-21'>
+      <div class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-">#</a>
+        </div>
+        <p><strong> Exercise </strong> Try combining other variables.  What's the largest
+adjusted R-squared you can achieve?  We can reach .715 by an
 excessive use of variables.  Can you replicate that?</p>
-<h3>Nonlinearity</h3>
+      </div>
+      
+    </tr><tr id='section-22'>
+      <div class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-">#</a>
+        </div>
+        <h3>Eliminate Free Lunches, Save the Planet</h3>
+
+<p>At some point in performing a regression and testing for a
+correlation, you will be tempted to come up with solutions to
+problems the regression has not identified.  For example, we noticed
+that the percentage of children eligible for free lunch is pretty
+strongly correlated with the morbidity rate in a community.  How can
+we use this knowledge to lower the morbidity rate?</p>
+<p><strong> ALERT, ALERT, ALERT!!! </strong> The question at the end of the last
+paragraph jumped from a question of correlation to a question of
+causation.</p>
+<p>It would be far-fetched to think that increasing or decreasing the
+number of children <strong> eligible </strong> for school lunches would increase or
+decrease the morbidity rate in any significant way.  What the
+correlation likely means is that there is a third variable, such as
+available healthcare, nutrition options, or overall prosperity of a
+community that is correlated with both school lunch eligibility and
+the morbidity rate.  That's a variable policymakers might have
+control over, and if we somehow improved outcomes on that third
+variable, we'd see both school lunch eligibility and the morbidity
+rate go down.</p>
+<p>Remember: correlation means two variables move together, not that
+one moves the other.</p>
+      </div>
+      
+    </tr><tr id='section-23'>
+      <div class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-">#</a>
+        </div>
+        <p>We've hit the point that if you're stressed for time, you can jump ahead to the <a href="#wherefromhere">closing remarks</a>.  Realize, however, that there's still mind-blowing stuff ahead, and if you have time you should read it!</p>
+      </div>
+      
+    </tr><tr id='section-24'>
+      <div class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-">#</a>
+        </div>
+        <h3>Nonlinearity</h3>
 
 <p>Is finding a bunch of independent variables and performing linear
 regression against some dependent variable the best we can do to
@@ -411,20 +515,21 @@ scatterplots we built before matter quite a bit!</p>
 <p>Take gravity for example.  Say we measured the distance an object
 fell in a certain amount of time, and had a bit of noise to our
 measurement.  Below, we'll simulate that activity by generating the
-time-distance relationship that we learned in high school.  Imagine
-we record the displacement of a ball as we drop it, storing the time
-and displacement measurements in <code>timings</code> and <code>displacements</code>.</p>
+time-distance relationship that we learned in high school
+(displacement = .5gt^2).  Imagine we record the displacement of a
+ball as we drop it, storing the time and displacement measurements
+in <code>timings</code> and <code>displacements</code>.</p>
       </div>
       <div class=code>
         <div class='highlight'><pre><div class="highlight"><pre><span class="n">timings</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
 <span class="n">displacements</span> <span class="o">=</span> <span class="p">[</span><span class="mf">4.9</span><span class="o">*</span><span class="n">t</span><span class="o">*</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">timings</span><span class="p">]</span></pre></div></pre></div>
       </div>
-    </tr><tr id='section-14'>
+    </tr><tr id='section-25'>
       <div class=docs>
         <div class="octowrap">
           <a class="octothorpe" href="#section-">#</a>
         </div>
-        <p>A scatterplot of the data looks like a parabola, which doesn't take
+        <p>A scatterplot of the data looks like a parabola, which won't fit
 lines very well!  We can <strong> transform </strong> this data by squaring the
 time values.</p>
       </div>
@@ -438,11 +543,11 @@ time values.</p>
 
 <span class="n">subplot</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">212</span><span class="p">)</span>
 <span class="n">subplot</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">sq_timings</span><span class="p">,</span> <span class="n">displacements</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;#1f77b4&quot;</span><span class="p">)</span>
-<span class="n">subplot</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">&quot;original measurements (parabola)&quot;</span><span class="p">)</span>
+<span class="n">subplot</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">&quot;squared time measurements (line)&quot;</span><span class="p">)</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s">&#39;figures/parabola-linearized.png&#39;</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s">&#39;png&#39;</span><span class="p">)</span></pre></div></pre></div>
       </div>
-    </tr><tr id='section-15'>
+    </tr><tr id='section-26'>
       <div class=docs>
         <div class="octowrap">
           <a class="octothorpe" href="#section-">#</a>
@@ -451,22 +556,50 @@ time values.</p>
 can see that squaring the time values turned the plot into a more
 linear one.</p>
 <p><img alt="Original vs. Transformed Data" src="figures/parabola-linearized.png" /></p>
-<p><strong> Exercise </strong> Perform a linear regression on the original and
+      </div>
+      
+    </tr><tr id='section-27'>
+      <div class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-">#</a>
+        </div>
+        <p><strong> Exercise </strong> Perform a linear regression on the original and
 transformed data.  Are they all significant?  What's the R-squared
 value of each?  Which model would you prefer?  Does the coefficient
 of the transformed value mean anything to you?</p>
-<p>For those keeping score at home, we got R-squared of .939 and 1.00
+      </div>
+      
+    </tr><tr id='section-28'>
+      <div class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-">#</a>
+        </div>
+        <p>For those keeping score at home, we got R-squared of .939 and 1.00
 for the unadjusted and adjusted timings, which means we were able to
 perfectly match the data after transformation.  Note that in the
 case of the squared timings, the equation we end up with is <strong>
-displacement = 4.9 * time^2 </strong>, which is the exact formula we had
-for gravity.  Awesome!</p>
-<p><strong> Exercise </strong> Can you improve the R-squared values by
+displacement = 4.9 * time^2 </strong> (the coefficient was 4.9), which is
+the exact formula we had for gravity.  Awesome!</p>
+      </div>
+      
+    </tr><tr id='section-29'>
+      <div class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-">#</a>
+        </div>
+        <p><strong> Exercise </strong> Can you improve the R-squared values by
 transformation in the county health rankings?  Try taking the log of
 the population, a common technique for making data that is bunched
 up spread out more.  To understand what the log transform did, take
 a look at a scatterplot.</p>
-<p>Log-transforming population got us from R-squared = .026 to
+      </div>
+      
+    </tr><tr id='section-30'>
+      <div class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-">#</a>
+        </div>
+        <p>Log-transforming population got us from R-squared = .026 to
 R-squared = .097.</p>
 <p>Linear regression, scatterplots, and variable transformation can get
 you a long way.  But sometimes, you just can't figure out the right
@@ -475,30 +608,7 @@ in the data.  In those cases, more complex technques like <a href="https://en.wi
 least
 squares</a> can
 fit all sorts of nonlinear functions to the data.</p>
-<h3>Eliminate Free Lunches, Save the Planet</h3>
-
-<p>At some point in performing a regression and testing for a
-correlation, you will be tempted to come up with solutions to
-problems the regression has not identified.  For example, we noticed
-that the percentage of children eligible for free lunch is pretty
-strongly correlated with the morbidity rate in a community.  How can
-we use this knowledge to lower the morbidity rate?</p>
-<p><strong> ALERT, ALERT, ALERT!!! </strong> The question at the end of the last
-paragraph jumped from correlation to causation.</p>
-<p>It would be far-fetched to think that increasing or decreasing the
-number of children * eligible * for school lunches would increase or
-decrease the morbidity rate in any significant way.  What the
-correlation likely means is that there is a third variable, such as
-available healthcare, nutrition options, or overall prosperity of a
-community that is correlated with both school lunch eligibility and
-the morbidity rate.  That's a variable policymakers might have
-control over, and if we somehow improved outcomes on that third
-variable, we'd see both school lunch eligibility and the morbidity
-rate go down.</p>
-<p>Remember: correlation means two variables move together, not that
-one moves the other.</p>
-<h3>ANOVA, Logistic Regression, Machine Learning</h3>
-
+<p><a name="wherefromhere"><h3>Where to go from here</h3></a></p>
 <p>Today you've swallowed quite a bit.  You learned about significance
 testing to support or reject high-likelihood meaningful hypotheses.
 You learned about the T-Test to help you compare two communities on
@@ -511,6 +621,17 @@ here, there are several directions to grow.</p>
 <a href="https://en.wikipedia.org/wiki/Analysis_of_variance">ANOVA</a>, where
 you can identify differences among more than two groups, and control
 for known differences between items in each dataset.</p>
+</li>
+<li>
+<p>The T-Test is one of many <a href="https://en.wikipedia.org/wiki/Statistical_hypothesis_testing#Common_test_statistics">tests of statistical significance</a>.</p>
+</li>
+<li>
+<p>The concept of statistical significance testing comes from a
+<a href="https://en.wikipedia.org/wiki/Frequentist_inference">frequentist view of the
+world</a>.
+Another view is the <a href="https://en.wikipedia.org/wiki/Bayesian_statistics">Bayesian
+approach</a>, if
+mathematical controversy is your thing.</p>
 </li>
 <li>
 <p><a href="https://en.wikipedia.org/wiki/Logistic_regression">Logistic
