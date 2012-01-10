@@ -4,7 +4,7 @@
 # supplementation in infants is [correlated with higher
 # IQ](https://www.ncbi.nlm.nih.gov/pubmed/15734706).  Models are
 # everywhere as well.  An object falling for t seconds moves .5gt^2
-# meters.  You can calculate correlation and built approximate models
+# meters.  You can calculate correlation and build approximate models
 # using several techniques, but the simplest and most popular
 # technique by far is ** linear regression **.  Let's see how it
 # works!
@@ -20,8 +20,8 @@
 # Measures](https://github.com/dataiap/dataiap/blob/master/datasets/county_health_rankings/additional_measures_cleaned.csv).
 #
 # [Years of potential life lost](https://en.wikipedia.org/wiki/Years_of_potential_life_lost) (YPLL) is an early mortality measure.  It
-# measures, across 100,000 people, how many total of the number of
-# years below the age of 75 that 100,000-person cohort loses.  For
+# measures, across 100,000 people, the total number of
+# years below the age of 75 that a 100,000-person group loses.  For
 # example, if a person dies at age 73, they contribute 2 years to this
 # sum.  If they die at age 77, they contribute 0 years to the sum.
 # The YPLL for each 100,000 people, averaged across counties in the
@@ -100,7 +100,7 @@ def get_arrs(dependent_cols, independent_cols):
 
 # We return numpy arrays (matrices) with rows corresponding to
 # counties and columns corresponding to the columns we read from the
-# spreadsheet.  We can finally call the `get_arrs` function to laod
+# spreadsheet.  We can finally call the `get_arrs` function to load
 # the desired columns from each file.
 
 dependent_cols = ["YPLL Rate"]
@@ -119,8 +119,8 @@ ypll_arr, measures_arr = get_arrs(dependent_cols, independent_cols)
 # Like we did during hypothesis testing, our first step is to look at
 # the data to identify correlations.  The best visualization to
 # identify correlations is a scatterplot, since that shows us the
-# relationship between a potentially dependent variable (ypll) and an
-# independent variable like % diabetes.
+# relationship between two potentially related variables like ypll and
+# % diabetes.
 #
 # Let's start by looking at scatterplots of ypll versus three
 # potentially correlated variables: % of a community that has
@@ -149,19 +149,20 @@ plt.savefig('figures/three-scatters.png', format='png')
 #  ![YPLL vs. population with diabetes, population less than 18 years of age, and median household income](figures/three-scatters.png)
 #
 # We picked these three examples because they show visual evidence of three forms of correlation:
+#
 #  * In the first plot, we can see that when the percentage of people
-#  in a county with diabetes is higher so is the mortality rate
+#  in a county with diabetes is higher, so is the mortality rate
 #  (YPLL)---evidence of a positive correlation.
 #  * The second plot looks like a blob.  It's hard to see a
 #  relationship between mortality and the fraction of people under the
 #  age of 18 in a community.
 #  * The final plot shows evidence of negative correlation.  Counties
 #  with higher median incomes appear to have lower mortality rates.
-#
+
 # ** Exercise ** Look at scatter plots of other variables vs. YPLL.
 # We found the percent of children eligible for school lunch to be
 # alarmingly correlated with YPLL!
-#
+
 # <h3>Your First Regression</h3>
 #
 # It's time we turn the intuition from our scatterplots into math!
@@ -220,7 +221,8 @@ model.summary()
 #   ranges from 0 (none of the change in YPLL is predicted by the
 #   above equation) to 1 (100% of the change in YPLL is predicted by
 #   the above equation).  In our case, 51% of the changes YPLL can be
-#   predicted by a linear equation on %Diabetes.
+#   predicted by a linear equation on %Diabetes.  That's a reasonably
+#   strong correlation.
 #
 # Putting this all together, we've just discovered that, without
 # knowing the YPLL of a community, we can take data on the percentage
@@ -258,25 +260,25 @@ plt.savefig('figures/scatter-line.png', format='png')
 # We can see that our line slopes upward (the beta coefficient in
 # front of the %Diabetes term is positive) indicating a positive
 # correlation.
-#
+
 # ** Exercise ** Run the correlations for percentage of population
 # under 18 years of age and median household income.
-#
+
 # We got statistically significant results for all of these tests.
 # Median household income is negatively correlated (the slope beta is
 # -.13), and explains a good portion of YPLL (R-squared is .48).
 # Remember that we saw a blob in the scatterplot for percentage of
 # population under 18.  The regression backs this up: the R-squared of
 # .005 suggests little predictive power of YPLL.
-#
+
 # ** Exercise ** Plot the lines calculated from the regression for
 # each of these independent variables.  Do they fit the models?
-#
+
 # ** Exercise ** Run the correlation for % of children eligible for
 # school lunches.  Is it significant?  Positively or negatively
 # correlated?  How does this R-squared value compare to the ones we
 # just calculated?
-#
+
 # <h3>Explaining R-squared</h3>
 #
 # R-squared roughly tells us how well the linear model (the line) we
@@ -327,85 +329,14 @@ print "R-squared and adjusted R-squared:", model.R2, model.R2adj
 # we should look at the adjusted R-squared value, which is .583.  This
 # value penalizes you for needlessly adding variables to the
 # regression that don't give you more information about YPLL.  Anyway,
-# check out that R-squared---nice!  That's larger than the Rsquare value
+# check out that R-squared---nice!  That's larger than the R-squared value
 # for any one of the regressions we ran on their own!  We can explain
 # more of YPLL with these variables.
-#
+
 # ** Exercise ** Try combining other variables.  What's the largest
-# adjusted R-squares you can achieve?  We can reach .715 by an
+# adjusted R-squared you can achieve?  We can reach .715 by an
 # excessive use of variables.  Can you replicate that?
-#
-#<h3>Nonlinearity</h3>
-#
-# Is finding a bunch of independent variables and performing linear
-# regression against some dependent variable the best we can do to
-# model our data?  Nope!  Linear regression gives us the best line to
-# fit through the data, but there are cases where the interaction
-# between two variables is nonlinear.  In these cases, the
-# scatterplots we built before matter quite a bit!
-#
-# Take gravity for example.  Say we measured the distance an object
-# fell in a certain amount of time, and had a bit of noise to our
-# measurement.  Below, we'll simulate that activity by generating the
-# time-distance relationship that we learned in high school.  Imagine
-# we record the displacement of a ball as we drop it, storing the time
-# and displacement measurements in `timings` and `displacements`.
 
-timings = range(1, 100)
-displacements = [4.9*t*t for t in timings]
-
-# A scatterplot of the data looks like a parabola, which doesn't take
-# lines very well!  We can ** transform ** this data by squaring the
-# time values.
-
-sq_timings = [t*t for t in timings]
-
-fig = plt.figure()
-subplot = fig.add_subplot(211)
-subplot.scatter(timings, displacements, color="#1f77b4")
-subplot.set_title("original measurements (parabola)")
-
-subplot = fig.add_subplot(212)
-subplot.scatter(sq_timings, displacements, color="#1f77b4")
-subplot.set_title("original measurements (parabola)")
-
-plt.savefig('figures/parabola-linearized.png', format='png')
-
-# Here are scatterplots of the original and transformed datasets.  You
-# can see that squaring the time values turned the plot into a more
-# linear one.
-#
-# ![Original vs. Transformed Data](figures/parabola-linearized.png)
-#
-# ** Exercise ** Perform a linear regression on the original and
-# transformed data.  Are they all significant?  What's the R-squared
-# value of each?  Which model would you prefer?  Does the coefficient
-# of the transformed value mean anything to you?
-#
-# For those keeping score at home, we got R-squared of .939 and 1.00
-# for the unadjusted and adjusted timings, which means we were able to
-# perfectly match the data after transformation.  Note that in the
-# case of the squared timings, the equation we end up with is **
-# displacement = 4.9 * time^2 **, which is the exact formula we had
-# for gravity.  Awesome!
-#
-# ** Exercise ** Can you improve the R-squared values by
-# transformation in the county health rankings?  Try taking the log of
-# the population, a common technique for making data that is bunched
-# up spread out more.  To understand what the log transform did, take
-# a look at a scatterplot.
-#
-# Log-transforming population got us from R-squared = .026 to
-# R-squared = .097.
-#
-# Linear regression, scatterplots, and variable transformation can get
-# you a long way.  But sometimes, you just can't figure out the right
-# transformation to perform even though there's a visible relationship
-# in the data.  In those cases, more complex technques like [nonlinear
-# least
-# squares](https://en.wikipedia.org/wiki/Non-linear_least_squares) can
-# fit all sorts of nonlinear functions to the data.
-#
 # <h3>Eliminate Free Lunches, Save the Planet</h3>
 #
 # At some point in performing a regression and testing for a
@@ -416,10 +347,11 @@ plt.savefig('figures/parabola-linearized.png', format='png')
 # we use this knowledge to lower the morbidity rate?
 #
 # ** ALERT, ALERT, ALERT!!! ** The question at the end of the last
-# paragraph jumped from correlation to causation.
+# paragraph jumped from a question of correlation to a question of
+# causation.
 #
 # It would be far-fetched to think that increasing or decreasing the
-# number of children * eligible * for school lunches would increase or
+# number of children ** eligible ** for school lunches would increase or
 # decrease the morbidity rate in any significant way.  What the
 # correlation likely means is that there is a third variable, such as
 # available healthcare, nutrition options, or overall prosperity of a
@@ -432,7 +364,84 @@ plt.savefig('figures/parabola-linearized.png', format='png')
 # Remember: correlation means two variables move together, not that
 # one moves the other.
 #
-# <h3>ANOVA, Logistic Regression, Machine Learning</h3>
+
+#
+# We've hit the point that if you're stressed for time, you can jump ahead to the <a href="#wherefromhere">closing remarks</a>.  Realize, however, that there's still mind-blowing stuff ahead, and if you have time you should read it!
+#
+
+#<h3>Nonlinearity</h3>
+#
+# Is finding a bunch of independent variables and performing linear
+# regression against some dependent variable the best we can do to
+# model our data?  Nope!  Linear regression gives us the best line to
+# fit through the data, but there are cases where the interaction
+# between two variables is nonlinear.  In these cases, the
+# scatterplots we built before matter quite a bit!
+#
+# Take gravity for example.  Say we measured the distance an object
+# fell in a certain amount of time, and had a bit of noise to our
+# measurement.  Below, we'll simulate that activity by generating the
+# time-distance relationship that we learned in high school
+# (displacement = .5gt^2).  Imagine we record the displacement of a
+# ball as we drop it, storing the time and displacement measurements
+# in `timings` and `displacements`.
+
+timings = range(1, 100)
+displacements = [4.9*t*t for t in timings]
+
+# A scatterplot of the data looks like a parabola, which won't fit
+# lines very well!  We can ** transform ** this data by squaring the
+# time values.
+
+sq_timings = [t*t for t in timings]
+
+fig = plt.figure()
+subplot = fig.add_subplot(211)
+subplot.scatter(timings, displacements, color="#1f77b4")
+subplot.set_title("original measurements (parabola)")
+
+subplot = fig.add_subplot(212)
+subplot.scatter(sq_timings, displacements, color="#1f77b4")
+subplot.set_title("squared time measurements (line)")
+
+plt.savefig('figures/parabola-linearized.png', format='png')
+
+# Here are scatterplots of the original and transformed datasets.  You
+# can see that squaring the time values turned the plot into a more
+# linear one.
+#
+# ![Original vs. Transformed Data](figures/parabola-linearized.png)
+
+# ** Exercise ** Perform a linear regression on the original and
+# transformed data.  Are they all significant?  What's the R-squared
+# value of each?  Which model would you prefer?  Does the coefficient
+# of the transformed value mean anything to you?
+
+# For those keeping score at home, we got R-squared of .939 and 1.00
+# for the unadjusted and adjusted timings, which means we were able to
+# perfectly match the data after transformation.  Note that in the
+# case of the squared timings, the equation we end up with is **
+# displacement = 4.9 * time^2 ** (the coefficient was 4.9), which is
+# the exact formula we had for gravity.  Awesome!
+
+# ** Exercise ** Can you improve the R-squared values by
+# transformation in the county health rankings?  Try taking the log of
+# the population, a common technique for making data that is bunched
+# up spread out more.  To understand what the log transform did, take
+# a look at a scatterplot.
+
+# Log-transforming population got us from R-squared = .026 to
+# R-squared = .097.
+#
+# Linear regression, scatterplots, and variable transformation can get
+# you a long way.  But sometimes, you just can't figure out the right
+# transformation to perform even though there's a visible relationship
+# in the data.  In those cases, more complex technques like [nonlinear
+# least
+# squares](https://en.wikipedia.org/wiki/Non-linear_least_squares) can
+# fit all sorts of nonlinear functions to the data.
+#
+# <a name="wherefromhere"><h3>Where to go from here</h3></a>
 #
 # Today you've swallowed quite a bit.  You learned about significance
 # testing to support or reject high-likelihood meaningful hypotheses.
@@ -445,6 +454,14 @@ plt.savefig('figures/parabola-linearized.png', format='png')
 # [ANOVA](https://en.wikipedia.org/wiki/Analysis_of_variance), where
 # you can identify differences among more than two groups, and control
 # for known differences between items in each dataset.
+#
+# * The T-Test is one of many [tests of statistical significance](https://en.wikipedia.org/wiki/Statistical_hypothesis_testing#Common_test_statistics).
+# * The concept of statistical significance testing comes from a
+# [frequentist view of the
+# world](https://en.wikipedia.org/wiki/Frequentist_inference).
+# Another view is the [Bayesian
+# approach](https://en.wikipedia.org/wiki/Bayesian_statistics), if
+# mathematical controversy is your thing.
 #
 # * [Logistic
 # regression](https://en.wikipedia.org/wiki/Logistic_regression), and
