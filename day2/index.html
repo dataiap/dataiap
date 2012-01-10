@@ -130,6 +130,7 @@ subplot.plot(xs, ys1, xs, ys2)
 <h3>Box Plots <a href="http://matplotlib.sourceforge.net/api/axes_api.html#matplotlib.axes.Axes.boxplot">documentation</a></h3>
 <p><code>boxplot(data)</code></p>
 <p>Boxplots are used to summarize and compare groups of numerical data.  Each box summarizes a set of numbers and depicts 5 parameters:</p>
+<p><b><strong><em>NOTE</em></strong></b> The words we are about to use might seem foreign to you.  We will teach boxplots in depth tomorrow.  We are just introducing how to draw box plots today, and will use them a whole lot tomorrow.</p>
 <ul>
 <li>The smallest number</li>
 <li>The lower quartile</li>
@@ -137,7 +138,6 @@ subplot.plot(xs, ys1, xs, ys2)
 <li>The upper quartile</li>
 <li>The largest observation</li>
 </ul>
-<p>Don't worry if it looks foreign to you.  We will discuss box plots in more detail tomorrow.  This is just an introduction on how to draw them.</p>
 <p><code>subplot.boxplot</code> will automatically compute these values, and also ignore numbers that it thinks are outliers.  Don't worry about when and why they are used -- we will discuss that tomorrow.  Just know that <strong>one box summarizes a set of numbers</strong>.</p>
 <p>Unlike the other charts, you can't draw each box individually.  The <code>data</code> variable is either a list of numbers, in which case it will compute and draw a single box:</p>
 <pre><code>subplot.boxplot(range(10))
@@ -184,7 +184,7 @@ sys.path.append('resources/util/')
 from map_util import *
 </code></pre>
 <ul>
-<li><code>draw_county(subplot, fips, color='blue')</code>: draws the county with the specified <code>fips</code> <a href="http://en.wikipedia.org/wiki/FIPS_county_code">county code</a>.  Most datasets that contain per-county data will include the fips code.  If you don't include a <code>color</code>, we will pick a nice shade of blue for you.</li>
+<li><code>draw_county(subplot, fips, color='blue')</code>: draws the county with the specified <code>fips</code> <a href="http://en.wikipedia.org/wiki/FIPS_county_code">county code</a>.  Most datasets that contain per-county data will include the fips code.  If you don't include a <code>color</code>, we will randomly pick a nice shade of blue for you.</li>
 <li><code>draw_state(subplot, state_name, color='blue')</code>: draws the state with the full state name as specified by the <a href="https://www.usps.com/send/official-abbreviations.htm">official USPS state names</a>.  If you don't include <code>color</code>, we will pick a shade of blue for you.</li>
 <li><code>get_statename(abbr)</code>: retrieve the full state name from its abbreviation.  The method is case insensitive, so <code>get_statename('CA')</code> is the same as <code>get_statename('ca')</code>.</li>
 </ul>

@@ -165,13 +165,14 @@ You can also customize the lines using the keyword arguments:
 
 Boxplots are used to summarize and compare groups of numerical data.  Each box summarizes a set of numbers and depicts 5 parameters:
 
+<b>***NOTE***</b> The words we are about to use might seem foreign to you.  We will teach boxplots in depth tomorrow.  We are just introducing how to draw box plots today, and will use them a whole lot tomorrow.
+
+
 * The smallest number
 * The lower quartile
 * The median
 * The upper quartile
 * The largest observation
-
-Don't worry if it looks foreign to you.  We will discuss box plots in more detail tomorrow.  This is just an introduction on how to draw them.
 
 `subplot.boxplot` will automatically compute these values, and also ignore numbers that it thinks are outliers.  Don't worry about when and why they are used -- we will discuss that tomorrow.  Just know that **one box summarizes a set of numbers**.
 
@@ -227,7 +228,7 @@ The API is defined in `resources/util/map_util.py`.  You can import the methods 
     sys.path.append('resources/util/')
     from map_util import *
 
-* `draw_county(subplot, fips, color='blue')`: draws the county with the specified `fips` [county code](http://en.wikipedia.org/wiki/FIPS_county_code).  Most datasets that contain per-county data will include the fips code.  If you don't include a `color`, we will pick a nice shade of blue for you.
+* `draw_county(subplot, fips, color='blue')`: draws the county with the specified `fips` [county code](http://en.wikipedia.org/wiki/FIPS_county_code).  Most datasets that contain per-county data will include the fips code.  If you don't include a `color`, we will randomly pick a nice shade of blue for you.
 * `draw_state(subplot, state_name, color='blue')`: draws the state with the full state name as specified by the [official USPS state names](https://www.usps.com/send/official-abbreviations.htm).  If you don't include `color`, we will pick a shade of blue for you.
 * `get_statename(abbr)`: retrieve the full state name from its abbreviation.  The method is case insensitive, so `get_statename('CA')` is the same as `get_statename('ca')`.
 
@@ -244,7 +245,6 @@ We also included a list of all fips county codes and state names in `datasets/ge
     for fips in data:
         draw_county(subplot, fips)
 
-    
     # Map of States
     #
     subplot = fig.add_subplot(326)
