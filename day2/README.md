@@ -374,6 +374,14 @@ Using this, you should be able to create something like the following:
 
 <a href="ex4_map.png"><img src="ex4_map.png" width="500" /></a>
 
+You'll notice that if you plot more candidates, they are very difficult to see because their donations are eclipsed by Obama's.  One way is to use a log scale instead of a linear scale when mapping donations to colors.  What this means is to first take the `math.log` of the donations before using the above code.
+
+Here's some sample code for computing a log
+
+    import math
+    math.log(100) # log of 100
+
+
 <!--## Exercise 4:
 
 Per-State amount on a map.  Tricky, need to pick proper mapping between data range and color range (probably research in this!)-->
