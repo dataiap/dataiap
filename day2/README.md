@@ -4,14 +4,13 @@
 
 Today, we will do more with `matplotlib`.
 
-
 * bar graphs
 * line graphs
 * box plots (will be useful tomorrow)
 * scatter plots
 * [choropleth plots](http://en.wikipedia.org/wiki/Choropleth_map) (map plots)
 
-Also we will learn to
+We will also learn to
 
 * create figures with multiple sub-figures (called subplots)
 * customize labels, colors, error bars etc.
@@ -19,10 +18,6 @@ Also we will learn to
 In the exercises, we will use this to further visualize and analyze the campaign donations data.
 
 `matplotlib` is quite powerful, and is intended to emulate matlab's visualization facilities.   We will give you a basic understanding of how plotting works, which should be enough for a majority of the charts that you will want to create.
-
-Note: plotting [network graphs](http://infosthetics.com/archives/facebook_graph2.jpg) is a topic unto itself, and isn't well supported in `matplotlib`.  There are other libraries for drawing them, but we unfortunately don't have the time to talk about it in this class.  At the end of today's lab,  we'll point you to some other python plotting libraries to make network graphs and other types of charts.
-
-
 
 ## Introduction
 
@@ -374,14 +369,6 @@ Using this, you should be able to create something like the following:
 
 <a href="ex4_map.png"><img src="ex4_map.png" width="500" /></a>
 
-You'll notice that if you plot more candidates, they are very difficult to see because their donations are eclipsed by Obama's.  One way is to use a log scale instead of a linear scale when mapping donations to colors.  What this means is to first take the `math.log` of the donations before using the above code.
-
-Here's some sample code for computing a log
-
-    import math
-    math.log(100) # log of 100
-
-
 <!--## Exercise 4:
 
 Per-State amount on a map.  Tricky, need to pick proper mapping between data range and color range (probably research in this!)-->
@@ -434,13 +421,18 @@ Now you have hands on experience with the most popular python plotting library! 
 
 We only covered a small number of core visualizations in this lab.  There are lots of other types of visualizations specialized for different domains.  A few of them are listed below.
 
-Gene Expression Matrix<br/>
+<b>Gene Expression Matrix</b><br/>
+Gene expression matrixes can be used to show correlations between genes and properties of patients.  Here is one:<br>
 <img src="done_gene.jpg" width="400" />
 
-[Network graphs](http://networkx.lanl.gov/)<br/>
+<b>Network Graphs</b><br>
+Plotting [graphs of social networks](http://infosthetics.com/archives/facebook_graph2.jpg) is a topic unto itself, and isn't well supported in `matplotlib`.  There are other libraries for drawing them, but we unfortunately don't have the time to talk about it in this class.  If you're interested, one useful network graphing library is [NetworkX](http://networkx.lanl.gov/).  Here's an example of a network graph overlayed on a map:<br/>
 <img src="done_network.png" width="400" />
 
-[Treemap](http://www.scipy.org/Cookbook/Matplotlib/TreeMap)<br/>
+
+
+<b>TreeMaps</b><br>
+A Treemap helps summarize relative proportions of a whole.  Here's a [treemap of financial markets](http://www.smartmoney.com/map-of-the-market/).  You can make [treemaps in matplotlib](http://www.scipy.org/Cookbook/Matplotlib/TreeMap).<br/>
 <img src="done_treemap.jpg" width="400" />
 
 
