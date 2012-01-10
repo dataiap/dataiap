@@ -4,14 +4,13 @@
 
 Today, we will do more with `matplotlib`.
 
-
 * bar graphs
 * line graphs
 * box plots (will be useful tomorrow)
 * scatter plots
 * [choropleth plots](http://en.wikipedia.org/wiki/Choropleth_map) (map plots)
 
-Also we will learn to
+We will also learn to
 
 * create figures with multiple sub-figures (called subplots)
 * customize labels, colors, error bars etc.
@@ -19,10 +18,6 @@ Also we will learn to
 In the exercises, we will use this to further visualize and analyze the campaign donations data.
 
 `matplotlib` is quite powerful, and is intended to emulate matlab's visualization facilities.   We will give you a basic understanding of how plotting works, which should be enough for a majority of the charts that you will want to create.
-
-Note: plotting [network graphs](http://infosthetics.com/archives/facebook_graph2.jpg) is a topic unto itself, and isn't well supported in `matplotlib`.  There are other libraries for drawing them, but we unfortunately don't have the time to talk about it in this class.  At the end of today's lab,  we'll point you to some other python plotting libraries to make network graphs and other types of charts.
-
-
 
 ## Introduction
 
@@ -170,13 +165,14 @@ You can also customize the lines using the keyword arguments:
 
 Boxplots are used to summarize and compare groups of numerical data.  Each box summarizes a set of numbers and depicts 5 parameters:
 
+<b>***NOTE***</b> The words we are about to use might seem foreign to you.  We will teach boxplots in depth tomorrow.  We are just introducing how to draw box plots today, and will use them a whole lot tomorrow.
+
+
 * The smallest number
 * The lower quartile
 * The median
 * The upper quartile
 * The largest observation
-
-Don't worry if it looks foreign to you.  We will discuss box plots in more detail tomorrow.  This is just an introduction on how to draw them.
 
 `subplot.boxplot` will automatically compute these values, and also ignore numbers that it thinks are outliers.  Don't worry about when and why they are used -- we will discuss that tomorrow.  Just know that **one box summarizes a set of numbers**.
 
@@ -232,7 +228,7 @@ The API is defined in `resources/util/map_util.py`.  You can import the methods 
     sys.path.append('resources/util/')
     from map_util import *
 
-* `draw_county(subplot, fips, color='blue')`: draws the county with the specified `fips` [county code](http://en.wikipedia.org/wiki/FIPS_county_code).  Most datasets that contain per-county data will include the fips code.  If you don't include a `color`, we will pick a nice shade of blue for you.
+* `draw_county(subplot, fips, color='blue')`: draws the county with the specified `fips` [county code](http://en.wikipedia.org/wiki/FIPS_county_code).  Most datasets that contain per-county data will include the fips code.  If you don't include a `color`, we will randomly pick a nice shade of blue for you.
 * `draw_state(subplot, state_name, color='blue')`: draws the state with the full state name as specified by the [official USPS state names](https://www.usps.com/send/official-abbreviations.htm).  If you don't include `color`, we will pick a shade of blue for you.
 * `get_statename(abbr)`: retrieve the full state name from its abbreviation.  The method is case insensitive, so `get_statename('CA')` is the same as `get_statename('ca')`.
 
@@ -249,7 +245,6 @@ We also included a list of all fips county codes and state names in `datasets/ge
     for fips in data:
         draw_county(subplot, fips)
 
-    
     # Map of States
     #
     subplot = fig.add_subplot(326)
@@ -426,13 +421,18 @@ Now you have hands on experience with the most popular python plotting library! 
 
 We only covered a small number of core visualizations in this lab.  There are lots of other types of visualizations specialized for different domains.  A few of them are listed below.
 
-Gene Expression Matrix<br/>
+<b>Gene Expression Matrix</b><br/>
+Gene expression matrixes can be used to show correlations between genes and properties of patients.  Here is one:<br>
 <img src="done_gene.jpg" width="400" />
 
-[Network graphs](http://networkx.lanl.gov/)<br/>
+<b>Network Graphs</b><br>
+Plotting [graphs of social networks](http://infosthetics.com/archives/facebook_graph2.jpg) is a topic unto itself, and isn't well supported in `matplotlib`.  There are other libraries for drawing them, but we unfortunately don't have the time to talk about it in this class.  If you're interested, one useful network graphing library is [NetworkX](http://networkx.lanl.gov/).  Here's an example of a network graph overlayed on a map:<br/>
 <img src="done_network.png" width="400" />
 
-[Treemap](http://www.scipy.org/Cookbook/Matplotlib/TreeMap)<br/>
+
+
+<b>TreeMaps</b><br>
+A Treemap helps summarize relative proportions of a whole.  Here's a [treemap of financial markets](http://www.smartmoney.com/map-of-the-market/).  You can make [treemaps in matplotlib](http://www.scipy.org/Cookbook/Matplotlib/TreeMap).<br/>
 <img src="done_treemap.jpg" width="400" />
 
 
