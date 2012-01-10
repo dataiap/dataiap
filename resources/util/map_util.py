@@ -24,7 +24,7 @@ for f in data['features']:
 
 data = json.load(file(os.path.join(MYDIR, './us-counties.json')))
 for f in data['features']:
-    fips = str(int(f['id']))
+    fips = f['id']
     geo = f['geometry']
     if geo['type'] == 'Polygon':
         for coords in geo['coordinates']:
