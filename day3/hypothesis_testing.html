@@ -36,7 +36,7 @@ the first thing to do is to look at some summary statistics (e.g.,
 averages), and explore the data graphically as we did yesterday.  If
 the visualizations seem to support your hunch, you will move into
 hypothesis-testing mode.</p>
-<h3>Two Running Examples</h3>
+<h2>Two Running Examples</h2>
 
 <p>For our first set of tests, we're going to use two running examples:
 campaign spending and a fun comparison of two towns' citizens' heights.  Here are the two scenarios:</p>
@@ -59,7 +59,7 @@ to determine whether the two communities have meaninfully different heights.</li
 <p>Let's start by comparing a simple statistic, to see if in the data
 we observe there's any difference.  We'll start by comparing the
 average heights of the two towns.  (As an aside: it would help if
-you wrote and ran your code in <code>dataiap/day3/...</code> today, since
+you wrote and ran your code in <code>dataiap/day3/</code> today, since
 several modules like <code>ols.py</code> are available in that directory).</p>
       </div>
       <div class=code>
@@ -107,6 +107,7 @@ average, to have more giving donors.</p>
 at the data in more depth.</p>
 <h3>Graph The Data</h3>
 
+<p>If you finished yesterday's histogram exercise, then feel free to skip down to the <a href="#boxplot">box plot section</a></p>
 <p>The effect size in both of our examples seems large.  It would be
 nice to more than just compare averages.  Let's try to look at a
 histogram of the distributions.  We created a histogram of the two
@@ -169,6 +170,7 @@ histogram to cut off donations larger than $20,000 or smaller than
 -$20,000 (refunds).  With bar widths of 50 and increments of $100, your
 histogram will look something like this:</p>
 <p><img alt="A histogram comparing the McCain and Obama 2008 campaign contributions" src="figures/mccain-obama-histogram.png" /></p>
+<p><a name="boxplot"></a></p>
 <p>Ouch!  I can't make heads or tails of that.  It seems like Obama has
 a larger number of small donations, but there isn't a lot of
 granularity at that scale.  For large datasets, a histogram might
@@ -396,10 +398,12 @@ rules.  The math behind T-Tests makes assumptions about the datasets
 that makes it easier to achieve statistical significance if those
 assumptions are true.  The big assumption is that the data we used
 came from a normal distribution.</p>
-<p>Luckily, the fine scipy folks have implemented the <a href="https://en.wikipedia.org/wiki/Shapiro-Wilk">Shapiro-Wilk
-test</a> test for
-normality.  This test calculates a p-value, that, if low enough,
-tells us there is a low chance the distribution is normal.</p>
+<p>The first thing we should have done is check whether or not our data
+is actually normal.  Luckily, the fine scipy folks have implemented
+the <a href="https://en.wikipedia.org/wiki/Shapiro-Wilk">Shapiro-Wilk test</a>
+test for normality.  This test calculates a p-value, that, if low
+enough (usually &lt; 0.05), tells us there is a low chance the
+distribution is normal.</p>
       </div>
       <div class=code>
         <div class='highlight'><pre><div class="highlight"><pre><span class="kn">import</span> <span class="nn">scipy.stats</span>

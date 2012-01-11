@@ -84,9 +84,15 @@ def read_csv(file_name, cols, check_reliable):
 # When we call `read_csv` multiple times with different csv files, a
 # row that is dropped in one csv file may be kept in another.  We need
 # to do what database folks call a ** join ** between the `dict`
-# objects returned from `read_csv` so that only the counties remaining
-# in both datasets will be considered.  This is handled by the
-# function `get_arrs`:
+# objects returned from `read_csv` so that only the counties present
+# in both dictionaries will be considered.
+#
+# We wrote a function called `get_arrs` that retrieves data from the
+# YPLL and Additional Measures datasets.  It takes the arguments
+# `dependent_cols`, which is a list of column names to extract from 
+# `ypll.csv`, and `independent_cols`, which is a list of column names
+# to extract from `additional_measures_cleaned.csv`.  This function
+# performs the join for you.
 
 import numpy
 
