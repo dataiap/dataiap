@@ -239,7 +239,15 @@ alarmingly correlated with YPLL!</p>
 
 <p>It's time we turn the intuition from our scatterplots into math!
 We'll do this using the <code>ols</code> module, which stands for <strong> ordinary
-least squares </strong> regression.  Let's run a regression for YPLL vs. % Diabetes:</p>
+least squares </strong> regression.  Let's run a regression for YPLL vs. % Diabetes.</p>
+<p>the ols script in <code>dataiap/day3/</code>  implement a method called <code>ols()</code> that takes four arguments:</p>
+<ul>
+<li>1: List of the dependent variables.<br />
+</li>
+<li>2: List of additional measures.  Each element in the list contains all the values for a given additional measure (e.g., % Diabetes).</li>
+<li>3: The name of the dependent variable.</li>
+<li>4: A list of the names of the independent variables.</li>
+</ul>
       </div>
       <div class=code>
         <div class='highlight'><pre><div class="highlight"><pre><span class="kn">import</span> <span class="nn">ols</span>
