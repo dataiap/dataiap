@@ -90,7 +90,7 @@ ones are:
     * git is a version control system.  Using it, you can check out our code and examples.
     * If everything is working, check the dataiap sourcecode into a
       directory called `dataiap` using `git clone
-      https://github.com/dataiap/dataiap.git dataiap`
+      git://github.com/dataiap/dataiap.git dataiap`
     * We'll be updating the repository periodically.  To get the latest copy, go to the `dataiap` directory and type `git pull`.
 
 We will also require a number of python modules:
