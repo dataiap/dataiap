@@ -155,7 +155,11 @@ the desired columns from each file.</p>
                     <span class="s">&quot;median household income&quot;</span><span class="p">,</span> <span class="s">&quot;</span><span class="si">% hi</span><span class="s">gh housing costs&quot;</span><span class="p">,</span>
                     <span class="s">&quot;</span><span class="si">% F</span><span class="s">ree lunch&quot;</span><span class="p">,</span> <span class="s">&quot;</span><span class="si">% c</span><span class="s">hild Illiteracy&quot;</span><span class="p">,</span> <span class="s">&quot;% Drive Alone&quot;</span><span class="p">]</span>
 
-<span class="n">ypll_arr</span><span class="p">,</span> <span class="n">measures_arr</span> <span class="o">=</span> <span class="n">get_arrs</span><span class="p">(</span><span class="n">dependent_cols</span><span class="p">,</span> <span class="n">independent_cols</span><span class="p">)</span></pre></div></pre></div>
+<span class="n">ypll_arr</span><span class="p">,</span> <span class="n">measures_arr</span> <span class="o">=</span> <span class="n">get_arrs</span><span class="p">(</span><span class="n">dependent_cols</span><span class="p">,</span> <span class="n">independent_cols</span><span class="p">)</span>
+<span class="k">print</span> <span class="n">ypll_arr</span><span class="o">.</span><span class="n">shape</span>
+<span class="k">print</span> <span class="n">measures_arr</span><span class="p">[:,</span><span class="mi">6</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span>
+
+<span class="nb">exit</span><span class="p">()</span></pre></div></pre></div>
       </div>
     </tr><tr id='section-5'>
       <div class=docs>
@@ -187,7 +191,7 @@ diabetes, % of the community under the age of 18, and median income.</p>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
 
 <span class="n">subplot</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">311</span><span class="p">)</span>
-<span class="n">subplot</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">measures_arr</span><span class="p">[:,</span><span class="mi">6</span><span class="p">],</span> <span class="n">ypll_arr</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;#1f77b4&quot;</span><span class="p">)</span> <span class="c"># 6 = diabetes</span>
+<span class="n">subplot</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">measures_arr</span><span class="p">[:,</span><span class="mi">6</span><span class="p">],</span> <span class="n">ypll_arr</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;#1f77b4&quot;</span><span class="p">)</span> <span class="c"># :,6 means all rows of &quot;diabetes&quot;</span>
 <span class="n">subplot</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">&quot;ypll vs. </span><span class="si">% o</span><span class="s">f population with diabetes&quot;</span><span class="p">)</span>
 
 <span class="n">subplot</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">312</span><span class="p">)</span>
@@ -205,7 +209,14 @@ diabetes, % of the community under the age of 18, and median income.</p>
         <div class="octowrap">
           <a class="octothorpe" href="#section-">#</a>
         </div>
-        <p>Your plots should look something like this:</p>
+        <p>what's <code>measures_arr[:,6]</code>?  That's a numpy supported syntax to
+extract a subset of a matrix.  The first argument specifies which
+rows to extract.  It can be a number (like 3), a python slice (<code>:3</code>
+means the rows from 0 to 3, while <code>3:5</code> means 3 to 5), or <code>:</code>, which
+means all of the rows.  The second argument specifies which columns
+to extract.  In this case it is <code>6</code>, which is the 7'th column
+(remember, it's 0 indexed).</p>
+<p>Your plots should look something like this:</p>
 <p><img alt="YPLL vs. population with diabetes, population less than 18 years of age, and median household income" src="figures/three-scatters.png" /></p>
 <p>We picked these three examples because they show visual evidence of three forms of correlation:</p>
 <ul>
@@ -240,7 +251,6 @@ alarmingly correlated with YPLL!</p>
 <p>It's time we turn the intuition from our scatterplots into math!
 We'll do this using the <code>ols</code> module, which stands for <strong> ordinary
 least squares </strong> regression.  Let's run a regression for YPLL vs. % Diabetes.</p>
-<p>the ols script in <code>dataiap/day3/</code>  implement a method called <code>ols()</code> that takes four arguments:</p>
       </div>
       <div class=code>
         <div class='highlight'><pre><div class="highlight"><pre><span class="kn">import</span> <span class="nn">ols</span>
@@ -254,7 +264,14 @@ least squares </strong> regression.  Let's run a regression for YPLL vs. % Diabe
         <div class="octowrap">
           <a class="octothorpe" href="#section-">#</a>
         </div>
-        <p>As you can see, running the regression is simple, but interpreting
+        <p>the ols script in <code>dataiap/day3/</code>  implement a method called <code>ols()</code> that takes four arguments:</p>
+<ol>
+<li>a 1-dimensional numpy array containing the values of the dependent variable (e.g., YPLL)</li>
+<li>a 2-dimensional numpy array where each row contains the values of an independent variable.  In this case the only independent variable is "% Diabetes", so the matrix has the same shape as <code>ypll_arr</code>.</li>
+<li>The label for the first argument</li>
+<li>A list of labels for each row in the second argument</li>
+</ol>
+<p>As you can see, running the regression is simple, but interpreting
 the output is tougher.  Here's the output of <code>model.summary()</code> for
 the YPLL vs. % Diabetes regression:</p>
 <pre><code> ======================================================================  
