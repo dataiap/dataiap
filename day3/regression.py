@@ -46,14 +46,17 @@
 # process](https://github.com/dataiap/dataiap/blob/master/datasets/county_health_rankings/README)
 # if you're interested.
 #
-# There's still a bit of work to do to load the data.  Some of the
-# YPLL values are marked "Unreliable" in a column ypll.csv, and we
-# don't want to train our regression on these.  Simiarly, some of the
-# columns of additional measures are empty, and we want to discard
-# these.  Finally, there is a row per state that summarizes the
-# state's statistics, and we want to ignore that row since we are
-# doing a county-by-county analysis. Here's a function, `read_csv`, that
-# will read the desired columns from one of the csv files.
+# We need to perform some data cleaning and filtering when loading the
+# data.  There is a column called "Unreliable" that will be marked if
+# we shouldn't trust the YPLL data.  We want to ignore those.  Also,
+# some of the rows won't contain data for some of the additional
+# measures.  For example, Yakutat, Alaska doesn't have a value for %
+# child illiteracy.  We want to skip those rows.  Finally, there is a
+# row per state that summarizes the state's statistics.  It has an
+# empty value for the "county" column and we want to
+# ignore those rows since we are doing a county-by-county
+# analysis. Here's a function, `read_csv`, that will read the desired
+# columns from one of the csv files.
 
 import csv
 
@@ -72,17 +75,24 @@ def read_csv(file_name, cols, check_reliable):
             pass
     return rows
 
-# The function returns a dictionary mapping each state/county to the
-# columns in an array `cols`.  It handles all of the dirty data: data
-# marked unreliable, state-only data, and missing columns.
+# The function takes as input the csv filename, an array of column
+# names to extract, and whether or not it should check and discard
+# unreliable data.  It returns a dictionary mapping each state/county
+# to the values of the columns specified in `cols`.  It handles all of the dirty
+# data: data marked unreliable, state-only data, and missing columns.
 #
-# All of this data cleaning across different .csv files will result in
-# some county YPLL data to be dropped for being unreliable, and some
-# county additional measures data to be dropped for having missing
-# columns.  We need to do what database folks call a ** join ** between
-# the two county datasets so that only the counties remaining in both
-# datasets will be considered.  This is handled by the function
-# `get_arrs`:
+# When we call `read_csv` multiple times with different csv files, a
+# row that is dropped in one csv file may be kept in another.  We need
+# to do what database folks call a ** join ** between the `dict`
+# objects returned from `read_csv` so that only the counties present
+# in both dictionaries will be considered.
+#
+# We wrote a function called `get_arrs` that retrieves data from the
+# YPLL and Additional Measures datasets.  It takes the arguments
+# `dependent_cols`, which is a list of column names to extract from 
+# `ypll.csv`, and `independent_cols`, which is a list of column names
+# to extract from `additional_measures_cleaned.csv`.  This function
+# performs the join for you.
 
 import numpy
 
@@ -478,4 +488,7 @@ plt.savefig('figures/parabola-linearized.png', format='png')
 #  assume statistical significance (you collect boatloads of data) and
 #  develop algorithms to classify, cluster, and otherwise find
 #  patterns in the underlying datasets.
+#
+#
+# <iframe src="https://docs.google.com/spreadsheet/embeddedform?formkey=dFczUHpKMXA5ZmhaaVZIb1JOS29tcGc6MQ" width="760" height="939" frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe>
 

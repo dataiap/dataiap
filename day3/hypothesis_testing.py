@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-
 # So far, we've plotted and visualized data in various ways.  Today,
 # we'll see how to statistically back up some of the observations
 # we've made in looking at our data.  Statistics is a tool that helps
@@ -13,7 +12,7 @@
 # the visualizations seem to support your hunch, you will move into
 # hypothesis-testing mode.
 #
-# <h3>Two Running Examples</h3>
+# <h2>Two Running Examples</h2>
 #
 # For our first set of tests, we're going to use two running examples:
 # campaign spending and a fun comparison of two towns' citizens' heights.  Here are the two scenarios:
@@ -36,7 +35,7 @@
 # Let's start by comparing a simple statistic, to see if in the data
 # we observe there's any difference.  We'll start by comparing the
 # average heights of the two towns.  (As an aside: it would help if
-# you wrote and ran your code in `dataiap/day3/...` today, since
+# you wrote and ran your code in `dataiap/day3/` today, since
 # several modules like `ols.py` are available in that directory).
 
 import numpy
@@ -66,6 +65,8 @@ print "Effect size: ", abs(town1_mean - town2_mean)
 # at the data in more depth.
 #
 # <h3>Graph The Data</h3>
+#
+# If you finished yesterday's histogram exercise, then feel free to skip down to the [box plot section](#boxplot)
 #
 # The effect size in both of our examples seems large.  It would be
 # nice to more than just compare averages.  Let's try to look at a
@@ -115,6 +116,8 @@ sub.set_xlim((-20000, 20000))
 # histogram will look something like this:
 #
 # ![A histogram comparing the McCain and Obama 2008 campaign contributions](figures/mccain-obama-histogram.png)
+#
+# <a name="boxplot"></a>
 # 
 # Ouch!  I can't make heads or tails of that.  It seems like Obama has
 # a larger number of small donations, but there isn't a lot of
@@ -314,10 +317,12 @@ print "Welch's T-Test p-value:", welchttest.ttest(town1_heights, town2_heights)
 # assumptions are true.  The big assumption is that the data we used
 # came from a normal distribution.
 #
-# Luckily, the fine scipy folks have implemented the [Shapiro-Wilk
-# test](https://en.wikipedia.org/wiki/Shapiro-Wilk) test for
-# normality.  This test calculates a p-value, that, if low enough,
-# tells us there is a low chance the distribution is normal.
+# The first thing we should have done is check whether or not our data
+# is actually normal.  Luckily, the fine scipy folks have implemented
+# the [Shapiro-Wilk test](https://en.wikipedia.org/wiki/Shapiro-Wilk)
+# test for normality.  This test calculates a p-value, that, if low
+# enough (usually < 0.05), tells us there is a low chance the
+# distribution is normal.
 
 import scipy.stats
 
@@ -378,3 +383,5 @@ print "Mann-Whitney U p-value", scipy.stats.mannwhitneyu(town1_heights, town2_he
 #  There's a lot more to statistics than T-Tests, which compare two
 #  datasets' averages.  Next, we'll cover correlation between two
 #  datasets using [linear regression](regression.html).
+#
+# <iframe src="https://docs.google.com/spreadsheet/embeddedform?formkey=dFczUHpKMXA5ZmhaaVZIb1JOS29tcGc6MQ" width="760" height="939" frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe>
