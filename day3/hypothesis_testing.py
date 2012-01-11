@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-
 # So far, we've plotted and visualized data in various ways.  Today,
 # we'll see how to statistically back up some of the observations
 # we've made in looking at our data.  Statistics is a tool that helps
@@ -384,3 +383,5 @@ print "Mann-Whitney U p-value", scipy.stats.mannwhitneyu(town1_heights, town2_he
 #  There's a lot more to statistics than T-Tests, which compare two
 #  datasets' averages.  Next, we'll cover correlation between two
 #  datasets using [linear regression](regression.html).
+#
+# <iframe src="https://docs.google.com/spreadsheet/embeddedform?formkey=dFczUHpKMXA5ZmhaaVZIb1JOS29tcGc6MQ" width="760" height="939" frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe>
