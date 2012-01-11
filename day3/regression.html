@@ -64,14 +64,17 @@ additional_measures_cleaned.csv) went through quote a bit of
 scrubbing already.  You can read <a href="https://github.com/dataiap/dataiap/blob/master/datasets/county_health_rankings/README">our notes on the
 process</a>
 if you're interested.</p>
-<p>There's still a bit of work to do to load the data.  Some of the
-YPLL values are marked "Unreliable" in a column ypll.csv, and we
-don't want to train our regression on these.  Simiarly, some of the
-columns of additional measures are empty, and we want to discard
-these.  Finally, there is a row per state that summarizes the
-state's statistics, and we want to ignore that row since we are
-doing a county-by-county analysis. Here's a function, <code>read_csv</code>, that
-will read the desired columns from one of the csv files.</p>
+<p>We need to perform some data cleaning and filtering when loading the
+data.  There is a column called "Unreliable" that will be marked if
+we shouldn't trust the YPLL data.  We want to ignore those.  Also,
+some of the rows won't contain data for some of the additional
+measures.  For example, Yakutat, Alaska doesn't have a value for %
+child illiteracy.  We want to skip those rows.  Finally, there is a
+row per state that summarizes the state's statistics.  It has an
+empty value for the "county" column and we want to
+ignore those rows since we are doing a county-by-county
+analysis. Here's a function, <code>read_csv</code>, that will read the desired
+columns from one of the csv files.</p>
       </div>
       <div class=code>
         <div class='highlight'><pre><div class="highlight"><pre><span class="kn">import</span> <span class="nn">csv</span></pre></div></pre></div>
@@ -99,16 +102,17 @@ will read the desired columns from one of the csv files.</p>
         <div class="octowrap">
           <a class="octothorpe" href="#section-">#</a>
         </div>
-        <p>The function returns a dictionary mapping each state/county to the
-columns in an array <code>cols</code>.  It handles all of the dirty data: data
-marked unreliable, state-only data, and missing columns.</p>
-<p>All of this data cleaning across different .csv files will result in
-some county YPLL data to be dropped for being unreliable, and some
-county additional measures data to be dropped for having missing
-columns.  We need to do what database folks call a <strong> join </strong> between
-the two county datasets so that only the counties remaining in both
-datasets will be considered.  This is handled by the function
-<code>get_arrs</code>:</p>
+        <p>The function takes as input the csv filename, an array of column
+names to extract, and whether or not it should check and discard
+unreliable data.  It returns a dictionary mapping each state/county
+to the values of the columns specified in <code>cols</code>.  It handles all of the dirty
+data: data marked unreliable, state-only data, and missing columns.</p>
+<p>When we call <code>read_csv</code> multiple times with different csv files, a
+row that is dropped in one csv file may be kept in another.  We need
+to do what database folks call a <strong> join </strong> between the <code>dict</code>
+objects returned from <code>read_csv</code> so that only the counties remaining
+in both datasets will be considered.  This is handled by the
+function <code>get_arrs</code>:</p>
       </div>
       <div class=code>
         <div class='highlight'><pre><div class="highlight"><pre><span class="kn">import</span> <span class="nn">numpy</span></pre></div></pre></div>
