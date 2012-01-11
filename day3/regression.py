@@ -241,7 +241,7 @@ model.summary()
 #
 #   * First, let's verify the statistical significance, to make sure
 #   nothing happened by chance, and that the regression is meaningful.
-#   In this case, ** Prob (F-statistic) ** is something very close to
+#   In this case, ** Prob (F-statistic) **, which is under ** Models stats **, is something very close to
 #   0, which is less than .05 or .01.  That is: we have statistical
 #   significance, and we an safely interpret the rest of the data.
 #   * The coefficients (called ** betas **) help us understand what
