@@ -18,9 +18,6 @@
   </thead>
   <tbody>
     <tr id='section-0'>
-      
-      
-    </tr><tr id='section-1'>
       <div class=docs>
         <div class="octowrap">
           <a class="octothorpe" href="#section-">#</a>
@@ -36,7 +33,7 @@ the first thing to do is to look at some summary statistics (e.g.,
 averages), and explore the data graphically as we did yesterday.  If
 the visualizations seem to support your hunch, you will move into
 hypothesis-testing mode.</p>
-<h3>Two Running Examples</h3>
+<h2>Two Running Examples</h2>
 
 <p>For our first set of tests, we're going to use two running examples:
 campaign spending and a fun comparison of two towns' citizens' heights.  Here are the two scenarios:</p>
@@ -59,7 +56,7 @@ to determine whether the two communities have meaninfully different heights.</li
 <p>Let's start by comparing a simple statistic, to see if in the data
 we observe there's any difference.  We'll start by comparing the
 average heights of the two towns.  (As an aside: it would help if
-you wrote and ran your code in <code>dataiap/day3/...</code> today, since
+you wrote and ran your code in <code>dataiap/day3/</code> today, since
 several modules like <code>ols.py</code> are available in that directory).</p>
       </div>
       <div class=code>
@@ -75,7 +72,7 @@ several modules like <code>ols.py</code> are available in that directory).</p>
 
 <span class="k">print</span> <span class="s">&quot;Effect size: &quot;</span><span class="p">,</span> <span class="nb">abs</span><span class="p">(</span><span class="n">town1_mean</span> <span class="o">-</span> <span class="n">town2_mean</span><span class="p">)</span></pre></div></pre></div>
       </div>
-    </tr><tr id='section-2'>
+    </tr><tr id='section-1'>
       <div class=docs>
         <div class="octowrap">
           <a class="octothorpe" href="#section-">#</a>
@@ -86,7 +83,7 @@ called the <strong> effect size </strong>.  Town 2 certainly looks taller than
 Town 1!</p>
       </div>
       
-    </tr><tr id='section-3'>
+    </tr><tr id='section-2'>
       <div class=docs>
         <div class="octowrap">
           <a class="octothorpe" href="#section-">#</a>
@@ -98,7 +95,7 @@ $192 for Obama, for an effect size of $231.  McCain appears, on
 average, to have more giving donors.</p>
       </div>
       
-    </tr><tr id='section-4'>
+    </tr><tr id='section-3'>
       <div class=docs>
         <div class="octowrap">
           <a class="octothorpe" href="#section-">#</a>
@@ -107,6 +104,7 @@ average, to have more giving donors.</p>
 at the data in more depth.</p>
 <h3>Graph The Data</h3>
 
+<p>If you finished yesterday's histogram exercise, then feel free to skip down to the <a href="#boxplot">box plot section</a></p>
 <p>The effect size in both of our examples seems large.  It would be
 nice to more than just compare averages.  Let's try to look at a
 histogram of the distributions.  We created a histogram of the two
@@ -136,7 +134,7 @@ campaigns contributions, binned by $100 increments.</p>
 <span class="n">sub</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s">&#39;figures/town_histograms.png&#39;</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s">&#39;png&#39;</span><span class="p">)</span></pre></div></pre></div>
       </div>
-    </tr><tr id='section-5'>
+    </tr><tr id='section-4'>
       <div class=docs>
         <div class="octowrap">
           <a class="octothorpe" href="#section-">#</a>
@@ -147,7 +145,7 @@ campaigns contributions, binned by $100 increments.</p>
 person of height between 4 and 5 feet in town 1.</p>
       </div>
       
-    </tr><tr id='section-6'>
+    </tr><tr id='section-5'>
       <div class=docs>
         <div class="octowrap">
           <a class="octothorpe" href="#section-">#</a>
@@ -159,7 +157,7 @@ that make the histograms difficult to compare.  Add the line</p>
       <div class=code>
         <div class='highlight'><pre><div class="highlight"><pre><span class="n">sub</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">((</span><span class="o">-</span><span class="mi">20000</span><span class="p">,</span> <span class="mi">20000</span><span class="p">))</span></pre></div></pre></div>
       </div>
-    </tr><tr id='section-7'>
+    </tr><tr id='section-6'>
       <div class=docs>
         <div class="octowrap">
           <a class="octothorpe" href="#section-">#</a>
@@ -169,6 +167,7 @@ histogram to cut off donations larger than $20,000 or smaller than
 -$20,000 (refunds).  With bar widths of 50 and increments of $100, your
 histogram will look something like this:</p>
 <p><img alt="A histogram comparing the McCain and Obama 2008 campaign contributions" src="figures/mccain-obama-histogram.png" /></p>
+<p><a name="boxplot"></a></p>
 <p>Ouch!  I can't make heads or tails of that.  It seems like Obama has
 a larger number of small donations, but there isn't a lot of
 granularity at that scale.  For large datasets, a histogram might
@@ -186,7 +185,7 @@ box-and-whisker plot!  The code for it is quite simple as well:</p>
 <span class="n">sub</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">&quot;Town 1 vs. Town 2 Heights&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s">&#39;figures/town_boxplots.png&#39;</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s">&#39;png&#39;</span><span class="p">)</span></pre></div></pre></div>
       </div>
-    </tr><tr id='section-8'>
+    </tr><tr id='section-7'>
       <div class=docs>
         <div class="octowrap">
           <a class="octothorpe" href="#section-">#</a>
@@ -225,7 +224,7 @@ measurement for town 1 is pretty far away from the others, and you
 should investigate such measurements as potential outliers.</p>
       </div>
       
-    </tr><tr id='section-9'>
+    </tr><tr id='section-8'>
       <div class=docs>
         <div class="octowrap">
           <a class="octothorpe" href="#section-">#</a>
@@ -236,7 +235,7 @@ campaign contributions.  Again, outliers make this a difficult task.  With <stro
       <div class=code>
         <div class='highlight'><pre><div class="highlight"><pre><span class="n">sub</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">((</span><span class="o">-</span><span class="mi">250</span><span class="p">,</span> <span class="mi">1250</span><span class="p">))</span></pre></div></pre></div>
       </div>
-    </tr><tr id='section-10'>
+    </tr><tr id='section-9'>
       <div class=docs>
         <div class="octowrap">
           <a class="octothorpe" href="#section-">#</a>
@@ -284,7 +283,7 @@ now we'll focus on Welch's T-Test.</p>
 
 <span class="k">print</span> <span class="s">&quot;Welch&#39;s T-Test p-value:&quot;</span><span class="p">,</span> <span class="n">welchttest</span><span class="o">.</span><span class="n">ttest</span><span class="p">(</span><span class="n">town1_heights</span><span class="p">,</span> <span class="n">town2_heights</span><span class="p">)</span></pre></div></pre></div>
       </div>
-    </tr><tr id='section-11'>
+    </tr><tr id='section-10'>
       <div class=docs>
         <div class="octowrap">
           <a class="octothorpe" href="#section-">#</a>
@@ -305,7 +304,7 @@ let's not jump to conclusions.  After all, it was just food coloring
 in the water!</p>
       </div>
       
-    </tr><tr id='section-12'>
+    </tr><tr id='section-11'>
       <div class=docs>
         <div class="octowrap">
           <a class="octothorpe" href="#section-">#</a>
@@ -318,7 +317,7 @@ chance we're seeing this difference between the candidates by some
 random fluke in the universe.  Time to write an article!</p>
       </div>
       
-    </tr><tr id='section-13'>
+    </tr><tr id='section-12'>
       <div class=docs>
         <div class="octowrap">
           <a class="octothorpe" href="#section-">#</a>
@@ -335,7 +334,7 @@ chance.  While people disagree about whether a p-value of .05 or .01
 is required, they all agree that significance is a binary value.</p>
       </div>
       
-    </tr><tr id='section-14'>
+    </tr><tr id='section-13'>
       <div class=docs>
         <div class="octowrap">
           <a class="octothorpe" href="#section-">#</a>
@@ -348,7 +347,7 @@ information to follow, and you can instead keep reading until the
 end.</p>
       </div>
       
-    </tr><tr id='section-15'>
+    </tr><tr id='section-14'>
       <div class=docs>
         <div class="octowrap">
           <a class="octothorpe" href="#section-">#</a>
@@ -396,17 +395,19 @@ rules.  The math behind T-Tests makes assumptions about the datasets
 that makes it easier to achieve statistical significance if those
 assumptions are true.  The big assumption is that the data we used
 came from a normal distribution.</p>
-<p>Luckily, the fine scipy folks have implemented the <a href="https://en.wikipedia.org/wiki/Shapiro-Wilk">Shapiro-Wilk
-test</a> test for
-normality.  This test calculates a p-value, that, if low enough,
-tells us there is a low chance the distribution is normal.</p>
+<p>The first thing we should have done is check whether or not our data
+is actually normal.  Luckily, the fine scipy folks have implemented
+the <a href="https://en.wikipedia.org/wiki/Shapiro-Wilk">Shapiro-Wilk test</a>
+test for normality.  This test calculates a p-value, that, if low
+enough (usually &lt; 0.05), tells us there is a low chance the
+distribution is normal.</p>
       </div>
       <div class=code>
         <div class='highlight'><pre><div class="highlight"><pre><span class="kn">import</span> <span class="nn">scipy.stats</span>
 
 <span class="k">print</span> <span class="s">&quot;Town 1 Shapiro-Wilks p-value&quot;</span><span class="p">,</span> <span class="n">scipy</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">shapiro</span><span class="p">(</span><span class="n">town1_heights</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span></pre></div></pre></div>
       </div>
-    </tr><tr id='section-16'>
+    </tr><tr id='section-15'>
       <div class=docs>
         <div class="octowrap">
           <a class="octothorpe" href="#section-">#</a>
@@ -414,7 +415,7 @@ tells us there is a low chance the distribution is normal.</p>
         <p>With a p-value of .380, we don't have enough evidence that our town heights are not normally distributed, so it's probably fine to run Welch's T-Test</p>
       </div>
       
-    </tr><tr id='section-17'>
+    </tr><tr id='section-16'>
       <div class=docs>
         <div class="octowrap">
           <a class="octothorpe" href="#section-">#</a>
@@ -426,7 +427,7 @@ assumption of Welch's T-Test.  The statistics police are going to be
 paying us a visit.</p>
       </div>
       
-    </tr><tr id='section-18'>
+    </tr><tr id='section-17'>
       <div class=docs>
         <div class="octowrap">
           <a class="octothorpe" href="#section-">#</a>
@@ -446,7 +447,7 @@ nonparametric version of the T-Test, which has a wonderful name.</p>
 
 <span class="k">print</span> <span class="s">&quot;Mann-Whitney U p-value&quot;</span><span class="p">,</span> <span class="n">scipy</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">mannwhitneyu</span><span class="p">(</span><span class="n">town1_heights</span><span class="p">,</span> <span class="n">town2_heights</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span></pre></div></pre></div>
       </div>
-    </tr><tr id='section-19'>
+    </tr><tr id='section-18'>
       <div class=docs>
         <div class="octowrap">
           <a class="octothorpe" href="#section-">#</a>
@@ -459,7 +460,7 @@ significance, so we don't expect a more conservative test to
 magically find significance.</p>
       </div>
       
-    </tr><tr id='section-20'>
+    </tr><tr id='section-19'>
       <div class=docs>
         <div class="octowrap">
           <a class="octothorpe" href="#section-">#</a>
@@ -470,7 +471,7 @@ Is the difference between the Obama and McCain contributions still
 significant?</p>
       </div>
       
-    </tr><tr id='section-21'>
+    </tr><tr id='section-20'>
       <div class=docs>
         <div class="octowrap">
           <a class="octothorpe" href="#section-">#</a>

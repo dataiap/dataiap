@@ -110,9 +110,14 @@ data: data marked unreliable, state-only data, and missing columns.</p>
 <p>When we call <code>read_csv</code> multiple times with different csv files, a
 row that is dropped in one csv file may be kept in another.  We need
 to do what database folks call a <strong> join </strong> between the <code>dict</code>
-objects returned from <code>read_csv</code> so that only the counties remaining
-in both datasets will be considered.  This is handled by the
-function <code>get_arrs</code>:</p>
+objects returned from <code>read_csv</code> so that only the counties present
+in both dictionaries will be considered.</p>
+<p>We wrote a function called <code>get_arrs</code> that retrieves data from the
+YPLL and Additional Measures datasets.  It takes the arguments
+<code>dependent_cols</code>, which is a list of column names to extract from 
+<code>ypll.csv</code>, and <code>independent_cols</code>, which is a list of column names
+to extract from <code>additional_measures_cleaned.csv</code>.  This function
+performs the join for you.</p>
       </div>
       <div class=code>
         <div class='highlight'><pre><div class="highlight"><pre><span class="kn">import</span> <span class="nn">numpy</span></pre></div></pre></div>
