@@ -144,7 +144,7 @@ We learned how to iterate and extract data from the dataset, and how to plot lin
 
     from collections import defaultdict
     import  matplotlib.pyplot as plt
-    import csv
+    import csv, sys, datetime
 	
     reader = csv.DictReader(open(sys.argv[1], 'r'))
     
