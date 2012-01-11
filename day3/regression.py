@@ -180,13 +180,10 @@ plt.savefig('figures/three-scatters.png', format='png')
 # least squares ** regression.  Let's run a regression for YPLL vs. % Diabetes.
 #
 # the ols script in `dataiap/day3/`  implement a method called `ols()` that takes four arguments:
-#
-# * 1: List of the dependent variables.  
-# * 2: List of additional measures.  Each element in the list contains all the values for a given additional measure (e.g., % Diabetes).
-# * 3: The name of the dependent variable.
-# * 4: A list of the names of the independent variables.
+
 
 import ols
+
 
 model = ols.ols(ypll_arr, measures_arr[:,6], "YPLL Rate", ["% Diabetes"]) # 6 = diabetes
 model.summary()
