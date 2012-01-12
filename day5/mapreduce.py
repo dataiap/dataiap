@@ -1,6 +1,7 @@
 """
 export AWS_ACCESS_KEY_ID='my_key_id'
 export AWS_SECRET_ACCESS_KEY='my_access_id'
+on windows: set VARIABLE=value
 
 python -m mrjob.tools.emr.create_job_flow --num-ec2-instances=5
 python -m mrjob.tools.emr.terminate_job_flow.py JOBFLOWID
@@ -210,6 +211,8 @@ In exchange for nice guarantees about scale and accessibility of data, Amazon ch
 Services that work on AWS, like EMR, read data from and store data to S3.  When we run our MapReduce programs on EMR, we're going to read the email data from S3, and write word count data to S3.
 
 S3 data is stored in ** buckets **.  Within a bucket you create, you can store as many files or folders as you'd like.  The name of your bucket has to be unique across all of the people that store their stuff in S3.  Want to make your own bucket?  Let's do this!
+
+
 
 """
 
