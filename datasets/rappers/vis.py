@@ -1,15 +1,19 @@
 import freebase, json, sys, csv
 sys.path.append('../../resources/util')
+sys.path.append('../../day3/')
 from map_util import *
 from collections import Counter
 import matplotlib.pyplot as plt
+import ols
+import numpy as np
+
 
 reader = csv.DictReader(open('rapper_counts.csv', 'r'))
 
 counts = {}
 for row in reader:
     try:
-        counts[int(row['fips'])] = int(row['count'])
+        counts[row['fips']] = int(row['count'])
     except:
         pass
 
@@ -40,21 +44,52 @@ subplot.set_xlim(-150, -50)
 subplot.set_ylim(15, 70)
 
 
+
+
+
+
+
+
 subplot = figure.add_subplot(212)
 
-reader = csv.DictReader(open('../county_health_rankings/ypll.csv', 'r'))
+reader = csv.DictReader(open('../county_health_rankings/ypll.csv',
+                             'r'))
+l_ypll = []
+l_rapper = []
 for row in reader:
     if 'County' not in row:
         continue
-    if not row['YPLL Rate']    :
+    if not row['YPLL Rate']:
         continue
-    fips = int(row['FIPS'])
+    fips = row['FIPS']
     ypll = float(row['YPLL Rate'])
 
-    count = float(counts.get(fips, 0.0))
-    subplot.scatter(count, ypll, color=blues[8])
+    if fips not in counts:
+        continue
 
-subplot.set_xlabel("# Rappers in County")
-subplot.set_ylabel("YPLL Rate")
-figure.savefig('/tmp/rap.png', format='png')
+    count = float(counts.get(fips, 0.0))
+    subplot.scatter(count, ypll, color=blues[8], alpha=0.4)
+    l_ypll.append(ypll)
+    l_rapper.append(counts.get(fips))
+
+
+print np.array(l_ypll).shape, np.array(l_rapper).shape
+
+
+
+# model = ols.ols(np.array(l_ypll), np.array(l_rapper), "YPLL Rate", ["rappers"])
+# model.summary()
+# raw_input('input something')
+
+# subplot.set_xlabel("# Rappers in County")
+# subplot.set_ylabel("YPLL Rate")
+# figure.savefig('/tmp/rap.png', format='png')
+
+
+
+# caroline
+
+
+
+
 

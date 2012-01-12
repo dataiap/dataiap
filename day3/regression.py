@@ -121,6 +121,11 @@ independent_cols = ["Population", "< 18", "65 and over", "African American",
                     "% Free lunch", "% child Illiteracy", "% Drive Alone"]
 
 ypll_arr, measures_arr = get_arrs(dependent_cols, independent_cols)
+print ypll_arr.shape
+print measures_arr[:,6].shape
+
+exit()
+
 
 # Phew.  That sucked.  Let's look at the data!
 
@@ -135,13 +140,16 @@ ypll_arr, measures_arr = get_arrs(dependent_cols, independent_cols)
 # Let's start by looking at scatterplots of ypll versus three
 # potentially correlated variables: % of a community that has
 # diabetes, % of the community under the age of 18, and median income.
+#
+
+
 
 import matplotlib.pyplot as plt
 
 fig = plt.figure(figsize=(6, 8))
 
 subplot = fig.add_subplot(311)
-subplot.scatter(measures_arr[:,6], ypll_arr, color="#1f77b4") # 6 = diabetes
+subplot.scatter(measures_arr[:,6], ypll_arr, color="#1f77b4") # :,6 means all rows of "diabetes"
 subplot.set_title("ypll vs. % of population with diabetes")
 
 subplot = fig.add_subplot(312)
@@ -154,6 +162,14 @@ subplot.set_title("ypll vs. median household income")
 
 plt.savefig('figures/three-scatters.png', format='png')
 
+# what's `measures_arr[:,6]`?  That's a numpy supported syntax to
+# extract a subset of a matrix.  The first argument specifies which
+# rows to extract.  It can be a number (like 3), a python slice (`:3`
+# means the rows from 0 to 3, while `3:5` means 3 to 5), or `:`, which
+# means all of the rows.  The second argument specifies which columns
+# to extract.  In this case it is `6`, which is the 7'th column
+# (remember, it's 0 indexed).
+#
 # Your plots should look something like this:
 #
 #  ![YPLL vs. population with diabetes, population less than 18 years of age, and median household income](figures/three-scatters.png)
@@ -177,13 +193,21 @@ plt.savefig('figures/three-scatters.png', format='png')
 #
 # It's time we turn the intuition from our scatterplots into math!
 # We'll do this using the `ols` module, which stands for ** ordinary
-# least squares ** regression.  Let's run a regression for YPLL vs. % Diabetes:
-
+# least squares ** regression.  Let's run a regression for YPLL vs. % Diabetes.
+#
 import ols
+
 
 model = ols.ols(ypll_arr, measures_arr[:,6], "YPLL Rate", ["% Diabetes"]) # 6 = diabetes
 model.summary()
 
+# the ols script in `dataiap/day3/`  implement a method called `ols()` that takes four arguments:
+#
+# 1. a 1-dimensional numpy array containing the values of the dependent variable (e.g., YPLL)
+# 1. a 2-dimensional numpy array where each row contains the values of an independent variable.  In this case the only independent variable is "% Diabetes", so the matrix has the same shape as `ypll_arr`.
+# 1. The label for the first argument
+# 1. A list of labels for each row in the second argument
+#
 # As you can see, running the regression is simple, but interpreting
 # the output is tougher.  Here's the output of `model.summary()` for
 # the YPLL vs. % Diabetes regression:
@@ -217,7 +241,7 @@ model.summary()
 #
 #   * First, let's verify the statistical significance, to make sure
 #   nothing happened by chance, and that the regression is meaningful.
-#   In this case, ** Prob (F-statistic) ** is something very close to
+#   In this case, ** Prob (F-statistic) **, which is under ** Models stats **, is something very close to
 #   0, which is less than .05 or .01.  That is: we have statistical
 #   significance, and we an safely interpret the rest of the data.
 #   * The coefficients (called ** betas **) help us understand what

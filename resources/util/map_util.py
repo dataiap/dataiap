@@ -37,6 +37,11 @@ for f in data['features']:
 def draw_polygon(subplot, coords, **kwargs):
     xs, ys = zip(*coords)
     subplot.fill(xs, ys, **kwargs)
+    # kwargs = dict(kwargs)
+    # kwargs['color'] = 'grey'
+    # if 'linewidth' not in kwargs:
+    #     kwargs['linewidth'] = 0
+    # subplot.plot(xs, ys, **kwargs)
 
 
 

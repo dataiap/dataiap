@@ -22,16 +22,16 @@ Unzip Kenneth Lay's (Pre-bankruptcy Enron CEO) emails that were made public afte
 
     dataiap/datasets/emails/kenneth.zip
 
-The full dataset (400MB zipped) can be found [here](http://www.cs.cmu.edu/~enron/).
+The full dataset (400MB zipped, >2.4G unzipped) can be found [here](http://www.cs.cmu.edu/~enron/).
 
 ### Reading the Emails
 
-You will need some code to parse and read the emails.  `email_root` contains a bunch of folders like `_sent` (sent folder), `inbox`, and other folders depending how Kenneth or you organized your emails.  Each folder contains a list of files.  Each file corresponds to a single email.
+You will need some code to parse and read the emails.  `dataiap/datasets/emails/lay-k/` contains a bunch of folders like `_sent` (sent folder), `inbox`, and other folders depending how Kenneth organized his emails.  Each folder contains a list of files.  Each file corresponds to a single email.
 
 We have written a module that makes it easier to manage the emails.  To use it add the following import
 
     import sys
-    sys.path.append('PATHTODATAIAP/resources/util/')
+    sys.path.append('data/resources/util/')
     import email_util
 
 The module contains a class `EmailWalker` and a dictionary that represents an email.  `EmailWalker`  iterates through all the files under a directory and creates a `dict` for each email file in the directory.
@@ -53,9 +53,9 @@ The module contains a class `EmailWalker` and a dictionary that represents an em
     * `text`: the text content in the email
     
 
-**`EmailWalker`**
+**`EmailWalker` class**
 
-* `__init__(self, email_root)`: pass in the root directory containing the email folders (e.g., inbox, _sent)
+* `__init__(self, email_root)`: pass in the root directory (`dataiap/datasets/emails/lay-k`) containing the email folders (e.g., inbox, _sent)
 * `__iter__(self)`: returns an iterator that returns email objects
 
 The `__iter__` method means that `EmailWalker` is an iterator, and can be conveniently used in a loop:
@@ -69,13 +69,14 @@ The `__iter__` method means that `EmailWalker` is an iterator, and can be conven
 
 ## Folder Summaries
 
-In this section, we will automatically extract key terms that describe the emails in a folder.  This is useful for two purposes.  First, it can be a crude summary of the emails in each folder.  Second, it is used to search for and retrieve emails.  For example, if a term (e.g., "lawsuit") is representative of an email, then we would like to retrieve that email when we search for "lawsuit".  
+In this section, we will automatically extract key terms of each folder.  This should give us a good list of terms that summarize each folder.  Computing these terms could also be used to direct a keyword search to the most appropriate folder.
 
-Today, we will focus on the first purpose.
+Although the walkthrough will compute key terms for folders, you could also compute it for each contact in your inbox, by each month, or on an email by email basis.  Additionally, we will only be using the words in the email body, and ignore the subject lines.  We'll see if that was a good idea!
+
 
 ### Term Frequency (TF)
 
-One way to do this is to count the number of times each term occurs in all of the emails in a folder.  The term that comes up the most must be best represent the folder!
+One intuition is that if a term is relevant to a folder, then the emails in the folder should use that term very often.  We could then count the number of times each term occurs in an email, and the top occurrences should best represent the email.
 
     import os, sys, math
     sys.path.append('./util')

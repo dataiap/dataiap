@@ -19,6 +19,9 @@ bs_parser = ne
 
 
 def parse_bs(bs):
+    """
+    parse the string that describes the body structure so we know where to find the text/plain version of the email.  that way we can avoid downloading HTML and attachments.
+    """
     try:
         # remove body header content, and close tag
         bs = bs[:bs.rfind('BODY[HEADER]')] + ')'
@@ -32,6 +35,9 @@ def parse_bs(bs):
 
 
 def find_text(bs, prefix=''):
+    """
+    actual function that parse_bs() calls to do the finding
+    """
     if isinstance(bs, pyparsing.ParseResults):
         if bs[0] == 'TEXT' and bs[1] == 'PLAIN':
             if prefix == '':
@@ -216,17 +222,25 @@ def download_folder(imap_conn, label, root, search_string, chunk=1000, maxmsgs=N
                             
 
 if __name__ == '__main__':
-    import getpass
-    import sys, os
-    
-    if len( sys.argv ) >= 1:
-        host = sys.argv[1]
-    else:
-        host = "imap.googlemail.com"
+    import getpass, sys, os, argparse
 
-    print "enter your gmail email and password on %s!" % host
-    username = raw_input("Username: ")
-    passw = getpass.getpass("Password: ")
+
+    # setup arguments
+    parser = argparse.ArgumentParser(description="Download emails from an IMAP enabled email server.")
+    parser.add_argument('imaphost', metavar='imaphost', type=str, nargs='?',
+                        default='imap.googlemail.com', help="hostname of IMAP email server")
+    parser.add_argument('-u', nargs='?', dest="username", help="the username")
+    parser.add_argument('-p', nargs='?', dest="password", help="your password")
+
+
+    args = parser.parse_args()
+    host = args.imaphost
+    username = args.username
+    passw = args.password
+    if not username:
+        username = raw_input("Enter your username on %s: " % host)
+    if not passw:
+        passw = getpass.getpass("Enter your password for %s@%s: " % (username, host))
         
     print """downloading emails in all labels except for [Gmail] default labels
 such as Sent, and All Mail"""
