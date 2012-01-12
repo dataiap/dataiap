@@ -224,10 +224,10 @@ if re.search(pattern, term):
 <pre><code>terms_in_email = get_terms(e['text'])
 </code></pre>
 <p>If you get stuck, take a peak in <code>dataiap/day4/get_terms.py</code></p>
-<h2>Exercise 1: Compute IDF differently (optional)</h2>
+<h3>Exercise 1: Compute IDF differently (optional)</h3>
 <p>IDF is simply one method to normalize the Term Frequency value.  In our case we computed IDF on a per-folder basis.  However we could just as easily compute the IDF value on a per-email basis.  In this case, we would count the total number of emails, and the number of emails that contain a term.</p>
 <p>Compute the IDF using this method and see what the pros and cons are.  We found that computing it on a per-folder basis can dramatically reduce the IDF score even if only one email in each folder contained the term.  The per-email basis avoids this, but causes the top TF-IDF values of a lot of the folders to overlap.</p>
-<h2>Exercise 2: Compute per-sender TF-IDF (optional)</h2>
+<h3>Exercise 2: Compute per-sender TF-IDF (optional)</h3>
 <p>Remember how tf-idf is defined for <a href="#tfidfdef">abstract documents</a>? So far, we've defined a "document" as an email folder.   Now change your code to compute TF-IDF on a per-sender basis.  The email dictionary contains a key <code>sender</code> that contains the email address of the email's sender.</p>
 <p>We recommend copying the file you have so far so you don't lose it!</p>
 <h2>Cosine Similarity</h2>
@@ -263,9 +263,9 @@ denominator = sec_norm * fam_norm + 1.0
 
 similarity = numerator / denominator
 </code></pre>
-<h2>Exercise 3: Most similar folders</h2>
+<h3>Exercise 3: Most similar folders</h3>
 <p>Extend the above code to rank the folders by how similar they are, where similarity is the cosine score.  When computing similarity, we typically took the top 100 tf-idf terms in each vector instead of all of the terms.</p>
-<h2>Exercise 4: Most similar senders (optional)</h2>
+<h3>Exercise 4: Most similar senders (optional)</h3>
 <p>Now modify the code you have written so far to compute the cosine similarity between every pair of email senders.  You can do this later, because it can take a long time.  Alternatively, you can pick a few of the senders and just calculate it for them.</p>
 <h2>N-grams</h2>
 <p>Notice that we have used the word "term" instead of "word" when describing tf-idf and cosine similarity.  This is on purpose.</p>
@@ -276,11 +276,11 @@ ate the
 the turtle
 </code></pre>
 <p>An n-gram is an n consecutive word sequence.</p>
-<h2>Exercise 5: 1 and 2-grams (optional)</h2>
+<h3>Exercise 5: 1 and 2-grams (optional)</h3>
 <p>Re-run one of the analyses using 1 and 2 grams.  How well did that work?</p>
-<h2>Exercise 6: Email Subject</h2>
+<h3>Exercise 6: Email Subject</h3>
 <p>So far we have extracted the terms from the email body text (<code>e['text']</code>).  We found that the results are so-so.  When people write email subjects, they tend to be to the point and summarize the email.  Try re-running the analysis using the email subject line (<code>e['subject']</code>) instead of the email text.</p>
-<h2>Exercise 7: More Cleaning</h2>
+<h3>Exercise 7: More Cleaning</h3>
 <p>When we forward or reply to an email, the email client often includes the original email as well.  This can artificially boost the TF-IDF score, particularly if the email chain becomes very long.  The email usually looks like this:</p>
 <pre><code>ok.  10:40 to be safe:P
 
@@ -302,7 +302,7 @@ On Fri, Jan 6, 2012 at 5:15 PM, Eugene Wu &lt;sirrice@gmail.com&gt; wrote:
 &gt;&gt;&gt;
 </code></pre>
 <p>Do some more data cleaning to remove the email copies before computing TF-IDF.  Hint: lines starting with <code>&gt;</code>.</p>
-<h2>Exercise 8: Normalizing Weights</h2>
+<h3>Exercise 8: Normalizing Weights</h3>
 <p>In our current version of TF-IDF, a person's terms will be artificially boosted if he/she sends you a ton of emails.  This is for two reasons</p>
 <ol>
 <li>He or she will likely have a term vector with a larger variety of terms.</li>
@@ -316,11 +316,11 @@ vect = [ item * item for item in vect ]
 total = sum(vect)
 math.sqrt(total)
 </code></pre>
-<h2>Exercise 9: Removing Names (optional)</h2>
+<h3>Exercise 9: Removing Names (optional)</h3>
 <p>You'll find that names of people end up with very high tf-idf scores often due to signatures.  Although it's correct, we want to find people that send similar email content (e.g., topics) so we would like non-name terms.  The email dictionary objects contain fields called <code>sendername</code> and <code>names</code> that store english names.  Add everyone's first name and last name to our list of stop words.<br />
 </p>
 <p>We found that this improved our results when we analyzed our gmail emails.</p>
-<h2>Exercise 10: Analyze Your Emails (optional)</h2>
+<h3>Exercise 10: Analyze Your Emails (optional)</h3>
 <p>We have written a script (<code>dataiap/resources/download_emails.py</code>) that you can use to download your own email over IMAP.  However before you can run it, make sure you installed the following python modules:</p>
 <ul>
 <li><a href="http://labix.org/python-dateutil#head-2f49784d6b27bae60cde1cff6a535663cf87497b">dateutil</a><ul>
