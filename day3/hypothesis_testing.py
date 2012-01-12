@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-
 # So far, we've plotted and visualized data in various ways.  Today,
 # we'll see how to statistically back up some of the observations
 # we've made in looking at our data.  Statistics is a tool that helps
