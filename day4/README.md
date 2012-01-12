@@ -270,14 +270,14 @@ with the code:
 
 If you get stuck, take a peak in `dataiap/day4/get_terms.py`
 
-## Exercise 1: Compute IDF differently (optional)
+### Exercise 1: Compute IDF differently (optional)
 
 IDF is simply one method to normalize the Term Frequency value.  In our case we computed IDF on a per-folder basis.  However we could just as easily compute the IDF value on a per-email basis.  In this case, we would count the total number of emails, and the number of emails that contain a term.
 
 Compute the IDF using this method and see what the pros and cons are.  We found that computing it on a per-folder basis can dramatically reduce the IDF score even if only one email in each folder contained the term.  The per-email basis avoids this, but causes the top TF-IDF values of a lot of the folders to overlap.
 
 
-## Exercise 2: Compute per-sender TF-IDF (optional)
+### Exercise 2: Compute per-sender TF-IDF (optional)
 
 Remember how tf-idf is defined for [abstract documents](#tfidfdef)? So far, we've defined a "document" as an email folder.   Now change your code to compute TF-IDF on a per-sender basis.  The email dictionary contains a key `sender` that contains the email address of the email's sender.
 
@@ -324,11 +324,11 @@ Here is how we would calculate the cosine similarity of two folders, using the `
     similarity = numerator / denominator
 
 
-## Exercise 3: Most similar folders
+### Exercise 3: Most similar folders
 
 Extend the above code to rank the folders by how similar they are, where similarity is the cosine score.  When computing similarity, we typically took the top 100 tf-idf terms in each vector instead of all of the terms.
 
-## Exercise 4: Most similar senders (optional)
+### Exercise 4: Most similar senders (optional)
 
 Now modify the code you have written so far to compute the cosine similarity between every pair of email senders.  You can do this later, because it can take a long time.  Alternatively, you can pick a few of the senders and just calculate it for them.
 
@@ -346,15 +346,15 @@ One popular way to add more context is to simply use more than one word per term
 
 An n-gram is an n consecutive word sequence.
 
-## Exercise 5: 1 and 2-grams (optional)
+### Exercise 5: 1 and 2-grams (optional)
 
 Re-run one of the analyses using 1 and 2 grams.  How well did that work?
 
-## Exercise 6: Email Subject
+### Exercise 6: Email Subject
 
 So far we have extracted the terms from the email body text (`e['text']`).  We found that the results are so-so.  When people write email subjects, they tend to be to the point and summarize the email.  Try re-running the analysis using the email subject line (`e['subject']`) instead of the email text.
 
-## Exercise 7: More Cleaning
+### Exercise 7: More Cleaning
 
 When we forward or reply to an email, the email client often includes the original email as well.  This can artificially boost the TF-IDF score, particularly if the email chain becomes very long.  The email usually looks like this:
 
@@ -379,7 +379,7 @@ When we forward or reply to an email, the email client often includes the origin
 
 Do some more data cleaning to remove the email copies before computing TF-IDF.  Hint: lines starting with `>`.
 
-## Exercise 8: Normalizing Weights
+### Exercise 8: Normalizing Weights
 
 In our current version of TF-IDF, a person's terms will be artificially boosted if he/she sends you a ton of emails.  This is for two reasons
 
@@ -398,14 +398,14 @@ The l2norm of a vector can be computed as:
 
 
 
-## Exercise 9: Removing Names (optional)
+### Exercise 9: Removing Names (optional)
 
 You'll find that names of people end up with very high tf-idf scores often due to signatures.  Although it's correct, we want to find people that send similar email content (e.g., topics) so we would like non-name terms.  The email dictionary objects contain fields called `sendername` and `names` that store english names.  Add everyone's first name and last name to our list of stop words.  
 
 We found that this improved our results when we analyzed our gmail emails.
 
 
-## Exercise 10: Analyze Your Emails (optional)
+### Exercise 10: Analyze Your Emails (optional)
 
 We have written a script (`dataiap/resources/download_emails.py`) that you can use to download your own email over IMAP.  However before you can run it, make sure you installed the following python modules:
 
