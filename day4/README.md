@@ -139,9 +139,9 @@ The following code will construct a dictionary that maps a term to its IDF value
         allterms.update(terms)
 
     idfs = {}
-    nfolders = len(terms_per_folder)  # the number of keys should be the number of folders
+    nfolders = len(terms_per_folder)  # the number of keys should be the number of folders    
     for term, count in allterms.iteritems():
-        idfs[term] = math.log( nfolders / (1 + count) )
+        idfs[term] = math.log( nfolders / (1.0 + count) )
 
 
     tfidfs = {} # key is folder name, value is a list of (term, tfidf score) pairs
