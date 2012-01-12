@@ -2,16 +2,16 @@
 
 ## Overview
 
-Today we will discuss text processing.  Our exercises will be grounded in an email dataset (either yours or Kenneth Lay's).  After today, you will be able to compute the most important terms in a particular email, find emails similar to the one you are reading, and find people that tend to send you similar emails.
+Today we will discuss text processing.  Our exercises will be grounded in an email dataset (either yours or Kenneth Lay's).  After today, you will be able to compute the most important terms in a particular email, find emails similar to the one you are reading, and find people that tend to send you similar emails.  And since emails are just text documents, this applies to any text document you can think of, like webpages, articles, or tweets.
 
 As opposed to the data we've seen so far, we will need to clean the data before we can extract meaningful results.
 
-The techniques will include
+The techniques we will learn today include
 
-* [Tf-Idf](http://en.wikipedia.org/wiki/Tfidf)
+* [TF-IDF](http://en.wikipedia.org/wiki/Tfidf)
 * [Regular Expressions](http://en.wikipedia.org/wiki/Regular_expression) and data cleaning
 * [Cosine Similarity](http://en.wikipedia.org/wiki/Cosine_similarity)
-* [N-gram](http://en.wikipedia.org/wiki/N-gram)
+* [N-gram Analysis](http://en.wikipedia.org/wiki/N-gram)
 
 This is the longest lab so far, with 10 exercises.  Feel free to skip some of the optional exercises.
 
@@ -23,7 +23,7 @@ Unzip Kenneth Lay's (Pre-bankruptcy Enron CEO) emails that were made public afte
 
     dataiap/datasets/emails/kenneth.zip
 
-The full dataset (400MB zipped, >2.4G unzipped) can be found [here](http://www.cs.cmu.edu/~enron/).
+The full dataset (400MB zipped, >2.4G unzipped) can be found [here](http://www.cs.cmu.edu/~enron/).  Don't download it now: we won't need it until day 5.
 
 ### Reading the Emails
 
@@ -38,46 +38,40 @@ We have written a module that makes it easier to manage the emails.  To use it a
 The module contains a class `EmailWalker` and a dictionary that represents an email.  `EmailWalker`  iterates through all the files under a directory and creates a `dict` for each email file in the directory.
 
 
-**`Email` dictionary object**
+**`Email` dictionary object keys**
 
-* dictionary keys
-    * `folder`: name of the folder the email is in (e.g., inbox, _sent)
-    * `sender`: the email address of the sender
-    * `sendername`: the name of the sender (if we found it), or ''
-    * `recipients`: a list containing all emails in the `to`, `cc`, and `bcc` fields
-    * `names`: a list of all full names or '' found in senders, to, cc, and bcc list.  
-    * `to`: list of emails in `to` field
-    * `cc`: list of emails in `cc` field
-    * `bcc`: list of emails in `bcc` field
-    * `subject`: subject line
-    * `date`: `datetime` object of when the email was sent
-    * `text`: the text content in the email
-    
+  * `folder`: name of the folder the email is in (e.g., inbox, _sent)
+  * `sender`: the email address of the sender
+  * `sendername`: the name of the sender (if we found it), or ''
+  * `recipients`: a list containing all emails in the `to`, `cc`, and `bcc` fields
+  * `names`: a list of all full names or '' found in senders, to, cc, and bcc list.  
+  * `to`: list of emails in `to` field
+  * `cc`: list of emails in `cc` field
+  * `bcc`: list of emails in `bcc` field
+  * `subject`: subject line
+  * `date`: `datetime` object of when the email was sent
+  * `text`: the text content in the email
+
+For example, if you receive an `email_one` dictionary, you can retrieve the sender email by typing `email_one[sender]`.
 
 **`EmailWalker` class**
 
-* `__init__(self, email_root)`: pass in the root directory (`dataiap/datasets/emails/lay-k`) containing the email folders (e.g., inbox, _sent)
-* `__iter__(self)`: returns an iterator that returns email objects
+The `EmailWalker` class is initialized with the root directory (`dataiap/datasets/emails/lay-k`) that contains email folders (e.g., inbox, _sent).  `EmailWalker` is an iterator, and can be conveniently used in a loop:
 
-The `__iter__` method means that `EmailWalker` is an iterator, and can be conveniently used in a loop:
-
-    walker = EmailWalker('./email_root')
+    walker = EmailWalker('dataiap/datasets/emails/lay-k')
     for email_dict in walker:
         print email_dict['subject']
 
-    
-
-
 ## Folder Summaries
 
-In this section, we will automatically extract key terms of each folder.  This should give us a good list of terms that summarize each folder.  Computing these terms could also be used to direct a keyword search to the most appropriate folder.
+Let's extract the key terms of each folder.  This should give us a good list of terms that summarize each folder.  Computing these terms could also be used to direct a keyword search to the most appropriate folder.
 
-Although the walkthrough will compute key terms for folders, you could also compute it for each contact in your inbox, by each month, or on an email by email basis.  Additionally, we will only be using the words in the email body, and ignore the subject lines.  We'll see if that was a good idea, and if not, why not!
+Although the walkthrough will compute key terms for folders, you could also compute it for each contact in your inbox, by each month, or on an email-by-email basis.  Additionally, we will only be using the words in the email body, and ignore the subject lines.  We'll see if that was a good idea later, and if not, why not!
 
 
 ### Term Frequency (TF)
 
-One intuition is that if a term is relevant to a folder, then the emails in the folder should use that term very often.  We could then count the number of times each term occurs in an email, and the top occurrences should best represent the email.
+One intuition is that if a term is relevant to a folder, then the emails in the folder should use that term very often.  We can count the number of times each term occurs in each email, and the top occurrences of terms across all emails in each folder should best represent the folder.
 
     import os, sys, math
     sys.path.append('dataiap/resources/util') # fix this path to work for you!!!!
@@ -92,10 +86,11 @@ One intuition is that if a term is relevant to a folder, then the emails in the 
     
     for folder, counter in folder_tf.items():
         print folder
-        for pair in sorted(counter.items(), key=lambda (k,v): v, reverse=True)[:20]:
+        sorted_by_count_top20 = sorted(counter.items(), key=lambda (k,v): v, reverse=True)[:20]
+        for pair in sorted_by_count_top20:
             print '\t', pair    
 
-But if we take a look at the output, they are non-descriptive terms that are simply used often.  There are also random characters like `>`, which are clearly not words, but happen to pop-up often.
+But if we take a look at the output (the top 20 most frequent terms in each folder), they are non-descriptive terms that are simply used often.  There are also random characters like `>`, which are clearly not words, but happen to pop up often.
 
     sent
     	('the', 2529)
@@ -106,25 +101,25 @@ But if we take a look at the output, they are non-descriptive terms that are sim
     	('a', 883)
     	('>', 834)
 
-This suggests that we need a better approach than term frequency, and that we need to clean the email text a bit.  We will walk you through how to do then in that order.
+This suggests that we need a better approach than term frequency, and that we need to clean the email text a bit.  Let's do both of these things.
 
 ### Term Frequency - Inverse Document Frequency ([TF-IDF](http://en.wikipedia.org/wiki/Tf%E2%80%93idf))
 
-Instead of the most popular terms, what we want are popular items above background noise.  For example, "the" would be considered background noise because it is found multiple times in nearly every single email, so it is not very descriptive.  Similarly, "enron" is probably not very descriptive because we would expect most emails to mention the term.  
+Instead of the most popular terms, what we want are popular terms in **this** email or folder that are not popular in **all other** emails or folders.  For example, "the" would be considered background noise because it is found multiple times in nearly every single email, so it is not very descriptive.  Similarly, "enron" is probably not very descriptive because we would expect most emails to mention the term.  
 
 <a name="tfidfdef"></a>
-TF-IDF is a widely used metric that captures this idea by combining two intuitions.  The first intuition is Term Frequency, and the second is Inverse Document Frequency.  They usually describe it in terms of an abstract "document".
+TF-IDF is a widely used metric that captures this idea by combining two intuitions.  The first intuition is Term Frequency, and the second is Inverse Document Frequency.  These concepts are usually described in terms of abstract "documents."
 
 1. **TF**: we want to increase a term's weight if it occurs often in a document
 1. **IDF**: we want to decrease a term's weight if it's found in most documents
 
-Notice that the first is calculated on a per document basis, and the second is across all documents.
+Notice that the first is calculated on a per-document basis, and the second is across all documents.
 
 The IDF of a given term is formally computed as 
 
-    log( total # documents / # documents that contain term )
+    IDF(term) = log( total # documents / # documents that contain term )
 
-In our case, a "document" is all the emails in a folder.  Thus the numerator is the total number of folders and the denominator is the number of folders where some email in the folder contains the term.  Finally, the TF-IDF is simply a multiple of the two values:
+This function decreases for a term that frequently occurs in many documents, and high-IDF terms will be the ones that are used in a small set of documents. In our case, a "document" is all the emails in a folder.  Thus the numerator is the total number of folders and the denominator is the number of folders where some email in the folder contains the term.  Finally, the TF-IDF is simply a multiple of the two values:
 
     TF * IDF
 
@@ -150,7 +145,7 @@ The following code will construct a dictionary that maps a term to its IDF value
 
 
     tfidfs = {} # key is folder name, value is a list of (term, tfidf score) pairs
-    for folder, tfs in folder.iteritems:
+    for folder, tfs in folder_tf.iteritems():
         #
         # write code to calculate tf-idfs yourself!
         # 
@@ -174,34 +169,33 @@ As we can see, it's so-so, but the terms don't seem very meaningful, and a lot o
 
 ### Regular Expressions and Data Cleaning
 
-The email dataset is a simple dump, and each file contains the email headers, attachments, and the actual message -- all of it is ascii-encoded.  In order to see sensible terms, we need to clean the data a bit.  This process varies depending on what your application is.  In our case, we decided that we want
+The email dataset is a simple dump, and each file contains the email headers, attachments, and the actual message.  In order to see sensible terms, we need to clean the data a bit.  This process varies depending on what your application is.  In our case, we decided that we want
 
 1. We don't care about casing.  We want "enron" and "Enron" to be the same term.
 1. We don't care about really short words.  We want words with 4 or more characters. 
 1. We don't care about [stop words](http://en.wikipedia.org/wiki/Stop_words).  We pre-decided that words like "the" and "and" should be ignored.
-1. Reasonable words.  These should only contain a-z characters, hyphens, and apostrophes.  It should also start and end with an a-z character.  That way we don't get `"To:"` and `"From:"`.
+1. Reasonable words.  These should only contain a-z characters, hyphens, and apostrophes.  It should also start and end with an a-z character.  That way we don't get `"To:,"` `"From:,"` or `"<<Discussion."`
 
 Let's tackle each of these requirements one by one!
 
 #### 1-2. Casing and Short Words
 
-We can deal with these by lower casing all of the terms and filtering out the short terms.
+We can deal with these by lower-casing all of the terms and filtering out the short terms.
 
     terms = e['text']lower().split()
-    terms = filter(lambda term: len(term) <= 3, terms)
+    terms = filter(lambda term: len(term) > 3, terms)
 
 #### 3. Stop Words
 
 The `email_util` module defines a variable `STOPWORDS` that contains a list of common english stop words in lower case.  We can filter out terms that are found in in this list.
 
     from email_util import STOPWORDS
-    terms = filter(lambda term: term in STOPWORDS, terms)
+    terms = filter(lambda term: term not in STOPWORDS, terms)
     
-
 
 #### 4. Reasonable Words (Regular Expressions)
 
-The last requirement is more difficult to enforce.  One way is to iterate through the characters in every term, and make sure they are valid:
+Our final only-real-words requirement is more difficult to enforce.  One way is to iterate through the characters in every term, and make sure they are valid:
 
     arr = e['text'].split()
 
@@ -219,7 +213,7 @@ The last requirement is more difficult to enforce.  One way is to iterate throug
         if valid:
             terms.append(term)
 
-This is a pain in the butt to write, and is hard to understand and change.  All we are doing is making sure each term adheres to a pattern.  Regular Expressions (regex) is a very convenient language for finding and extracting patterns in text.  We don't have time for a complete tutorial, but we will talk about the basics.
+This is a pain in the butt to write, and is hard to understand and change.  All we are doing is making sure each term adheres to a pattern.  Regular Expressions (regex) is a convenient language for finding and extracting patterns in text.  We don't have time for a complete tutorial, but we will talk about the basics.
 
 **Regex lets you specify:**
 
@@ -231,15 +225,15 @@ It's easiest to show examples, so here's code that defines a pattern of strings 
 
     import re
     term = "enronbankrupt"
-    pattern = "[eE]nron+"
+    pattern = "[eE]nron"
     if re.search(pattern, term):
         print "found!"    
 
 The most basic pattern is a list of characters.  `pattern = "enron"` looks for the exact string "enron" (lower case).  But what if we want to match `"Enron"` and `"enron"`?  Writing `re.search('enron', term) or re.search('Enron', term)` would suck.  That's where character classes come in!
 
-Brackets `[ ]` are used to define a character class.  That means any character in the class would be matched.  You can simply list the individual characters that are in the class.  For example `[eE]` matches both "e" and "E".  Thus `[eE]nron` would match both "Enron" and "enron".  `[0123456789\-]` means that all digits and hyphens should be matched.  We need to escape "-" within `[ ]` because it is a special character.
+Brackets `[ ]` are used to define a character class.  That means any character in the class would be matched.  You can simply list the individual characters that are in the class.  For example `[eE]` matches both "e" and "E".  Thus `[eE]nron` would match both "Enron" and "enron".  `[0123456789\-]` means that all digits and hyphens should be matched.  We need to escape (put a backslash before) "-" within `[ ]` because it is a special character.
 
-It's tedious to list individual characters, so `-` can be used to specify a range of characters.  `[a-z]` is all characters between lower case "a" and "z".  `[A-Z]` are all upper case characters.  `[a-zA-Z]` are all upper or lower case characters.  There are other shortcuts for common classes.  For example, `\w` (without the brackets) is shorthand for `[a-zA-Z0-9]`
+It's tedious to list individual characters, so `-` can be used to specify a range of characters.  `[a-z]` is all characters between lower case "a" and "z".  `[A-Z]` are all upper case characters.  `[a-zA-Z]` are all upper or lower case characters.  There are other shortcuts for common classes.  For example, `\w` (without the brackets) is shorthand for `[a-zA-Z0-9]`.    Note that we didn't escape the `-` because it specifies a range within `[ ]`.
 
 `[a-z]` only matches a single character.  We can add a special characters at the end of the class to specify how many times it should be repeated:
 
@@ -249,12 +243,16 @@ It's tedious to list individual characters, so `-` can be used to specify a rang
 * `{n}`: exactly `n` times
 * `{n,m}`: between `n` and `m` times (inclusive).
 
-For example, `[0-9]{3}-[0-9]{3}-[0-9]{4}` matches phone numbers that contain area codes.  Note that we didn't escape the `-` because it specifies a range within `[ ]` and is not interpreted as a range outside the `[ ]`.  This pattern fails if the user inputs "(510)-232-2323" because it doesn't recognize the `( )`.  Can you modify the pattern to optionally allow `( )`?
+For example, `[0-9]{3}-[0-9]{3}-[0-9]{4}` matches phone numbers that contain area codes.  Again we don't escape the `-`'s because it specifies a range within `[ ]` and is not interpreted as a range outside the `[ ]`.  This pattern fails if the user inputs "(510)-232-2323" because it doesn't recognize the `( )`.  Can you modify the pattern to optionally allow `( )`?
 
 Finally, `^` and `$` are special characters for the beginning and the end of the text, respectively.  For example `^enron` means that "enron" must be at the beginning of the string.  `enron$` means that the "enron" should be at the end.  `^enron$` means the term should be exactly "enron".
 
+Great!  You should know enough to create a pattern to find "reasonable words", and use it to re-compute the `tfidfs` dictionary and print the 10 most highly scored terms in each folder!  
 
-Great!  You should know enough to create a pattern to find "reasonable words", and use it to re-compute the `tfidfs` dictionary and print the 10 most highly scored terms in each folder!  It helped to create a function that performs all of the data cleaning for us.  Thus we created a function called `get_terms( )`:
+
+#### 5. Make a data cleaning function
+
+It helped to create a function that performs all of the data cleaning for us.  Thus we created a function called `get_terms( )`:
 
     def get_terms(message_text):
         terms = message_text.split()
@@ -270,6 +268,7 @@ with the code:
 
     terms_in_email = get_terms(e['text'])
 
+If you get stuck, take a peak in `dataiap/day4/get_terms.py`
 
 ## Exercise 1: Compute IDF differently (optional)
 
@@ -278,16 +277,15 @@ IDF is simply one method to normalize the Term Frequency value.  In our case we 
 Compute the IDF using this method and see what the pros and cons are.  We found that computing it on a per-folder basis can dramatically reduce the IDF score even if only one email in each folder contained the term.  The per-email basis avoids this, but causes the top TF-IDF values of a lot of the folders to overlap.
 
 
-## Exercise 2: Compute per sender TF-IDF (optional)
+## Exercise 2: Compute per-sender TF-IDF (optional)
 
 Remember how tf-idf is defined for [abstract documents](#tfidfdef)? So far, we've defined a "document" as an email folder.   Now change your code to compute TF-IDF on a per-sender basis.  The email dictionary contains a key `sender` that contains the email address of the email's sender.
 
 We recommend copying the file you have so far so you don't lose it!
 
+## Cosine Similarity
 
-## [Cosine Similarity](http://en.wikipedia.org/wiki/Cosine_similarity)
-
-That way, if we are reading an interesting email about Enron's bankruptcy, we can find other people that have sent similar emails. 
+If you did the last exercise, you have a per-person description of everyone who sent email at Enron.  With Cosine Similarity, we can find other people that have sent similar emails. 
 
 Let's now figure out which folders are most similar to each other.  That would be nice to see how Kenneth is grouping his emails.  [Cosine similarity](http://en.wikipedia.org/wiki/Cosine_similarity) is a common tool to achieve this.
 
@@ -295,9 +293,9 @@ The main idea is that folders that share terms with high tf-idf values are proba
 
 Let's say we have a total of 1000 terms across all of the email senders.  Every folder has a tf-idf score for each of the 1000 terms (some may be 0).  We could model all of the scores of a folder as a 1000-dimensional vector, where each dimension corresponds to a term, and the distance along the dimension is the term's tf-idf value.  The cosine of the two email senders' vectors measures the similarity between them.  Suppose the vectors were A and B.  Then the cosine would be:
 
-    cos(A,B) = (A·B) / ((|A| * |B|) + 1)
+    cos(A,B) = (A·B) / ((||A|| * ||B||) + 1)
 
-The numerator is the sum of all the tf-idf terms the senders have in common.  The denominator is the product of the vector lengths.  We typically add `1` in case the vectors are both 0.
+The numerator is the sum of all the tf-idf terms the senders have in common.  The denominator is the product of the [vector norms](https://en.wikipedia.org/wiki/Magnitude_(mathematics)#Euclidean_vectors).  We typically add `1` in case the vectors are both 0.
 
 A `cos(A,B)` of 1 means they are identical and 0 means the senders are independent from each other (the vectors are orthogonal).  
 
@@ -338,7 +336,7 @@ Now modify the code you have written so far to compute the cosine similarity bet
 
 Notice that we have used the word "term" instead of "word" when describing tf-idf and cosine similarity.  This is on purpose.
 
-The problem with using a single word, as we have, is that we lose the context of a word.  For example, "expensive" could be part of the phrase "not expensive", or part of the phrase "very expensive".  These have opposite meanings, but we bunch both together when using a single word for the term.
+The problem with using a single word, as we have, is that we lose the context of a word.  For example, "expensive" could be part of the phrase "not expensive," or part of the phrase "very expensive."  These have opposite meanings, but we bunch both together when using a single word for the term.
 
 One popular way to add more context is to simply use more than one word per term.  We could instead use 2-grams, which are all 2 consecutive word sequences.  For example, the phrase "she ate the turtle" has the following 2-grams:
 
@@ -352,9 +350,11 @@ An n-gram is an n consecutive word sequence.
 
 Re-run one of the analyses using 1 and 2 grams.  How well did that work?
 
+## Exercise 6: Email Subject
 
+So far we have extracted the terms from the email body text (`e['text']`).  We found that the results are so-so.  When people write email subjects, they tend to be to the point and summarize the email.  Try re-running the analysis using the email subject line (`e['subject']`) instead of the email text.
 
-## Exercise 6: More Cleaning
+## Exercise 7: More Cleaning
 
 When we forward or reply to an email, the email client often includes the original email as well.  This can artificially boost the TF-IDF score, particularly if the email chain becomes very long.  The email usually looks like this:
 
@@ -379,7 +379,7 @@ When we forward or reply to an email, the email client often includes the origin
 
 Do some more data cleaning to remove the email copies before computing TF-IDF.  Hint: lines starting with `>`.
 
-## Exercise 7: Normalizing Weights
+## Exercise 8: Normalizing Weights
 
 In our current version of TF-IDF, a person's terms will be artificially boosted if he/she sends you a ton of emails.  This is for two reasons
 
@@ -398,16 +398,11 @@ The l2norm of a vector can be computed as:
 
 
 
-## Exercise 8: Removing Names (optional)
+## Exercise 9: Removing Names (optional)
 
 You'll find that names of people end up with very high tf-idf scores often due to signatures.  Although it's correct, we want to find people that send similar email content (e.g., topics) so we would like non-name terms.  The email dictionary objects contain fields called `sendername` and `names` that store english names.  Add everyone's first name and last name to our list of stop words.  
 
 We found that this improved our results when we analyzed our gmail emails.
-
-
-## Exercise 9: Email Subject
-
-So far we have extracted the terms from the email body text (`e['text']`).  We found that the results are so-so.  Try re-running the analysis using the email subject line (`e['subject']`) instead.
 
 
 ## Exercise 10: Analyze Your Emails (optional)
