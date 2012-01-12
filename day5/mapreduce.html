@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>mapreduce.py</title>
+  <link rel="stylesheet" href="pycco.css">
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  
+  <table cellspacing=0 cellpadding=0>
+  <thead>
+    <tr>
+      <div class=docs><h1>mapreduce.py</h1></th>
+      <!--<div class=code></th>-->
+    </tr>
+  </thead>
+  <tbody>
+    <tr id='section-0'>
+      <div class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-">#</a>
+        </div>
+        <p>export AWS_ACCESS_KEY_ID='my_key_id'
+export AWS_SECRET_ACCESS_KEY='my_access_id'
+on windows: set VARIABLE=value</p>
+<p>python -m mrjob.tools.emr.create_job_flow --num-ec2-instances=5
+python -m mrjob.tools.emr.terminate_job_flow.py JOBFLOWID
+python -m mrjob.tools.emr.audit_usage
+python mr_my_job.py -r emr --emr-job-flow-id=JOBFLOWID input_file.txt &gt; out
+python mr_my_job.py -r emr --emr-job-flow-id=j-JOBFLOWID -o 's3://test_enron_json_123/output' --no-output 's3://test_enron_json_123/*.json'
+python simple_wordcount.py &lt; lay-k.json
+python mr_wordcount.py &lt; lay-k.json</p>
+<p>In day 4, we saw how to process text data using the Enron email dataset.  In reality, we only processed a small fraction of the entire dataset: about 20 megabytes of Kenneth Lay's emails.  The entire dataset is $$$ gigabytes, a factor of $$$ larger than what we worked with.  And what if we worked on GMail, Yahoo! Mail, or Hotmail?  We'd have several petabytes worth of emails, a factor of at least $$$ the size of the data we dealt with.</p>
+<p>All that data would take a while to process, and it certainly couldn't fit on or be crunched by a single laptop.  We'd have to store the data on many machines, and we'd have to process it (tokenize it, calculate tf-idf) using multiple machines.  There are many ways to do this, but one of the more popular recent methods of <em>parallelizing data computation</em> is on a programming framework called MapReduce, an idea that <a href="$$$">Google presented to the world in $$$</a>.  Luckily, you do not have to work at Google to benefit from MapReduce: an open-source implementation called <a href="$$$">Hadoop</a> is available for your use!</p>
+<p>But we don't have hundreds of machines sitting around for us to use them, you might say.  Actually, we do!  <a href="$$$">Amazon Web Services</a> offers a service called Elastic Mapreduce$$$ (EMR) that gives us access to as many machines as we would like for about $$$ cents per hour of machine we use.  Use $$$ machines for $$$ hours?  Pay Amazon $$$.  If you've ever heard the buzzword <em>cloud computing</em>, this elastic service is part of the hype.</p>
+<p>Let's start with a simple word count example, then rewrite it in MapReduce, then add TF-IDF calculation, and finally, run it on $$$ machines on Amazon's EMR!
+<h3>Setup</h3>
+Copy the python and tar files to wherever your code is$$$.</p>
+<h3>Counting Words</h3>
+
+<p>We're going to start with a simple example that should be familiar to you from day 4's lecture.  First, unzip the JSON-encoded Kenneth Lay email file:</p>
+      </div>
+      <div class=code>
+        <div class='highlight'><pre><div class="highlight"><pre><span class="n">unzip</span> <span class="n">dataiap</span><span class="o">/</span><span class="n">datasets</span><span class="o">/</span><span class="n">emails</span><span class="err">$$$</span></pre></div></pre></div>
+      </div>
+    </tr><tr id='section-1'>
+      <div class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-">#</a>
+        </div>
+        <p>This will result in a new file called $$$, which is JSON-encoded.  What is JSON?  You can think of it like a text representation of python dictionaries and lists.  If you open up the file, you will see on each line something that looks like this:</p>
+<p>$$$</p>
+<p>It's a dictionary representing an email sent to or received by Kenneth Lay.  It contains the same content that we dealt with yesterday, but encoded into JSON, and rather than one file per email, we have a single file with one email per line.</p>
+<p>Why did we do this?  Big data crunching systems like Hadoop don't deal well with lots of small files: they want to be able to send a large chunk of data to a machine and have to crunch on it for a while.  So we've processed the data to be in this format: one big file, a bunch of emails one per line.  If you're curious how we did this, check out $$$.</p>
+<p>Aside from that, processing the emails is pretty similar to what we did on day 4.  Let's look at a script that counts the words in the text of each email (As an aside: it would help if you wrote and ran your code in <code>dataiap/day5/...</code> today, since several modules like <code>term_tools.py</code> are available in that directory).</p>
+      </div>
+      <div class=code>
+        <div class='highlight'><pre><div class="highlight"><pre><span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">from</span> <span class="nn">mrjob.protocol</span> <span class="kn">import</span> <span class="n">JSONValueProtocol</span>
+<span class="kn">from</span> <span class="nn">term_tools</span> <span class="kn">import</span> <span class="n">get_terms</span>
+
+<span class="nb">input</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">words</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="mi">0</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">input</span><span class="p">:</span>
+    <span class="n">email</span> <span class="o">=</span> <span class="n">JSONValueProtocol</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">line</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">term</span> <span class="ow">in</span> <span class="n">get_terms</span><span class="p">(</span><span class="n">email</span><span class="p">[</span><span class="s">&#39;text&#39;</span><span class="p">]):</span>
+        <span class="n">words</span><span class="p">[</span><span class="n">term</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+<span class="k">for</span> <span class="n">word</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">words</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="k">print</span> <span class="n">word</span><span class="p">,</span> <span class="n">count</span></pre></div></pre></div>
+      </div>
+    </tr><tr id='section-2'>
+      <div class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-">#</a>
+        </div>
+        <p>You can save this script to <code>exercise1.py</code> and then run <code>python exercise2.py path/to/lay-k.json</code>.  It will print the word count in due time.  <code>get_terms</code> is similar to the word tokenizer we saw on day 4.  <code>words</code> keeps track of the number of times we've seen each word.  <code>email = JSONValueProtocol.read(line)[1]</code> uses a JSON decoder to convert each line into a dictionary called email, that we can then tokenize into individual terms.</p>
+<p>As we said before, running this process on several petabytes of data is infeasible because a single machine might not have petabytes of storage, and we would want to enlist multiple computers in the counting process to save time.</p>
+<p>We need a way to tell the system how to divide the input data amongst multiple machines, and then combine all of their work into a single count per term.  That's where MapReduce comes in!</p>
+<h3>MapReduce</h3>
+
+<p>MapReduce is named after its two most important bits of functionality: <em>map</em> and <em>reduce</em>.  Let's explain this with an example.  Say we have a JSON-encoded file with emails (1,000,000 emails on 1,000,000 lines), and we have 10 machines to process it.</p>
+<p>In the <em>map</em> phase, we are going to send each machine 100,000 lines, and have them break each of those emails into the words that make them up:</p>
+<p>$$$</p>
+<p>Once each machine has tokenized all of the words in the email, they will <em>shuffle</em> each word to a machine pre-designated for that word (using a hash function$$$, if you're curious).  This part is automatic, but it's important to know what's happening here:</p>
+<p>$$$</p>
+<p>And finally, once each machine has received the words that its responsible for, the <em>reduce</em> phase will turn all of the occurrences of words it has received into counts of those words:</p>
+<p>$$$</p>
+<p>MapReduce is more general-purpose than just serving to count words.  Some people have used it to do exotic things like <a href="$$$">process millions of songs</a>, but we'll stick to the boring stuff.</p>
+<p>Without further ado, here's the wordcount example, but in MapReduce</p>
+      </div>
+      <div class=code>
+        <div class='highlight'><pre><div class="highlight"><pre><span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">mrjob.protocol</span> <span class="kn">import</span> <span class="n">JSONValueProtocol</span>
+<span class="kn">from</span> <span class="nn">mrjob.job</span> <span class="kn">import</span> <span class="n">MRJob</span>
+<span class="kn">from</span> <span class="nn">term_tools</span> <span class="kn">import</span> <span class="n">get_terms</span></pre></div></pre></div>
+      </div>
+    </tr><tr id='section-3'>
+      
+      <div class=code>
+        <div class='highlight'><pre><div class="highlight"><pre><span class="k">class</span> <span class="nc">MRWordCount</span><span class="p">(</span><span class="n">MRJob</span><span class="p">):</span>
+    <span class="n">INPUT_PROTOCOL</span> <span class="o">=</span> <span class="n">JSONValueProtocol</span>
+    <span class="n">OUTPUT_PROTOCOL</span> <span class="o">=</span> <span class="n">JSONValueProtocol</span></pre></div></pre></div>
+      </div>
+    </tr><tr id='section-4'>
+      
+      <div class=code>
+        <div class='highlight'><pre><div class="highlight"><pre>    <span class="k">def</span> <span class="nf">mapper</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">email</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">term</span> <span class="ow">in</span> <span class="n">get_terms</span><span class="p">(</span><span class="n">email</span><span class="p">[</span><span class="s">&#39;text&#39;</span><span class="p">]):</span>
+            <span class="k">yield</span> <span class="n">term</span><span class="p">,</span> <span class="mi">1</span></pre></div></pre></div>
+      </div>
+    </tr><tr id='section-5'>
+      <div class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-">#</a>
+        </div>
+        <p>Too cool!  Let's break this thing down.  You'll notice the terms MRJob in a bunch of places.  <a href="$$$">MRJob</a> is a python package that makes writing MapReduce programs easy.  To create a MapReduce program, you have to create a class (like <code>MRWordCount</code>) that has a <code>mapper</code> and <code>reducer</code> function.  If the program is run from the command line, (the <code>if __name__ == '__main__':</code> part) we run the MRWordCount MapRedce program.</p>
+<p>Looking inside <code>MRWordCount</code>, we see <code>INPUT_PROTOCOL</code> being set to <code>JSONValueProtocol</code>.  By default, map functions expect a line of text as input, but we've encoded our emails as JSON, so we let MRJob know that.  Similarly, we explain that our reduce tasks will emit dictionaries, and set <code>OUTPUT_PROTOCOL</code> appropriately.</p>
+<p>The <code>mapper</code> function handles the functionality described in the first image of the last section.  It takes each email, tokenizes it into terms, and <code>yield</code>s each term.  You can <code>yield</code> a key and a value (<code>term</code> and <code>1</code>) in a mapper.  We yield the term with the value <code>1</code>, meaning one instance of the word <code>term</code> was found.</p>
+<p>The <code>reducer</code> function implements the third image of the last section.  We are given a word (the key emitted from mappers), and a list <code>occurrences</code> of all of the values emitted for each instance of <code>term</code>.  Since we are counting occurrences of words, we emit a dictionary containing the term and a sum of the occurrences we've seen.</p>
+<p>Note that we <code>sum</code> instead of <code>len</code> the <code>occurrences</code>.  This allows us to change the mapper implementation to emit the number of times each word occurs in a document, rather than <code>1</code> for each word.</p>
+<p>Both the <code>mapper</code> and <code>reducer</code> offer us the parallelism we wanted.  There is no loop through our entire set of emails, so MapReduce is free to distribute the emails to multiple machines, each of which will run <code>mapper</code> on an email-by-email basis.  We don't have a single dictionary with the count of every word, but instead have a <code>reduce</code> function that has to sum up the occurrences of a single word, meaning we can again distribute the work to several reducing machines.</p>
+<h3>Run It!</h3>
+
+<p>Enough talk!  Let's run this thing.</p>
+      </div>
+      <div class=code>
+        <div class='highlight'><pre><div class="highlight"><pre>    <span class="k">def</span> <span class="nf">reducer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">term</span><span class="p">,</span> <span class="n">occurrences</span><span class="p">):</span>
+        <span class="k">yield</span> <span class="bp">None</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;term&#39;</span><span class="p">:</span> <span class="n">term</span><span class="p">,</span> <span class="s">&#39;count&#39;</span><span class="p">:</span> <span class="nb">sum</span><span class="p">(</span><span class="n">occurrences</span><span class="p">)}</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+        <span class="n">MRWordCount</span><span class="o">.</span><span class="n">run</span><span class="p">()</span></pre></div></pre></div>
+      </div>
+    </tr><tr id='section-6'>
+      <div class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-">#</a>
+        </div>
+        <p>That's going to do something similar to what the simple wordcount script did.  The only difference you will notice is that the output comes out in dictionaries (<code>OUTPUT_PROTOCOL = JSONValueProtocol</code>), and in sorted term order (that's how all of the occurrences for a term end up on a single reducer).</p>
+<p>If we want to write the output to disk, we can instead write</p>
+      </div>
+      <div class=code>
+        <div class='highlight'><pre><div class="highlight"><pre><span class="err">$$$</span> <span class="p">(</span><span class="n">parallel</span> <span class="nb">input</span><span class="o">/</span><span class="n">output</span> <span class="n">style</span> <span class="n">to</span> <span class="n">the</span> <span class="n">EMR</span> <span class="n">version</span> <span class="k">if</span> <span class="n">you</span> <span class="n">can</span><span class="p">)</span></pre></div></pre></div>
+      </div>
+    </tr><tr id='section-7'>
+      <div class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-">#</a>
+        </div>
+        <p>If you re-run the program, it take a look at $$$ for the output.</p>
+<p>You will notice we have not yet run tasks on large datasets (we're still using <code>lay-k.json</code>) and we are still running them locally on our computers.  We will learn a few things before we move onto Amazon's machines, but this is an important lesson still: MapReduce tasks will take a long time to run and hold up several tens to several hundreds of machines.  Test them locally like we just did to make sure you don't have bugs before going to the full dataset.</p>
+<h3>Show off What you Learned</h3>
+      </div>
+      <div class=code>
+        <div class='highlight'><pre><div class="highlight"><pre><span class="err">$$$</span></pre></div></pre></div>
+      </div>
+    </tr><tr id='section-8'>
+      <div class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-">#</a>
+        </div>
+        <p><strong> Exercise </strong>  Create a second version of the MapReduce wordcounter that counts the number of each word emitted by each sender.  You will need this for later, since we're going to be calculating TF-IDFimplementing  terms per sender.  You can accomplish this with a sneaky change to the <code>term</code> emitted by the <code>mapper</code>.  You can either turn that term into a dictionary, or into a more complicated string, but either way you will have to encode both sender and term information in that <code>term</code>.</p>
+      </div>
+      
+    </tr><tr id='section-9'>
+      <div class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-">#</a>
+        </div>
+        <p><strong> Bonus Exercise </strong> Grep.  The <a href="$$$"><code>grep</code> command</a> on UNIX-like systems allows you to search text files for some term or terms.  Typing <code>grep hotdogs file1</code> will return all instances of the word <code>hotdogs</code> in the file <code>file1</code>.  Implement a <code>grep</code> for emails.  When a user uses your mapreduce program to find a word in the email collection, they will be given a list of the subjects and senders of all emails that contain the word.  You might find you do not need a particularly smart reducer in this case: that's fine.  If you're pressed for time, you can skip this exercise.</p>
+      </div>
+      
+    </tr><tr id='section-10'>
+      <div class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-">#</a>
+        </div>
+        <h3>TF-IDF</h3>
+
+<p>On <a href="./day4/">day 4</a>, we learned that counting words is not enough to summarize text: common words like <code>the</code> and <code>and</code> are too popular.  In order to discount those words, we multiplied by the term frequency of <code>wordX</code> by <code>log(total # documents/# documents with wordX)</code>.  Let's do that with MapReduce!</p>
+<p>We're going to emit a per-sender TF-IDF.  To do this, we need three MapReduce tasks:</p>
+<ul>
+<li>
+<p>The first will calculate the number of documents, for the numerator in IDF.</p>
+</li>
+<li>
+<p>The second will calculate the number of documents each term appears in, for the denominator of IDF, and emits the IDF (<code>log(total # documents/# documents with wordX)</code>).</p>
+</li>
+<li>
+<p>The third calculates a per-sender IDF for each term after taking both the second MapReduce's term IDF and the email corpus as input.</p>
+</li>
+</ul>
+<h3>MapReduce 1: Total Number of Documents</h3>
+
+<p>Eugene and I are the laziest of instructors.  We don't like doing work where we don't have to.  If you'd like a mental exercise as to how to write this MapReduce, you can do so yourself, but it's simpler than the wordcount example.  Our dataset is not so large that we can't just use the <code>wc</code> UNIX command to count the number of lines in our corpus:</p>
+      </div>
+      
+    </tr><tr id='section-11'>
+      <div class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-">#</a>
+        </div>
+        <p>Kenneth Lay has 5929 emails in his dataset.  We ran wc -l on the entire Enron email dataset, and got 516893.  This took a few seconds.  Sometimes, it's not worth overengineering a simple task!:)</p>
+<h3>MapReduce 2: Per-Term IDF</h3>
+
+<p>We recommend you stick to 516893 as your total number of documents, since eventually we're going to be crunching the entire dataset!</p>
+<p>What we want to do here is emit <code>log(516893.0 / # documents with wordX)</code> for each <code>wordX</code> in our dataset.  Notice the decimal on 516893<strong>.0</strong>: that's so we do <a href="$$$">floating point division</a> rather than integer division.  The output should be a file where each line contains <code>{'word': 'wordX', 'idf': 35.92}</code> for actual values of <code>wordX</code> and <code>35.92</code>.</p>
+<p>We've put our answer in <code>per-term-idf.py</code> $$$, but try your hand at writing it yourself before you look at ours.  It can be implemented with a two-line change to the original wordcount MapReduce we wrote.</p>
+<h3>MapReduce 3: Per-Sender TF-IDFs</h3>
+
+<p>The third MapReduce multiplies per-sender term frequencies by per-term IDFs.  This means it needs to take as input the IDFs calculated in the last step <strong> as well as </strong> calculate the per-sender TFs.  That requires something we haven't seen yet: initialization logic.  Let's show you the code, then tell you how it's done.</p>
+      </div>
+      <div class=code>
+        <div class='highlight'><pre><div class="highlight"><pre><span class="n">wc</span> <span class="o">-</span><span class="n">l</span> <span class="n">lay</span><span class="o">-</span><span class="n">k</span><span class="o">.</span><span class="n">json</span></pre></div></pre></div>
+      </div>
+    </tr><tr id='section-12'>
+      <div class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-">#</a>
+        </div>
+        <p>If you did the <a href="#firstexercise###">first exercise </a>, the <code>mapper</code> and <code>reducer</code> functions should look a lot like the per-sender word count <code>mapper</code> and <code>reducer</code> functions you wrote for that.  The only difference is that <code>reducer</code> takes the term frequencies and multiplies them by <code>idf[word]</code>, to normalize by each word's IDF.</p>
+<p><code>idf</code> is a dictionary that is loaded onto each reducer before it begins its work.  The $$$....</p>
+<p>We now now how to write some pretty gnarly MapReduce programs, but they all run on our laptops.  Sort of boring.  It's time to move to the world of distributed computing, Amazon-style!</p>
+<h3>Amazon Web Services</h3>
+
+<p><a href="$$$">Amazon Web Services</a> (AWS) is Amazon's gift to people who don't own datacenters.  It allows you to elastically request computation and storage resources at varied scales using different services.  As a testiment to the flexibility of the services, companies like NetFlix are moving their entire operation into AWS.</p>
+<p>There are more than a day's worth of AWS services to discuss, so let's stick with two of them: Simple Storage Service (S3) and Elastic MapReduce (EMR).</p>
+<h3>AWS S3</h3>
+
+<p>S3 allows you to store gigabytes, terabytes, and, if you'd like, petabytes of data in Amazon's datacenters.  This is useful, because laptops often don't crunch and store more than a few hundred gigabytes worth of data, and storing it in the datacenter allows you to securely have access to the data in case of hardware failures.  It's also nice because Amazon tries harder than you to have the data be always accessible.</p>
+<p>In exchange for nice guarantees about scale and accessibility of data, Amazon charges you rent on the order of $$$ per gigabyte stored per month.</p>
+<p>Services that work on AWS, like EMR, read data from and store data to S3.  When we run our MapReduce programs on EMR, we're going to read the email data from S3, and write word count data to S3.</p>
+<p>S3 data is stored in <strong> buckets </strong>.  Within a bucket you create, you can store as many files or folders as you'd like.  The name of your bucket has to be unique across all of the people that store their stuff in S3.  Want to make your own bucket?  Let's do this!</p>
+      </div>
+      <div class=code>
+        <div class='highlight'><pre><div class="highlight"><pre><span class="err">$$$</span></pre></div></pre></div>
+      </div>
+    </tr><tr id='section-13'>
+      
+      
+    </tr>
+  </table>
+</div>
+</body>
