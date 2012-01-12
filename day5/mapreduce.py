@@ -18,6 +18,8 @@ All that data would take a while to process, and it certainly couldn't fit on or
 But we don't have hundreds of machines sitting around for us to use them, you might say.  Actually, we do!  [Amazon Web Services]($$$) offers a service called Elastic Mapreduce$$$ (EMR) that gives us access to as many machines as we would like for about $$$ cents per hour of machine we use.  Use $$$ machines for $$$ hours?  Pay Amazon $$$.  If you've ever heard the buzzword *cloud computing*, this elastic service is part of the hype.
 
 Let's start with a simple word count example, then rewrite it in MapReduce, then add TF-IDF calculation, and finally, run it on $$$ machines on Amazon's EMR!
+<h3>Setup</h3>
+Copy the python and tar files to wherever your code is$$$.
 
 <h3>Counting Words</h3>
 
@@ -175,20 +177,41 @@ Kenneth Lay has 5929 emails in his dataset.  We ran wc -l on the entire Enron em
 <h3>MapReduce 2: Per-Term IDF</h3>
 We recommend you stick to 516893 as your total number of documents, since eventually we're going to be crunching the entire dataset!
 
-What we want to do here is emit `log(516893.0 / # documents with wordX)` for each `wordX` in our dataset.  Notice the decimal on 516893**.0**: that's so we do [floating point division]($$$) rather than integer division.
+What we want to do here is emit `log(516893.0 / # documents with wordX)` for each `wordX` in our dataset.  Notice the decimal on 516893**.0**: that's so we do [floating point division]($$$) rather than integer division.  The output should be a file where each line contains `{'word': 'wordX', 'idf': 35.92}` for actual values of `wordX` and `35.92`.
 
 We've put our answer in `per-term-idf.py` $$$, but try your hand at writing it yourself before you look at ours.  It can be implemented with a two-line change to the original wordcount MapReduce we wrote.
 
-"""
+<h3>MapReduce 3: Per-Sender TF-IDFs</h3>
 
- It first loads the term IDFs from step 2 into memory, and then emits, for each sender-word combination, the count of terms
-
-
-
+The third MapReduce multiplies per-sender term frequencies by per-term IDFs.  This means it needs to take as input the IDFs calculated in the last step ** as well as ** calculate the per-sender TFs.  That requires something we haven't seen yet: initialization logic.  Let's show you the code, then tell you how it's done.
 
 """
 
+$$$
+
 """
-tf-idf: multiple mapreduces
-mapreduce1: word frequency for all words
-mapreduce2: word frequency per person, with mapper loading all of mapreduce1's input first.
+
+If you did the [first exercise ](#firstexercise###), the `mapper` and `reducer` functions should look a lot like the per-sender word count `mapper` and `reducer` functions you wrote for that.  The only difference is that `reducer` takes the term frequencies and multiplies them by `idf[word]`, to normalize by each word's IDF.
+
+`idf` is a dictionary that is loaded onto each reducer before it begins its work.  The $$$....
+
+We now now how to write some pretty gnarly MapReduce programs, but they all run on our laptops.  Sort of boring.  It's time to move to the world of distributed computing, Amazon-style!
+
+<h3>Amazon Web Services</h3>
+[Amazon Web Services]($$$) (AWS) is Amazon's gift to people who don't own datacenters.  It allows you to elastically request computation and storage resources at varied scales using different services.  As a testiment to the flexibility of the services, companies like NetFlix are moving their entire operation into AWS.
+
+There are more than a day's worth of AWS services to discuss, so let's stick with two of them: Simple Storage Service (S3) and Elastic MapReduce (EMR).
+
+<h3>AWS S3</h3>
+S3 allows you to store gigabytes, terabytes, and, if you'd like, petabytes of data in Amazon's datacenters.  This is useful, because laptops often don't crunch and store more than a few hundred gigabytes worth of data, and storing it in the datacenter allows you to securely have access to the data in case of hardware failures.  It's also nice because Amazon tries harder than you to have the data be always accessible.
+
+In exchange for nice guarantees about scale and accessibility of data, Amazon charges you rent on the order of $$$ per gigabyte stored per month.
+
+Services that work on AWS, like EMR, read data from and store data to S3.  When we run our MapReduce programs on EMR, we're going to read the email data from S3, and write word count data to S3.
+
+S3 data is stored in ** buckets **.  Within a bucket you create, you can store as many files or folders as you'd like.  The name of your bucket has to be unique across all of the people that store their stuff in S3.  Want to make your own bucket?  Let's do this!
+
+"""
+
+
+
