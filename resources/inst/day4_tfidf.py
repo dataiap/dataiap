@@ -15,6 +15,7 @@ def l2norm(vec):
     return float(math.sqrt(sum(map(lambda (term, c): c**2, vec))))
 
 def get_terms(s):
+    return s.split()
     s = s.lower()
     lines = filter(lambda line: not line.strip().startswith(">"), s.split('\n'))
     arr = '\n'.join(lines).split()
@@ -28,7 +29,7 @@ def get_terms(s):
     terms = filter(lambda term: term not in NAMEWORDS, terms)
     terms = filter(stemmer.stem, terms)
             #return filter(lambda ngram: ' ' in ngram, [' '.join(terms[i:i+2]) for i in xrange(len(terms))])
-    terms.extend([' '.join(terms[i:i+2]) for i in xrange(len(terms))])
+    #terms.extend([' '.join(terms[i:i+2]) for i in xrange(len(terms))])
     return terms
 
 for e in EmailWalker(sys.argv[1]):
@@ -37,24 +38,30 @@ for e in EmailWalker(sys.argv[1]):
 start = time.time()
 key_to_tf = defaultdict(Counter)
 keycounts = Counter()
+terms_by_key = defaultdict(set)
 allterms = Counter()
 nemails = 0
 for e in EmailWalker(sys.argv[1]):
     try:
-        words_in_email = set(get_terms(e['subject']))
+        words_in_email = set(get_terms(e['text']))
     except Exception as e:
         words_in_email = []
     if not len(words_in_email):
         #print "no words", e['folder']
         continue
     print e['folder'], e['sender']
-    key_to_tf[e['sender']].update(words_in_email)
-    keycounts.update([e['sender']])
+    key = e['folder']
+    key_to_tf[key].update(words_in_email)
+    keycounts.update([key])
     #key_to_tf[e['folder']].update(words_in_email)
     unique_words_in_email = set(words_in_email)
-    allterms.update(unique_words_in_email)
-    nemails += 1
+    terms_by_key[key].update(unique_words_in_email)
+    #allterms.update(unique_words_in_email)
+
 print "parsing took", (time.time()-start)
+nemails = len(terms_by_key)
+for key, the_terms in terms_by_key.iteritems():
+    allterms.update(the_terms)
 
 # normalize tfs
 for key in key_to_tf.keys():
@@ -67,13 +74,14 @@ for key in key_to_tf.keys():
 start = time.time()
 idfs = {}
 for term, count in allterms.iteritems():
-    idfs[term] = math.log( nemails / (1 + allterms[term]) )
+    idfs[term] = math.log( nemails / (1.0 + allterms[term]) )
 print "idfs took", (time.time()-start)
 
-while True:
-    term = raw_input("input a term: ")
-    if term == 'q': break
-    print key_to_tf['zhenya.gu@gmail.com'].get(term, -1),  idfs.get(term, -1)
+# while True:
+#     term = raw_input("input a : ")
+#     if term == 'q': break
+    
+#     print key_to_tf['lay-k@enron.com'].get(term, -1),  idfs.get(term, -1)
 
 
 
@@ -99,9 +107,9 @@ print "l2norm took", (time.time() - start)
 start = time.time()
 
 while True:
-    key1 = raw_input("input email: ")
+    key1 = raw_input("input key: ")
     if key1 not in allkeys:
-        print "could not find email"
+        print "could not find key"
         continue
 
 
