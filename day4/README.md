@@ -440,3 +440,6 @@ Today, you learned the basics of text analysis using an email dataset!
 * We used cosine similarity to find similar folders and senders
 
 We've only touched the surface of text-analysis.  Each of the components we've discussed (tfidf, cleaning, and similarity) are broad enough for courses to be taught on them.    
+
+<br/>
+<iframe src="https://docs.google.com/spreadsheet/embeddedform?formkey=dC01WGhLOHJBWFNBSzJfcUJqNGc3Nmc6MQ" width="760" height="962" frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe>
