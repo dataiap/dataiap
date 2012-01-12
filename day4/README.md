@@ -83,6 +83,8 @@ One intuition is that if a term is relevant to a folder, then the emails in the 
     for e in EmailWalker(sys.argv[1]):
         terms_in_email = e['text'].split() # split the email text using whitespaces
         folder_tf[e['folder']].update(terms_in_email)
+
+The above code iterates over all the emails and splits the message bodies.  It then retrieves the `Counter` for the email's folder (`folder_tf[e['folder']]`), and increments the counter for each term in the email.  By the end of this loop, we should have term frequency values for each folder.
     
     for folder, counter in folder_tf.items():
         print folder
@@ -90,7 +92,7 @@ One intuition is that if a term is relevant to a folder, then the emails in the 
         for pair in sorted_by_count_top20:
             print '\t', pair    
 
-But if we take a look at the output (the top 20 most frequent terms in each folder), they are non-descriptive terms that are simply used often.  There are also random characters like `>`, which are clearly not words, but happen to pop up often.
+But if we take a look at the output (the top 20 most frequent terms in each folder), they are non-descriptive terms that are simply used often.  There are also random characters like `>`, which are clearly not words, but happen to pop up often.  You should see something like the following (it's ok if it's not exactly the same).
 
     sent
     	('the', 2529)
@@ -123,25 +125,33 @@ This function decreases for a term that frequently occurs in many documents, and
 
     TF * IDF
 
-The following code will construct a dictionary that maps a term to its IDF value.  Fill in the last part to calculate the tf-idf.
+Now let's write some code to construct a dictionary that maps a term to its IDF value.  This code should extend the term frequency code you wrote in the previous section.  Fill in the last part to calculate the tf-idf.
+
+The first thing we want to do is compute the number of folders that contain each term.  To do this let's first compute the list of terms in each folder:
 
     terms_per_folder = defaultdict(set)
-    allterms = Counter()
     nemails = 0
     for e in EmailWalker(sys.argv[1]):
         terms_in_email = e['text'].split() # split the email text using whitespaces
         
         # this collects all of the terms in each folder
         terms_per_folder[e['folder']].update(terms_in_email)
-    
+
+The above code reads each email dictionary, extracts the words using `e['text'].split()`, and adds it to the per-folder set (`terms_per_folder[e['folder']]`).  We used a `set` to remove duplicate terms.  Now our job is to count the number of folders that contain each term.  `Counter` is similar to a `dict` but keeps track of how many times a key is added and stores it as the key's value.  Each iteration retrieves the terms for a given folder, and adds them all to the counter.  
+
+    allterms = Counter()
     for folder, terms in terms_per_folder.iteritems():
         # this will increment the counter value for each term in `terms`
         allterms.update(terms)
+
+Great, now we have a dictionary, `all terms`, that maps each term to the number of folders it's in.  Now let's actually compute the idf.
 
     idfs = {}
     nfolders = len(terms_per_folder)  # the number of keys should be the number of folders    
     for term, count in allterms.iteritems():
         idfs[term] = math.log( nfolders / (1.0 + count) )
+
+Finally, you computed the term frequencies in the previous section (`folder_tf`), so let's combine that with our `idfs` dictionary to compute the tf-idf!
 
 
     tfidfs = {} # key is folder name, value is a list of (term, tfidf score) pairs
@@ -151,7 +161,7 @@ The following code will construct a dictionary that maps a term to its IDF value
         # 
         pass
 
-If we combine `idfs` with each folder's `tf` value, we would compute the `tf-idf`.  If we print the top values for each folder, we would see something like:
+If we combine `idfs` with each folder's `tf` value, we would compute the `tf-idf`.  If we print the top values for each folder, we would see something like (you may not have exactly the same results and that's ok!  We used curated your dataset to be a little less "boring" by removing uninteresting folders.):
     
     sec_panel/
     	('<<SEC', 0.06234689439353398)
@@ -252,7 +262,7 @@ Great!  You should know enough to create a pattern to find "reasonable words", a
 
 #### 5. Make a data cleaning function
 
-It helped to create a function that performs all of the data cleaning for us.  Thus we created a function called `get_terms( )`:
+It helps to create a function that performs all of the data cleaning for us.  Thus we created a function called `get_terms( )`:
 
     def get_terms(message_text):
         terms = message_text.split()
@@ -268,7 +278,7 @@ with the code:
 
     terms_in_email = get_terms(e['text'])
 
-If you get stuck, take a peak in `dataiap/day4/get_terms.py`
+If you get stuck, take a peek in `dataiap/day4/get_terms.py`.  The file has an example of regular expressions and an implementation of `get_terms()`.
 
 ### Exercise 1: Compute IDF differently (optional)
 
@@ -322,6 +332,20 @@ Here is how we would calculate the cosine similarity of two folders, using the `
     denominator = sec_norm * fam_norm + 1.0
 
     similarity = numerator / denominator
+
+This computes the similarity between the `sec_panel` folder and the `family` folder.  Can you modify the above code to compute similarities between every pair of folders?  Which ones are most similar?  It will help to first modify the above code into a function
+
+    def calc_similarity(folder1_tfidfs, folder2_tfidfs):
+        # compute the similarity between the two arguments
+        #
+        # your code here
+        #
+        return similarity
+    
+Then we could call the function with `sec_panel` and `family` and get the same answer:
+
+    calc_similarity(dict(tfidfs['sec_panel']), dict(tfidfs['family']))
+
 
 
 ### Exercise 3: Most similar folders
