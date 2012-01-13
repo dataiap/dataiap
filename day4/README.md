@@ -84,7 +84,13 @@ One intuition is that if a term is relevant to a folder, then the emails in the 
         terms_in_email = e['text'].split() # split the email text using whitespaces
         folder_tf[e['folder']].update(terms_in_email)
 
-The above code iterates over all the emails and splits the message bodies.  It then retrieves the `Counter` for the email's folder (`folder_tf[e['folder']]`), and increments the counter for each term in the email.  By the end of this loop, we should have term frequency values for each folder.
+The above code iterates over all the emails and splits the message bodies.  It then retrieves the `Counter` for the email's folder (`folder_tf[e['folder']]`), and increments the counter for each term in the email.  By the end of this loop, we should have term frequency values for each folder.  Something similar to (ignore the actual values):
+
+    'inbox'     --> { 'conference': 10, 'to': 40, 'call': 20, …}
+    'sec_panel' --> { 'meeting': 10, 'sec': 20, … }
+
+Now we can iterate through each of the items in `folder_tf`, sort the counter, and print the top 20 terms for each folder.
+
     
     for folder, counter in folder_tf.items():
         print folder
@@ -137,14 +143,17 @@ The first thing we want to do is compute the number of folders that contain each
         # this collects all of the terms in each folder
         terms_per_folder[e['folder']].update(terms_in_email)
 
-The above code reads each email dictionary, extracts the words using `e['text'].split()`, and adds it to the per-folder set (`terms_per_folder[e['folder']]`).  We used a `set` to remove duplicate terms.  Now our job is to count the number of folders that contain each term.  `Counter` is similar to a `dict` but keeps track of how many times a key is added and stores it as the key's value.  Each iteration retrieves the terms for a given folder, and adds them all to the counter.  
+The above code reads each email dictionary, extracts the words using `e['text'].split()`, and adds it to the per-folder set (`terms_per_folder[e['folder']]`).  We used a `set` to remove duplicate terms.  Now our job is to count the number of folders that contain each term. 
+
+
+Each iteration retrieves the terms for a given folder, and adds them all to the counter.  
 
     allterms = Counter()
     for folder, terms in terms_per_folder.iteritems():
         # this will increment the counter value for each term in `terms`
         allterms.update(terms)
 
-Great, now we have a dictionary, `all terms`, that maps each term to the number of folders it's in.  Now let's actually compute the idf.
+Great, now we have a dictionary, `allterms`, that maps each term to the number of folders it's in.  Now let's actually compute the idf.  Notice that we add `1.0` to the denominator to avoid divide by zero errors and so that the denominator is a float.  Python truncates integers by rounding down, so if the numerator and denominator are both `int`s, you could end up with a lot of zeros (e.g., 1/2 = 0).  The log of 0 is undefined.
 
     idfs = {}
     nfolders = len(terms_per_folder)  # the number of keys should be the number of folders    
@@ -303,10 +312,9 @@ The main idea is that folders that share terms with high tf-idf values are proba
 
 Let's say we have a total of 1000 terms across all of the email senders.  Every folder has a tf-idf score for each of the 1000 terms (some may be 0).  We could model all of the scores of a folder as a 1000-dimensional vector, where each dimension corresponds to a term, and the distance along the dimension is the term's tf-idf value.  The cosine of the two email senders' vectors measures the similarity between them.  Suppose the vectors were A and B.  Then the cosine would be:
 
-    cos(A,B) = (A·B) / ((||A|| * ||B||) + 1)
+    cos(A,B) = (A·B) / ((||A|| * ||B||) + 1.0)
 
-The numerator is the sum of all the tf-idf terms the senders have in common.  The denominator is the product of the [vector norms](https://en.wikipedia.org/wiki/Magnitude_(mathematics)#Euclidean_vectors).  We typically add `1` in case the vectors are both 0.
-
+The numerator is the sum of all the tf-idf terms the senders have in common.  The denominator is the product of the [vector norms](https://en.wikipedia.org/wiki/Magnitude_(mathematics)#Euclidean_vectors).  Once again, we add `1` in case either vector is 0.  
 A `cos(A,B)` of 1 means they are identical and 0 means the senders are independent from each other (the vectors are orthogonal).  
 
 Here is how we would calculate the cosine similarity of two folders, using the `tfidfs` dictionary you computed in the previous section.  We assume that `tfidfs` is a dictionary where each value is a list of `(term, tfidf-score)` pairs
