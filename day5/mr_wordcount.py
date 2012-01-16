@@ -11,8 +11,8 @@ class MRWordCount(MRJob):
         for term in get_terms(email['text']):
             yield term, 1
 
-    def reducer(self, word, howmany):
-        yield None, {'term': word, 'count': sum(howmany)}
+    def reducer(self, term, howmany):
+        yield None, {'term': term, 'count': sum(howmany)}
 
 if __name__ == '__main__':
         MRWordCount.run()

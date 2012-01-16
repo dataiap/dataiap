@@ -3,6 +3,12 @@ export AWS_ACCESS_KEY_ID='my_key_id'
 export AWS_SECRET_ACCESS_KEY='my_access_id'
 on windows: set VARIABLE=value
 
+
+
+python mr_wordcount.py  --num-ec2-instances=2 --python-archive package.tar.gz -r emr -o 's3://dataiap-user3/output' --no-output 's3://dataiap-enron-json/*.json'
+python mr_wordcount.py   -o '/tmp/mrtest' --no-output '../datasets/emails/lay-k.json'
+
+
 python -m mrjob.tools.emr.create_job_flow --num-ec2-instances=5
 python -m mrjob.tools.emr.terminate_job_flow.py JOBFLOWID
 python -m mrjob.tools.emr.audit_usage
@@ -12,34 +18,34 @@ python simple_wordcount.py < lay-k.json
 python mr_wordcount.py < lay-k.json
 """
 """
-In day 4, we saw how to process text data using the Enron email dataset.  In reality, we only processed a small fraction of the entire dataset: about 20 megabytes of Kenneth Lay's emails.  The entire dataset is $$$ gigabytes, a factor of $$$ larger than what we worked with.  And what if we worked on GMail, Yahoo! Mail, or Hotmail?  We'd have several petabytes worth of emails, a factor of at least $$$ the size of the data we dealt with.
+In day 4, we saw how to process text data using the Enron email dataset.  In reality, we only processed a small fraction of the entire dataset: about 15 megabytes of Kenneth Lay's emails.  The entire dataset containing many Enron employees' mailboxes is 1.3 gigabytes, about 87 times than what we worked with.  And what if we worked on GMail, Yahoo! Mail, or Hotmail?  We'd have several petabytes worth of emails, at least 71 million times the size of the data we dealt with.
 
-All that data would take a while to process, and it certainly couldn't fit on or be crunched by a single laptop.  We'd have to store the data on many machines, and we'd have to process it (tokenize it, calculate tf-idf) using multiple machines.  There are many ways to do this, but one of the more popular recent methods of _parallelizing data computation_ is on a programming framework called MapReduce, an idea that [Google presented to the world in $$$]($$$).  Luckily, you do not have to work at Google to benefit from MapReduce: an open-source implementation called [Hadoop]($$$) is available for your use!
+All that data would take a while to process, and it certainly couldn't fit on or be crunched by a single laptop.  We'd have to store the data on many machines, and we'd have to process it (tokenize it, calculate tf-idf) using multiple machines.  There are many ways to do this, but one of the more popular recent methods of _parallelizing data computation_ is on a programming framework called MapReduce, an idea that [Google presented to the world in 2004(http://en.wikipedia.org/wiki/MapReduce).  Luckily, you do not have to work at Google to benefit from MapReduce: an open-source implementation called [Hadoop](https://hadoop.apache.org/) is available for your use!
 
-But we don't have hundreds of machines sitting around for us to use them, you might say.  Actually, we do!  [Amazon Web Services]($$$) offers a service called Elastic Mapreduce$$$ (EMR) that gives us access to as many machines as we would like for about $$$ cents per hour of machine we use.  Use $$$ machines for $$$ hours?  Pay Amazon $$$.  If you've ever heard the buzzword *cloud computing*, this elastic service is part of the hype.
+But we don't have hundreds of machines sitting around for us to use them, you might say.  Actually, we do!  [Amazon Web Services](http://aws.amazon.com/) offers a service called Elastic MapReduce (EMR) that gives us access to as many machines as we would like for about [10 cents per hour](http://aws.amazon.com/elasticmapreduce/pricing/) of machine we use.  Use 100 machines for 2 hours?  Pay Amazon aroud $2.00.  If you've ever heard the buzzword *cloud computing*, this elastic service is part of the hype.
 
-Let's start with a simple word count example, then rewrite it in MapReduce, then add TF-IDF calculation, and finally, run it on $$$ machines on Amazon's EMR!
+Let's start with a simple word count example, then rewrite it in MapReduce, then add TF-IDF calculation, and finally, run it on 10 machines on Amazon's EMR!
 <h3>Setup</h3>
-Copy the python and tar files to wherever your code is$$$.
+We're going to be using two files, `dataiap/day5/term_tools.py` and `dataiap/day5/package.tar.gz`.  Either write your code in the `dataiap/day5` directory, or copy these files to the directory where your work lives.
 
 <h3>Counting Words</h3>
 
 We're going to start with a simple example that should be familiar to you from day 4's lecture.  First, unzip the JSON-encoded Kenneth Lay email file:
 """
 
-unzip dataiap/datasets/emails$$$
+unzip dataiap/datasets/emails/kenneth_json.zip
 
 """
 
-This will result in a new file called $$$, which is JSON-encoded.  What is JSON?  You can think of it like a text representation of python dictionaries and lists.  If you open up the file, you will see on each line something that looks like this:
+This will result in a new file called `lay-j.json`, which is JSON-encoded.  What is JSON?  You can think of it like a text representation of python dictionaries and lists.  If you open up the file, you will see on each line something that looks like this:
 
-$$$
+    `{"sender": "rosalee.fleming@enron.com", "recipients": ["lizard_ar@yahoo.com"], "cc": [], "text": "Liz, I don't know how the address shows up when sent, but they tell us it's \nkenneth.lay@enron.com.\n\nTalk to you soon, I hope.\n\nRosie", "mid": "32285792.1075840285818.JavaMail.evans@thyme", "fpath": "enron_mail_20110402/maildir/lay-k/_sent/108.", "bcc": [], "to": ["lizard_ar@yahoo.com"], "replyto": null, "ctype": "text/plain; charset=us-ascii", "fname": "108.", "date": "2000-08-10 03:27:00-07:00", "folder": "_sent", "subject": "KLL's e-mail address"}`
 
-It's a dictionary representing an email sent to or received by Kenneth Lay.  It contains the same content that we dealt with yesterday, but encoded into JSON, and rather than one file per email, we have a single file with one email per line.
+It's a dictionary representing an email found in Kenneth Lay's mailbox.  It contains the same content that we dealt with yesterday, but encoded into JSON, and rather than one file per email, we have a single file with one email per line.
 
-Why did we do this?  Big data crunching systems like Hadoop don't deal well with lots of small files: they want to be able to send a large chunk of data to a machine and have to crunch on it for a while.  So we've processed the data to be in this format: one big file, a bunch of emails one per line.  If you're curious how we did this, check out $$$.
+Why did we do this?  Big data crunching systems like Hadoop don't deal well with lots of small files: they want to be able to send a large chunk of data to a machine and have to crunch on it for a while.  So we've processed the data to be in this format: one big file, a bunch of emails one per line.  If you're curious how we did this, check out `dataiap/day5/emails_to_json.py`.
 
-Aside from that, processing the emails is pretty similar to what we did on day 4.  Let's look at a script that counts the words in the text of each email (As an aside: it would help if you wrote and ran your code in `dataiap/day5/...` today, since several modules like `term_tools.py` are available in that directory).
+Aside from that, processing the emails is pretty similar to what we did on day 4.  Let's look at a script that counts the words in the text of each email (Remember: it would help if you wrote and ran your code in `dataiap/day5/...` today, since several modules like `term_tools.py` are available in that directory).
 
 """
 
@@ -60,7 +66,7 @@ for word, count in words.items():
 
 """
 
-You can save this script to `exercise1.py` and then run `python exercise2.py path/to/lay-k.json`.  It will print the word count in due time.  `get_terms` is similar to the word tokenizer we saw on day 4.  `words` keeps track of the number of times we've seen each word.  `email = JSONValueProtocol.read(line)[1]` uses a JSON decoder to convert each line into a dictionary called email, that we can then tokenize into individual terms.
+You can save this script to `exercise1.py` and then run `python exercise2.py dataiap/datasets/emails/lay-k.json`.  It will print the word count in due time.  `get_terms` is similar to the word tokenizer we saw on day 4.  `words` keeps track of the number of times we've seen each word.  `email = JSONValueProtocol.read(line)[1]` uses a JSON decoder to convert each line into a dictionary called email, that we can then tokenize into individual terms.
 
 As we said before, running this process on several petabytes of data is infeasible because a single machine might not have petabytes of storage, and we would want to enlist multiple computers in the counting process to save time.
 
@@ -81,7 +87,7 @@ And finally, once each machine has received the words that its responsible for, 
 
 $$$
 
-MapReduce is more general-purpose than just serving to count words.  Some people have used it to do exotic things like [process millions of songs]($$$), but we'll stick to the boring stuff.
+MapReduce is more general-purpose than just serving to count words.  Some people have used it to do exotic things like [process millions of songs](http://musicmachinery.com/2011/09/04/how-to-process-a-million-songs-in-20-minutes/), but we'll stick to the boring stuff.
 
 Without further ado, here's the wordcount example, but in MapReduce
 
@@ -108,7 +114,7 @@ if __name__ == '__main__':
 
 """
 
-Too cool!  Let's break this thing down.  You'll notice the terms MRJob in a bunch of places.  [MRJob]($$$) is a python package that makes writing MapReduce programs easy.  To create a MapReduce program, you have to create a class (like `MRWordCount`) that has a `mapper` and `reducer` function.  If the program is run from the command line, (the `if __name__ == '__main__':` part) we run the MRWordCount MapRedce program.
+Let's break this thing down.  You'll notice the terms MRJob in a bunch of places.  [MRJob](https://github.com/Yelp/mrjob) is a python package that makes writing MapReduce programs easy.  To create a MapReduce program, you have to create a class (like `MRWordCount`) that has a `mapper` and `reducer` function.  If the program is run from the command line, (the `if __name__ == '__main__':` part) we run the MRWordCount MapRedce program.
 
 Looking inside `MRWordCount`, we see `INPUT_PROTOCOL` being set to `JSONValueProtocol`.  By default, map functions expect a line of text as input, but we've encoded our emails as JSON, so we let MRJob know that.  Similarly, we explain that our reduce tasks will emit dictionaries, and set `OUTPUT_PROTOCOL` appropriately.
 
@@ -125,31 +131,27 @@ Enough talk!  Let's run this thing.
 
 """
 
-$$$ (parallel input/output style to the EMR version if you can)
+python mr_wordcount.py -o 'wordcount_test' --no-output '../datasets/emails/lay-k.json'
 
 """
 
-That's going to do something similar to what the simple wordcount script did.  The only difference you will notice is that the output comes out in dictionaries (`OUTPUT_PROTOCOL = JSONValueProtocol`), and in sorted term order (that's how all of the occurrences for a term end up on a single reducer).
+The `-o` flag tells MrJob to output all reducer output to the `wordcount_test` directory.  The `--no-output` flag says not to print the output of the reducers to the screen.  The last argument (`'../datasets/emails/lay-k.json'`) specifies which file (or files) to read into the mappers as input.
 
-If we want to write the output to disk, we can instead write
-"""
+Take a look at the newly created `wordcount_test` directory.  There should be at least one file (`part-00000`), and perhaps more.  There is one file per reducer that counted words.  Reducers don't talk to one-another as they do their work, and so we end up with multiple output files.  While the count of a specific word will only appear in one file, we have no idea which reducer file will contain a given word.
 
-$$$
+The output files (open one up in a text editor) list each word as a dictionary on a single line (`OUTPUT_PROTOCOL = JSONValueProtocol` in `mr_wordcount.py` is what caused this).
 
-"""
-If you re-run the program, it take a look at $$$ for the output.
-
-You will notice we have not yet run tasks on large datasets (we're still using `lay-k.json`) and we are still running them locally on our computers.  We will learn a few things before we move onto Amazon's machines, but this is an important lesson still: MapReduce tasks will take a long time to run and hold up several tens to several hundreds of machines.  Test them locally like we just did to make sure you don't have bugs before going to the full dataset.
+You will notice we have not yet run tasks on large datasets (we're still using `lay-k.json`) and we are still running them locally on our computers.  We will learn a few things before we move onto Amazon's machines, but running MrJob tasks locally to test them on a small file is forever important.  MapReduce tasks will take a long time to run and hold up several tens to several hundreds of machines.  They also cost money to run, whether they contain a bug or not.  Test them locally like we just did to make sure you don't have bugs before going to the full dataset.
 
 <h3>Show off What you Learned</h3>
 """
 
 """
-** Exercise **  Create a second version of the MapReduce wordcounter that counts the number of each word emitted by each sender.  You will need this for later, since we're going to be calculating TF-IDFimplementing  terms per sender.  You can accomplish this with a sneaky change to the `term` emitted by the `mapper`.  You can either turn that term into a dictionary, or into a more complicated string, but either way you will have to encode both sender and term information in that `term`.
+** Exercise **  Create a second version of the MapReduce wordcounter that counts the number of each word emitted by each sender.  You will need this for later, since we're going to be calculating TF-IDF implementing  terms per sender.  You can accomplish this with a sneaky change to the `term` emitted by the `mapper`.  You can either turn that term into a dictionary, or into a more complicated string, but either way you will have to encode both sender and term information in that `term`.  If you get stuck, take a peak at `dataiap/day5/mr_wc_by_sender.py`.
 """
 
 """
-** Bonus Exercise ** Grep.  The [`grep` command]($$$) on UNIX-like systems allows you to search text files for some term or terms.  Typing `grep hotdogs file1` will return all instances of the word `hotdogs` in the file `file1`.  Implement a `grep` for emails.  When a user uses your mapreduce program to find a word in the email collection, they will be given a list of the subjects and senders of all emails that contain the word.  You might find you do not need a particularly smart reducer in this case: that's fine.  If you're pressed for time, you can skip this exercise.
+** Optional Exercise ** Grep.  The [`grep` command](http://en.wikipedia.org/wiki/Grep) on UNIX-like systems allows you to search text files for some term or terms.  Typing `grep hotdogs file1` will return all instances of the word `hotdogs` in the file `file1`.  Implement a `grep` for emails.  When a user uses your mapreduce program to find a word in the email collection, they will be given a list of the subjects and senders of all emails that contain the word.  You might find you do not need a particularly smart reducer in this case: that's fine.  If you're pressed for time, you can skip this exercise.
 """
 
 """
@@ -178,9 +180,9 @@ Kenneth Lay has 5929 emails in his dataset.  We ran wc -l on the entire Enron em
 <h3>MapReduce 2: Per-Term IDF</h3>
 We recommend you stick to 516893 as your total number of documents, since eventually we're going to be crunching the entire dataset!
 
-What we want to do here is emit `log(516893.0 / # documents with wordX)` for each `wordX` in our dataset.  Notice the decimal on 516893**.0**: that's so we do [floating point division]($$$) rather than integer division.  The output should be a file where each line contains `{'word': 'wordX', 'idf': 35.92}` for actual values of `wordX` and `35.92`.
+What we want to do here is emit `log(516893.0 / # documents with wordX)` for each `wordX` in our dataset.  Notice the decimal on 516893**.0**: that's so we do [floating point division](http://ubuntuforums.org/showthread.php?t=947270) rather than integer division.  The output should be a file where each line contains `{'word': 'wordX', 'idf': 35.92}` for actual values of `wordX` and `35.92`.
 
-We've put our answer in `per-term-idf.py` $$$, but try your hand at writing it yourself before you look at ours.  It can be implemented with a two-line change to the original wordcount MapReduce we wrote.
+We've put our answer in `dataiap/day5/wc_per_term_idf.py`, but try your hand at writing it yourself before you look at ours.  It can be implemented with a three-line change to the original wordcount MapReduce we wrote ([one line just includes `math.log`!](http://docs.python.org/library/math.html#math.log)).
 
 <h3>MapReduce 3: Per-Sender TF-IDFs</h3>
 
@@ -188,20 +190,80 @@ The third MapReduce multiplies per-sender term frequencies by per-term IDFs.  Th
 
 """
 
-$$$
+import os
+from mrjob.protocol import JSONValueProtocol
+from mrjob.job import MRJob
+from term_tools import get_terms
+
+DIRECTORY = "/path/to/dataiap/day5/idf_parts/"
+
+class MRWordCount(MRJob):
+    INPUT_PROTOCOL = JSONValueProtocol
+    OUTPUT_PROTOCOL = JSONValueProtocol
+
+    def mapper(self, key, email):
+        for term in get_terms(email['text']):
+            yield {'term': term, 'sender': email['sender']}, 1
+
+    def reducer_init(self):
+        self.idfs = {}
+        for fname in os.listdir(DIRECTORY):
+            file = open(os.path.join(DIRECTORY, fname))
+            for line in file:
+                term_idf = JSONValueProtocol.read(line)[1]
+                self.idfs[term_idf['term']] = term_idf['idf']
+
+    def reducer(self, term_sender, howmany):
+        tfidf = sum(howmany) * self.idfs[term_sender['term']]
+        yield None, {'term_sender': term_sender, 'tfidf': tfidf}
+
+if __name__ == '__main__':
+    MRWordCount.run()
+    
+"""
+
+If you did the [first exercise ](#firstexercise$$$), the `mapper` and `reducer` functions should look a lot like the per-sender word count `mapper` and `reducer` functions you wrote for that.  The only difference is that `reducer` takes the term frequencies and multiplies them by `self.idfs[term]`, to normalize by each word's IDF.  The other difference is the addition of `reducer_init`, which we will describe next.
+
+`self.idfs` is a dictionary containing term-IDF mappings from the [first MapReduce](#tfidfstep1$$$).  Say you ran the IDF-calculating MapReduce like so:
 
 """
 
-If you did the [first exercise ](#firstexercise###), the `mapper` and `reducer` functions should look a lot like the per-sender word count `mapper` and `reducer` functions you wrote for that.  The only difference is that `reducer` takes the term frequencies and multiplies them by `idf[word]`, to normalize by each word's IDF.
+python mr_per_term_idf.py -o 'idf_parts' --no-output '../datasets/emails/lay-k.json'
+"""
+The individual terms and IDFs would be emitted to the directory `idf_parts/`.  We would want to load all of these term-idf mappings into `self.idfs`.  Set `DIRECTORY` to the filesystem path that points to the `idf_parts/` directory.
 
-`idf` is a dictionary that is loaded onto each reducer before it begins its work.  The $$$....
+The function `reducer_init` is called before the first `reducer` is called to calculate TF-IDF.  It opens all of the output files in `DIRECTORY`, and reads them into `self.idfs`.  This way, when `reducer` is called on a term, the idf for that term has already been calculated.
 
-We now now how to write some pretty gnarly MapReduce programs, but they all run on our laptops.  Sort of boring.  It's time to move to the world of distributed computing, Amazon-style!
+To verify you've done this correctly, compare your output to ours.  There were somepottymouths that emailed Kenneth Lay:
+
+{"tfidf": 13.155591168821202, "term_sender": {"term": "a-hole", "sender":       "justinsitzman@hotmail.com"}}
+
+We now know how to write some pretty gnarly MapReduce programs, but they all run on our laptops.  Sort of boring.  It's time to move to the world of distributed computing, Amazon-style!
 
 <h3>Amazon Web Services</h3>
-[Amazon Web Services]($$$) (AWS) is Amazon's gift to people who don't own datacenters.  It allows you to elastically request computation and storage resources at varied scales using different services.  As a testiment to the flexibility of the services, companies like NetFlix are moving their entire operation into AWS.
+[Amazon Web Services](http://aws.amazon.com/) (AWS) is Amazon's gift to people who don't own datacenters.  It allows you to elastically request computation and storage resources at varied scales using different services.  As a testiment to the flexibility of the services, companies like NetFlix are moving their entire operation into AWS.
 
-There are more than a day's worth of AWS services to discuss, so let's stick with two of them: Simple Storage Service (S3) and Elastic MapReduce (EMR).
+In order to work with AWS, you will need to set up an account.  If you're in the class, we will have given you a username, password, access key, and access secret.  To use these accounts, you will have to login through a [special class-only webpage](https://dataiap.signin.aws.amazon.com/console).  The same instructions work for people who are trying this at home, only you need to log in at the main [AWS website](https://console.aws.amazon.com/console/home).
+
+The username and password log you into the AWS console so that you can click around its interface.  In order to let your computer identify itself with AWS, you have to tell your computer your access key and secret.  On UNIX-like platforms (GNU/Linux, BSD, MacOS), type the following:
+
+"""
+export AWS_ACCESS_KEY_ID='your_key_id'
+export AWS_SECRET_ACCESS_KEY='your_access_id'
+"""
+
+On windows machines, type the following at the command line:
+
+"""
+
+set AWS_ACCESS_KEY_ID=your_key_id
+set AWS_SECRET_ACCESS_KEY=your_access_id
+
+"""
+
+Replace `your_key_id` and `your_access_id` with the ones you were assigned.
+
+That's it!  There are more than a day's worth of AWS services to discuss, so let's stick with two of them: Simple Storage Service (S3) and Elastic MapReduce (EMR).
 
 <h3>AWS S3</h3>
 S3 allows you to store gigabytes, terabytes, and, if you'd like, petabytes of data in Amazon's datacenters.  This is useful, because laptops often don't crunch and store more than a few hundred gigabytes worth of data, and storing it in the datacenter allows you to securely have access to the data in case of hardware failures.  It's also nice because Amazon tries harder than you to have the data be always accessible.
@@ -212,9 +274,94 @@ Services that work on AWS, like EMR, read data from and store data to S3.  When 
 
 S3 data is stored in ** buckets **.  Within a bucket you create, you can store as many files or folders as you'd like.  The name of your bucket has to be unique across all of the people that store their stuff in S3.  Want to make your own bucket?  Let's do this!
 
+  * Go to the AWS console (the website), and click on the ** S3 ** tab.  This will show you a file explorer-like interface, with buckets listed on the left and files per bucket listed on the right.
+  * Click "Create Bucket" near the top left.
+  * Enter a bucket name.  This has to be unique across all users of S3.  Pick something like `dataiap-yourusername-testbucket`.  ** Do not use underscores in the name of the bucket **.
+  * Click "Create"
 
+This gives you a bucket, but the bucket has nothing in it!  Poor bucket.  Let's upload Kenneth Lay's emails.
+
+  * Select the bucket from the list on the left.
+  * Click "Upload."
+  * Click "Add Files."
+  * Select the lay-k.json file on your computer.
+  * Click "Start Upload."
+  * Right click on the uploaded file, and click "Make Public."
+  * Verify the file is public by going to `http://dataiap-YOURUSERNAME-testbucket.s3.amazonaws.com/lay-k.json`.
+
+Awesome!  We just uploaded our first file to S3.  Amazon is now hosting the file.  We can access it over the web, which means we can share it with other researchers or process it in elastic mapreduce.  To save time, we've uploaded the entire enron dataset to [https://dataiap-enron-json.s3.amazonaws.com/](https://dataiap-enron-json.s3.amazonaws.com/).  Head over there to see all of the different Enron employee's files listed (the first three should be `allen-p.json`, `arnold-j.json`, and `arora-h.json`).
+
+Two notes from here.  First, uploading the file to S3 was just an exercise---we'll use the `dataiap-enron-json` bucket for our future exercises.  That's because the total file upload is around 1.3 gigs, and we didn't want to put everyone through the pain of uploading it themselves.  Second, most programmers don't use the web interface to upload their files.  They instead opt to upload the files from the command line.  If you have some free time, feel free to check out `dataiap/resources/s3_util.py` for a script that copies directories to and downloads buckets from S3.
+
+Let's crunch through these files!
+
+<h3>AWS EMR</h3>
+We're about to process the entire enron dataset.  Let's do a quick sanity check that our mapreduce wordcount script still works.  We're about to get into the territory of spending money on the order of 10 cents per machine-hour, so we want to make sure we don't run into preventable problems that waste money.
 
 """
+python mr_wordcount.py -o 'wordcount_test2' --no-output '../datasets/emails/lay-k.json'
+"""
 
+Did that finish running and output the word counts to `wordcount_test2`?  If so, let's run it on 10 machines (costing us $1, rounded to the nearest hour).  Before running the script, we'll talk about the parameters:
 
+"""
+python mr_wordcount.py  --num-ec2-instances=10 --python-archive package.tar.gz -r emr -o 's3://dataiap-YOURUSERNAME-testbucket/output' --no-output 's3://dataiap-enron-json/*.json'
+"""
 
+The parameters are:
+
+  * `num-ec2-instances`: we want to run on 10 machines in the cloud.  Snap!
+  * `python-archive`: when the script runs on remote machines, it will need term_tools.py in order to tokenize the email text.  We have packaged this file into package.tar.gz.
+  * `-r emr`: don't run the script locally---run it on AWS EMR.
+  * `-o  's3://dataiap-YOURUSERNAME-testbucket/output'`: write script output to the bucket you made when playing around with S3.  Put all files in a directory called `output` in that bucket.  Make sure you change `dataiap-YOURUSERNAME-testbucket` to whatever bucket name you picked on S3.
+  * `--no-output`: don't print the reducer output to the screen.
+  *  `'s3://dataiap-enron-json/*.json'`: perform the mapreduce with input from the `dataiap-enron-json` bucket that the instructors created, and use as input any file that ends in `.json`.  You could have named a specific file, like `lay-k.json` here, but the point is that we can run on much larger datasets.
+  
+Check back on the script.  Is it still running?  It should be.  You may as well keep reading, since you'll be here a while.  In total, our run took $$$ minutes for Amazon to requisition the machines, $$$ minutes to install the necessary software on them, and $$$ minutes to run the actual MapReduce tasks on Hadoop.  That might strike some of you as weird, and it is.
+
+Understanding MapReduce is about understanding ** scale **.  We're used to thinking of our programs as being about ** performance **, but that's not the role of MapReduce.  Running a script on a single file on a single machine will be faster than running a script on multiple files split amongst multiple machines that shuffle data around to one-another and emit the data to a service (like EMR and S3) over the internet is not going to be fast.  We write MapReduce programs because they let us easily ask for 10 more machines when the data we're processing grows by a factor of 10, not so that we can achieve sub-second processing times on large datasets.  It's a mental model switch that will take a while to appreciate, so let it brew in your mind for a bit.
+
+What it does mean is that MapReduce as a programming model is not a magic bullet.  The Enron dataset is not actually so large that it shouldn't be processed on your laptop.  We used the dataset because it was large enough to give you an appreciation for order-of-magnitue file size differences, but not large enough that a modern laptop can't process the data.  In reality, don't look into MapReduce until you have several tens or hundreds of gigabytes of data to analyze.  In the world that exists inside most companies, this size dataset is easy to stumble upon.  So don't be disheartened if you don't need the MapReduce skills just yet: you will likely need them one day.
+
+<h3>Analyzing the output</h3>
+Hopefully your first mapreduce is done by now.  There are two bits of output we should check out.  First, when the MapReduce job finishes, you will see something like the following message in your terminal window:
+
+"""
+Counters from step 1:
+  FileSystemCounters:
+    FILE_BYTES_READ: 499365431
+    FILE_BYTES_WRITTEN: 61336628
+    S3_BYTES_READ: 1405888038
+    S3_BYTES_WRITTEN: 8354556
+  Job Counters :
+    Launched map tasks: 189
+    Launched reduce tasks: 85
+    Rack-local map tasks: 189
+  Map-Reduce Framework:
+    Combine input records: 0
+    Combine output records: 0
+    Map input bytes: 1405888038
+    Map input records: 516893
+    Map output bytes: 585440070
+    Map output records: 49931418
+    Reduce input groups: 232743
+    Reduce input records: 49931418
+    Reduce output records: 232743
+    Reduce shuffle bytes: 27939562
+    Spilled Records: 134445547
+"""
+
+That's a summary of, on your 10 machines, how many Mappers and Reducers ran.  You can run more than one of each on a physical machine, which explains why more than 10 of each ran in our tasks.  Notice how many reducers ran your task.  Each reducer is going to receive a set of words and their number of occurrences, and emit word counts.  Reducers don't talk to one-another, so they end up writing their own files.
+
+With this in mind, go to the S3 console, and look at the `output` directory of the S3 bucket to which you output your words.  Notice that there are several files in the `output` directory named `part-00000`, `part-00001`.  There should be as many files as there were reducers, since each wrote the file out.  Download some of these files and open them up.  You will see the various word counts for words across the entire Enron email corpus.  Life is good!
+
+<h3>Optional: Run The TF-IDF Workflow</h3>
+We recommend running the TF-IDF workflow once class is over.  [Jump to the end](#wherefromhere) if you want to read the summary instead.
+
+<a name="wherefromhere"><h3>Where to go from here</h3></a>
+  * Pig
+  * Hive
+  * Cascading
+  * Combiners
+  * Data parallelism vs. instruction parallelism
+"""

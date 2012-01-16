@@ -1,3 +1,4 @@
+import math
 import sys
 from mrjob.protocol import JSONValueProtocol
 from mrjob.job import MRJob
@@ -8,11 +9,13 @@ class MRWordCount(MRJob):
     OUTPUT_PROTOCOL = JSONValueProtocol
 
     def mapper(self, key, email):
-        for term in get_terms(email['text']):
-            yield {'term': term, 'sender': email['sender']}, 1
+        terms = set(get_terms(email['text']))
+        for term in terms:
+            yield term, 1
 
-    def reducer(self, term_sender, howmany):
-        yield None, {'term_sender': term_sender, 'count': sum(howmany)}
+    def reducer(self, term, howmany):
+        idf = math.log(516893.0 / sum(howmany))
+        yield None, {'term': term, 'idf': idf}
 
 if __name__ == '__main__':
         MRWordCount.run()
