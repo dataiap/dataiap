@@ -9,4 +9,5 @@ labs: day0/README.md day1/README.md day2/README.md day3/regression.py day3/hypot
 	python resources/markdown/markdown_headers.py day4/README.md /tmp/dataiap_html/day4/index.html
 	python resources/hacco/hacco.py day3/regression.py -d /tmp/dataiap_html/day3/ #/tmp/dataiap_html
 	python resources/hacco/hacco.py day3/hypothesis_testing.py -d /tmp/dataiap_html/day3/ #/tmp/dataiap_html
+	python resources/hacco/hacco.py day5/mapreduce.py -d /tmp/dataiap_html/day5/ #/tmp/dataiap_html
 	echo "\n\nnow do: \n\tgit checkout gh-pages\n\tcp -r /tmp/dataiap_html/* .\n"
