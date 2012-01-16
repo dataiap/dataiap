@@ -9,8 +9,8 @@ def root_to_json(root_dir, output_file):
     output = open(output_file, "w")
 
     for email in walker:
-        email.date = str(email.date)
-        line = JSONValueProtocol.write(None, email.__dict__) + '\n'
+        email['date'] = str(email['date'])
+        line = JSONValueProtocol.write(None, email) + '\n'
         output.write(line)
 
     output.close()
