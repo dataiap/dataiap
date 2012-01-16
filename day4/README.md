@@ -70,6 +70,7 @@ Although the walkthrough will compute key terms for folders, you could also comp
 
 
 ### Term Frequency (TF)
+<a name="tf"/>
 
 One intuition is that if a term is relevant to a folder, then the emails in the folder should use that term very often.  We can count the number of times each term occurs in each email, and the top occurrences of terms across all emails in each folder should best represent the folder.
 

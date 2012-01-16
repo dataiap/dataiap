@@ -51,26 +51,88 @@ You can save this script to `exercise1.py` and then run `python exercise2.py dat
 
 As we said before, running this process on several petabytes of data is infeasible because a single machine might not have petabytes of storage, and we would want to enlist multiple computers in the counting process to save time.
 
-We need a way to tell the system how to divide the input data amongst multiple machines, and then combine all of their work into a single count per term.  That's where MapReduce comes in!
+We need a way to tell the system how to divide the input data amongst
+multiple machines, and then combine all of their work into a single
+count per term.  That's where MapReduce comes in!
+
+<h3>Motivating MapReduce</h3>
+
+You may have noticed that the code we have been writing for the past
+week look awfully similar.
+
+Remember when we processed the campaign donations dataset to create a
+histogram?  We basically:
+
+1. extracted the candidate name and donation amount **from each** line and
+computed the histogram bucket for the amount
+2. **grouped the** donations by candidate name and donation amount.
+3. **summarized** each (candidate, donation) bucket by counting the number
+of donations.
+
+Now consider computing term frequency in the previous class. We:
+
+1. cleaned and extracted terms **from each** email file
+2. **grouped** the terms by which folder they were from
+3. **summarized** each folder's group by counting the number of times
+each term was seen.
+
+This three step pattern of 1) extracting and processing **from each**
+line or file, 2) **grouping by** some attribute(s), and 3)
+**summarizing"" the contents of each group is extremely common in the
+vast majority of data processing tasks.  The researchers at google
+also noticed this, and developed a  framework that is optimized for these kinds
+of patterns (MapReduce).  When you use this framework, you just need to write
+functions to perform each of the three steps, and the framework takes
+care of running the whole pattern on one machine or a thousand machines!  They use a
+different terminology for the three steps:
+
+1. Map (from each)
+2. Shuffle (grouping by)
+3. Reduce (summarize)
+
+OK, now that you've seen the motivation behind the MapReduce
+technique, let's actually try it out.
+
+
 
 <h3>MapReduce</h3>
-MapReduce is named after its two most important bits of functionality: *map* and *reduce*.  Let's explain this with an example.  Say we have a JSON-encoded file with emails (1,000,000 emails on 1,000,000 lines), and we have 10 machines to process it.
 
-In the *map* phase, we are going to send each machine 100,000 lines, and have them break each of those emails into the words that make them up:
-
-$$$
-
-Once each machine has tokenized all of the words in the email, they will *shuffle* each word to a machine pre-designated for that word (using a hash function$$$, if you're curious).  This part is automatic, but it's important to know what's happening here:
-
-$$$
-
-And finally, once each machine has received the words that its responsible for, the *reduce* phase will turn all of the occurrences of words it has received into counts of those words:
+Say we have a JSON-encoded file with emails (1,000,000 emails on
+1,000,000 lines), and we have 10 machines to process it. 
+ 
+In the *map* phase, we are going to send each machine 100,000 lines
+(10% of the lines), and have them break each of those emails into the
+words that make them up: 
 
 $$$
 
-MapReduce is more general-purpose than just serving to count words.  Some people have used it to do exotic things like [process millions of songs](http://musicmachinery.com/2011/09/04/how-to-process-a-million-songs-in-20-minutes/), but we'll stick to the boring stuff.
+Once each machine has extracted all the terms (tokenized) in the
+email, you will also specify a key to send each term -- all of the
+terms given the same key will be grouped together.  Think of this as a
+dictionary key, and MapReduce automatically all the terms with the
+same key into a list.    What actually happens is that each key is
+assigned to one of the 10 machines, and all the terms associated with
+a key are sent to that machine.  This is necessary because the whole
+dictionary doesn't fit in the memory of a single machine!  This phase
+is called the *shuffle* phase.<!-- each word to a machine pre-designated for that word (using a hash function$$$, if you're curious).  This part is automatic, but it's important to know what's happening here:-->
 
-Without further ado, here's the wordcount example, but in MapReduce
+$$$  make sure to highlight the KEY.
+
+And finally, once each machine has received the words that its
+responsible for, the *reduce* phase will turn all of the occurrences
+of words it has received into counts of those words.  It does this by
+going through each key that is assigned to the machine and executing
+a `reducer` function on the terms associated with the key.
+
+$$$
+
+MapReduce is more general-purpose than just serving to count words.
+Some people have used it to do exotic things like [process millions of
+songs](http://musicmachinery.com/2011/09/04/how-to-process-a-million-songs-in-20-minutes/),
+but we want you to work through an entire end-to-end example.
+
+Without further ado, here's the wordcount example, but written as a
+MapReduce application:
 
 """
 
