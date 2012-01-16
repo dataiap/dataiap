@@ -77,7 +77,6 @@ def parse(source, code):
     multi_line_delimeters = [language.get("multistart"), language.get("multiend")]
 
     for line in lines:
-        print 'line: ', line
         # Only go into multiline comments section when one of the delimeters is
         # found to be at the start of a line
 
