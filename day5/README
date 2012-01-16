@@ -1,0 +1,17 @@
+export AWS_ACCESS_KEY_ID='my_key_id'
+export AWS_SECRET_ACCESS_KEY='my_access_id'
+on windows: set VARIABLE=value
+
+
+
+python mr_wordcount.py  --num-ec2-instances=2 --python-archive package.tar.gz -r emr -o 's3://dataiap-user3/output' --no-output 's3://dataiap-enron-json/*.json'
+python mr_wordcount.py   -o '/tmp/mrtest' --no-output '../datasets/emails/lay-k.json'
+
+
+python -m mrjob.tools.emr.create_job_flow --num-ec2-instances=5
+python -m mrjob.tools.emr.terminate_job_flow.py JOBFLOWID
+python -m mrjob.tools.emr.audit_usage
+python mr_my_job.py -r emr --emr-job-flow-id=JOBFLOWID input_file.txt > out
+python mr_my_job.py -r emr --emr-job-flow-id=j-JOBFLOWID -o 's3://test_enron_json_123/output' --no-output 's3://test_enron_json_123/*.json'
+python simple_wordcount.py < lay-k.json
+python mr_wordcount.py < lay-k.json

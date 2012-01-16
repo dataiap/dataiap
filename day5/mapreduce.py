@@ -1,23 +1,4 @@
 """
-export AWS_ACCESS_KEY_ID='my_key_id'
-export AWS_SECRET_ACCESS_KEY='my_access_id'
-on windows: set VARIABLE=value
-
-
-
-python mr_wordcount.py  --num-ec2-instances=2 --python-archive package.tar.gz -r emr -o 's3://dataiap-user3/output' --no-output 's3://dataiap-enron-json/*.json'
-python mr_wordcount.py   -o '/tmp/mrtest' --no-output '../datasets/emails/lay-k.json'
-
-
-python -m mrjob.tools.emr.create_job_flow --num-ec2-instances=5
-python -m mrjob.tools.emr.terminate_job_flow.py JOBFLOWID
-python -m mrjob.tools.emr.audit_usage
-python mr_my_job.py -r emr --emr-job-flow-id=JOBFLOWID input_file.txt > out
-python mr_my_job.py -r emr --emr-job-flow-id=j-JOBFLOWID -o 's3://test_enron_json_123/output' --no-output 's3://test_enron_json_123/*.json'
-python simple_wordcount.py < lay-k.json
-python mr_wordcount.py < lay-k.json
-"""
-"""
 In day 4, we saw how to process text data using the Enron email dataset.  In reality, we only processed a small fraction of the entire dataset: about 15 megabytes of Kenneth Lay's emails.  The entire dataset containing many Enron employees' mailboxes is 1.3 gigabytes, about 87 times than what we worked with.  And what if we worked on GMail, Yahoo! Mail, or Hotmail?  We'd have several petabytes worth of emails, at least 71 million times the size of the data we dealt with.
 
 All that data would take a while to process, and it certainly couldn't fit on or be crunched by a single laptop.  We'd have to store the data on many machines, and we'd have to process it (tokenize it, calculate tf-idf) using multiple machines.  There are many ways to do this, but one of the more popular recent methods of _parallelizing data computation_ is on a programming framework called MapReduce, an idea that [Google presented to the world in 2004(http://en.wikipedia.org/wiki/MapReduce).  Luckily, you do not have to work at Google to benefit from MapReduce: an open-source implementation called [Hadoop](https://hadoop.apache.org/) is available for your use!
