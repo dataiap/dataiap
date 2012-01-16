@@ -9,10 +9,10 @@ class MRWordCount(MRJob):
 
     def mapper(self, key, email):
         for term in get_terms(email['text']):
-            yield term, 1
+            yield {'term': term, 'sender': email['sender']}, 1
 
-    def reducer(self, term, howmany):
-        yield None, {'term': term, 'count': sum(howmany)}
+    def reducer(self, term_sender, howmany):
+        yield None, {'term_sender': term_sender, 'count': sum(howmany)}
 
 if __name__ == '__main__':
         MRWordCount.run()
