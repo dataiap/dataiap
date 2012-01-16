@@ -77,16 +77,17 @@ def parse(source, code):
     multi_line_delimeters = [language.get("multistart"), language.get("multiend")]
 
     for line in lines:
-
+        print 'line: ', line
         # Only go into multiline comments section when one of the delimeters is
         # found to be at the start of a line
+
+        
         if all(multi_line_delimeters) and any([line.lstrip().startswith(delim) for delim in multi_line_delimeters]):
             if not multi_line:
                 multi_line = True
 
             else:
                 multi_line = False
-
             # Get rid of the delimeters so that they aren't in the final docs
             line = re.sub(language["multistart"],'',line)
             line = re.sub(language["multiend"],'',line)
@@ -128,9 +129,9 @@ def parse(source, code):
             docs_text += re.sub(language["comment_matcher"], "", line) + "\n"
 
         else:
-            if code_text and any([line.lstrip().startswith(x) for x in ['class ', 'def ']]):
-                save(docs_text, code_text)
-                code_text = has_code = docs_text = ''
+            # if code_text and any([line.lstrip().startswith(x) for x in ['class ', 'def ']]):
+            #     save(docs_text, code_text)
+            #     code_text = has_code = docs_text = ''
 
             has_code = True
             code_text += line + '\n'
