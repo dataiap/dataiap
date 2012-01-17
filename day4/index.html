@@ -57,6 +57,7 @@ for email_dict in walker:
 <p>Let's extract the key terms of each folder.  This should give us a good list of terms that summarize each folder.  Computing these terms could also be used to direct a keyword search to the most appropriate folder.</p>
 <p>Although the walkthrough will compute key terms for folders, you could also compute it for each contact in your inbox, by each month, or on an email-by-email basis.  Additionally, we will only be using the words in the email body, and ignore the subject lines.  We'll see if that was a good idea later, and if not, why not!</p>
 <h3>Term Frequency (TF)</h3>
+<p><a name="tf"/></p>
 <p>One intuition is that if a term is relevant to a folder, then the emails in the folder should use that term very often.  We can count the number of times each term occurs in each email, and the top occurrences of terms across all emails in each folder should best represent the folder.</p>
 <pre><code>import os, sys, math
 sys.path.append('dataiap/resources/util') # fix this path to work for you!!!!
@@ -68,14 +69,19 @@ folder_tf = defaultdict(Counter)
 for e in EmailWalker(sys.argv[1]):
     terms_in_email = e['text'].split() # split the email text using whitespaces
     folder_tf[e['folder']].update(terms_in_email)
-
-for folder, counter in folder_tf.items():
+</code></pre>
+<p>The above code iterates over all the emails and splits the message bodies.  It then retrieves the <code>Counter</code> for the email's folder (<code>folder_tf[e['folder']]</code>), and increments the counter for each term in the email.  By the end of this loop, we should have term frequency values for each folder.  Something similar to (ignore the actual values):</p>
+<pre><code>'inbox'     --&gt; { 'conference': 10, 'to': 40, 'call': 20, …}
+'sec_panel' --&gt; { 'meeting': 10, 'sec': 20, … }
+</code></pre>
+<p>Now we can iterate through each of the items in <code>folder_tf</code>, sort the counter, and print the top 20 terms for each folder.</p>
+<pre><code>for folder, counter in folder_tf.items():
     print folder
     sorted_by_count_top20 = sorted(counter.items(), key=lambda (k,v): v, reverse=True)[:20]
     for pair in sorted_by_count_top20:
         print '\t', pair
 </code></pre>
-<p>But if we take a look at the output (the top 20 most frequent terms in each folder), they are non-descriptive terms that are simply used often.  There are also random characters like <code>&gt;</code>, which are clearly not words, but happen to pop up often.</p>
+<p>But if we take a look at the output (the top 20 most frequent terms in each folder), they are non-descriptive terms that are simply used often.  There are also random characters like <code>&gt;</code>, which are clearly not words, but happen to pop up often.  You should see something like the following (it's ok if it's not exactly the same).</p>
 <pre><code>sent
     ('the', 2529)
     ('to', 2041)
@@ -102,33 +108,39 @@ TF-IDF is a widely used metric that captures this idea by combining two intuitio
 <p>This function decreases for a term that frequently occurs in many documents, and high-IDF terms will be the ones that are used in a small set of documents. In our case, a "document" is all the emails in a folder.  Thus the numerator is the total number of folders and the denominator is the number of folders where some email in the folder contains the term.  Finally, the TF-IDF is simply a multiple of the two values:</p>
 <pre><code>TF * IDF
 </code></pre>
-<p>The following code will construct a dictionary that maps a term to its IDF value.  Fill in the last part to calculate the tf-idf.</p>
+<p>Now let's write some code to construct a dictionary that maps a term to its IDF value.  This code should extend the term frequency code you wrote in the previous section.  Fill in the last part to calculate the tf-idf.</p>
+<p>The first thing we want to do is compute the number of folders that contain each term.  To do this let's first compute the list of terms in each folder:</p>
 <pre><code>terms_per_folder = defaultdict(set)
-allterms = Counter()
 nemails = 0
 for e in EmailWalker(sys.argv[1]):
     terms_in_email = e['text'].split() # split the email text using whitespaces
 
     # this collects all of the terms in each folder
     terms_per_folder[e['folder']].update(terms_in_email)
-
+</code></pre>
+<p>The above code reads each email dictionary, extracts the words using <code>e['text'].split()</code>, and adds it to the per-folder set (<code>terms_per_folder[e['folder']]</code>).  We used a <code>set</code> to remove duplicate terms.  Now our job is to count the number of folders that contain each term. </p>
+<p>Each iteration retrieves the terms for a given folder, and adds them all to the counter.<br />
+</p>
+<pre><code>allterms = Counter()
 for folder, terms in terms_per_folder.iteritems():
     # this will increment the counter value for each term in `terms`
     allterms.update(terms)
-
-idfs = {}
-nfolders = len(allterms)
+</code></pre>
+<p>Great, now we have a dictionary, <code>allterms</code>, that maps each term to the number of folders it's in.  Now let's actually compute the idf.  Notice that we add <code>1.0</code> to the denominator to avoid divide by zero errors and so that the denominator is a float.  Python truncates integers by rounding down, so if the numerator and denominator are both <code>int</code>s, you could end up with a lot of zeros (e.g., 1/2 = 0).  The log of 0 is undefined.</p>
+<pre><code>idfs = {}
+nfolders = len(terms_per_folder)  # the number of keys should be the number of folders    
 for term, count in allterms.iteritems():
-    idfs[term] = math.log( nfolders / (1 + count) )
-
-tfidfs = {} # key is folder name, value is a list of (term, tfidf score) pairs
+    idfs[term] = math.log( nfolders / (1.0 + count) )
+</code></pre>
+<p>Finally, you computed the term frequencies in the previous section (<code>folder_tf</code>), so let's combine that with our <code>idfs</code> dictionary to compute the tf-idf!</p>
+<pre><code>tfidfs = {} # key is folder name, value is a list of (term, tfidf score) pairs
 for folder, tfs in folder_tf.iteritems():
     #
     # write code to calculate tf-idfs yourself!
     # 
     pass
 </code></pre>
-<p>If we combine <code>idfs</code> with each folder's <code>tf</code> value, we would compute the <code>tf-idf</code>.  If we print the top values for each folder, we would see something like:</p>
+<p>If we combine <code>idfs</code> with each folder's <code>tf</code> value, we would compute the <code>tf-idf</code>.  If we print the top values for each folder, we would see something like (you may not have exactly the same results and that's ok!  We used curated your dataset to be a little less "boring" by removing uninteresting folders.):</p>
 <pre><code>sec_panel/
     ('&lt;&lt;SEC', 0.06234689439353398)
     ('trips,', 0.046513459474442624)
@@ -210,7 +222,7 @@ if re.search(pattern, term):
 <p>Great!  You should know enough to create a pattern to find "reasonable words", and use it to re-compute the <code>tfidfs</code> dictionary and print the 10 most highly scored terms in each folder!<br />
 </p>
 <h4>5. Make a data cleaning function</h4>
-<p>It helped to create a function that performs all of the data cleaning for us.  Thus we created a function called <code>get_terms( )</code>:</p>
+<p>It helps to create a function that performs all of the data cleaning for us.  Thus we created a function called <code>get_terms( )</code>:</p>
 <pre><code>def get_terms(message_text):
     terms = message_text.split()
     #
@@ -223,7 +235,7 @@ if re.search(pattern, term):
 <p>with the code:</p>
 <pre><code>terms_in_email = get_terms(e['text'])
 </code></pre>
-<p>If you get stuck, take a peak in <code>dataiap/day4/get_terms.py</code></p>
+<p>If you get stuck, take a peek in <code>dataiap/day4/get_terms.py</code>.  The file has an example of regular expressions and an implementation of <code>get_terms()</code>.</p>
 <h3>Exercise 1: Compute IDF differently (optional)</h3>
 <p>IDF is simply one method to normalize the Term Frequency value.  In our case we computed IDF on a per-folder basis.  However we could just as easily compute the IDF value on a per-email basis.  In this case, we would count the total number of emails, and the number of emails that contain a term.</p>
 <p>Compute the IDF using this method and see what the pros and cons are.  We found that computing it on a per-folder basis can dramatically reduce the IDF score even if only one email in each folder contained the term.  The per-email basis avoids this, but causes the top TF-IDF values of a lot of the folders to overlap.</p>
@@ -235,10 +247,10 @@ if re.search(pattern, term):
 <p>Let's now figure out which folders are most similar to each other.  That would be nice to see how Kenneth is grouping his emails.  <a href="http://en.wikipedia.org/wiki/Cosine_similarity">Cosine similarity</a> is a common tool to achieve this.</p>
 <p>The main idea is that folders that share terms with high tf-idf values are probably similar.  Also, they if they share lots of terms then they are probably similar.</p>
 <p>Let's say we have a total of 1000 terms across all of the email senders.  Every folder has a tf-idf score for each of the 1000 terms (some may be 0).  We could model all of the scores of a folder as a 1000-dimensional vector, where each dimension corresponds to a term, and the distance along the dimension is the term's tf-idf value.  The cosine of the two email senders' vectors measures the similarity between them.  Suppose the vectors were A and B.  Then the cosine would be:</p>
-<pre><code>cos(A,B) = (A·B) / ((||A|| * ||B||) + 1)
+<pre><code>cos(A,B) = (A·B) / ((||A|| * ||B||) + 1.0)
 </code></pre>
-<p>The numerator is the sum of all the tf-idf terms the senders have in common.  The denominator is the product of the <a href="https://en.wikipedia.org/wiki/Magnitude_(mathematics)#Euclidean_vectors">vector norms</a>.  We typically add <code>1</code> in case the vectors are both 0.</p>
-<p>A <code>cos(A,B)</code> of 1 means they are identical and 0 means the senders are independent from each other (the vectors are orthogonal).<br />
+<p>The numerator is the sum of all the tf-idf terms the senders have in common.  The denominator is the product of the <a href="https://en.wikipedia.org/wiki/Magnitude_(mathematics)#Euclidean_vectors">vector norms</a>.  Once again, we add <code>1</code> in case either vector is 0.<br />
+A <code>cos(A,B)</code> of 1 means they are identical and 0 means the senders are independent from each other (the vectors are orthogonal).<br />
 </p>
 <p>Here is how we would calculate the cosine similarity of two folders, using the <code>tfidfs</code> dictionary you computed in the previous section.  We assume that <code>tfidfs</code> is a dictionary where each value is a list of <code>(term, tfidf-score)</code> pairs</p>
 <pre><code>from math import *
@@ -262,6 +274,17 @@ fam_norm = math.sqrt(fam_norm)
 denominator = sec_norm * fam_norm + 1.0
 
 similarity = numerator / denominator
+</code></pre>
+<p>This computes the similarity between the <code>sec_panel</code> folder and the <code>family</code> folder.  Can you modify the above code to compute similarities between every pair of folders?  Which ones are most similar?  It will help to first modify the above code into a function</p>
+<pre><code>def calc_similarity(folder1_tfidfs, folder2_tfidfs):
+    # compute the similarity between the two arguments
+    #
+    # your code here
+    #
+    return similarity
+</code></pre>
+<p>Then we could call the function with <code>sec_panel</code> and <code>family</code> and get the same answer:</p>
+<pre><code>calc_similarity(dict(tfidfs['sec_panel']), dict(tfidfs['family']))
 </code></pre>
 <h3>Exercise 3: Most similar folders</h3>
 <p>Extend the above code to rank the folders by how similar they are, where similarity is the cosine score.  When computing similarity, we typically took the top 100 tf-idf terms in each vector instead of all of the terms.</p>
