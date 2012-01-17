@@ -3,7 +3,7 @@ from mrjob.protocol import JSONValueProtocol
 from mrjob.job import MRJob
 from term_tools import get_terms
 
-class MRWordCount(MRJob):
+class MRWCBySender(MRJob):
     INPUT_PROTOCOL = JSONValueProtocol
     OUTPUT_PROTOCOL = JSONValueProtocol
 
@@ -15,4 +15,4 @@ class MRWordCount(MRJob):
         yield None, {'term_sender': term_sender, 'count': sum(howmany)}
 
 if __name__ == '__main__':
-        MRWordCount.run()
+        MRWCBySender.run()
