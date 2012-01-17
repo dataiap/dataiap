@@ -79,9 +79,21 @@ each term was seen.
 This three step pattern of 1) extracting and processing **from each**
 line or file, 2) **grouping by** some attribute(s), and 3)
 **summarizing"" the contents of each group is extremely common in the
-vast majority of data processing tasks.  The researchers at google
-also noticed this, and developed a  framework that is optimized for these kinds
-of patterns (MapReduce).  When you use this framework, you just need to write
+vast majority of data processing tasks.  We implemented step 2 by
+adding elements to a global dictionary (e.g.,
+`folder_tf[e['folder']].update` in <a
+href="http://dataiap.github.com/dataiap/day4/index.html#tf">day 4's
+code</a>).  We implemented step 3 by counting or summing the values in
+the dictionary.
+
+Using a dictionary like this works because the dictionary fits in
+memory.  However if we had processed a lot more data, the dictionary
+may not fit into memory, and it'll take forever to run.  Then what do
+we do?
+
+The researchers at google also noticed this problem, and developed a
+framework to run these kinds
+of patterns on huge amounts of data (MapReduce).  When you use this framework, you just need to write
 functions to perform each of the three steps, and the framework takes
 care of running the whole pattern on one machine or a thousand machines!  They use a
 different terminology for the three steps:
@@ -94,37 +106,43 @@ OK, now that you've seen the motivation behind the MapReduce
 technique, let's actually try it out.
 
 
-
 <h3>MapReduce</h3>
 
-Say we have a JSON-encoded file with emails (1,000,000 emails on
-1,000,000 lines), and we have 10 machines to process it. 
+Say we have a JSON-encoded file with emails (3,000,000 emails on
+3,000,000 lines), and we have 3 computers to compute the number of
+times each word appears.
  
-In the *map* phase, we are going to send each machine 100,000 lines
-(10% of the lines), and have them break each of those emails into the
-words that make them up: 
+In the *map* phase (figure below), we are going to send each computer
+1/3 of the lines.  Each computer will process their 1,000,000 lines by
+reading each of the lines and extracting the words that make them up.
+For example, the first machine may extract "enron, call,...", while
+the second machine extracts "conference, call,...".
 
-$$$
+<img src="./lab_map.png" width="500" />
 
-Once each machine has extracted all the terms (tokenized) in the
-email, you will also specify a key to send each term -- all of the
-terms given the same key will be grouped together.  Think of this as a
-dictionary key, and MapReduce automatically all the terms with the
-same key into a list.    What actually happens is that each key is
-assigned to one of the 10 machines, and all the terms associated with
-a key are sent to that machine.  This is necessary because the whole
-dictionary doesn't fit in the memory of a single machine!  This phase
-is called the *shuffle* phase.<!-- each word to a machine pre-designated for that word (using a hash function$$$, if you're curious).  This part is automatic, but it's important to know what's happening here:-->
 
-$$$  make sure to highlight the KEY.
+From the words, we will create (key, value) pairs (or (word, 1) pairs
+in this example).  The *shuffle* phase will
+assigned each key to one of the 3 computer, and all the values associated with
+the same key are sent to the key's computer.  This is necessary because the whole
+dictionary doesn't fit in the memory of a single computer!   Think of
+this as creating the (key, value) pairs of a huge dictionary that
+spans all of the 3,000,000 emails.  Because the whole dictionary
+doesn't fit into a single machine, the keys are distributed across our
+3 machines.  In this example, "enron" is assigned to computer 1, while
+"call" and "conference" are assigned to computer 2, and "bankrupt" is
+assigned to computer 3.
 
-And finally, once each machine has received the words that its
-responsible for, the *reduce* phase will turn all of the occurrences
-of words it has received into counts of those words.  It does this by
+<img src="./lab_shuffle.png" width="500" />
+
+Finally, once each machine has received the values of the keys it's
+responsible for, the *reduce* phase will process each key's value.  It does this by
 going through each key that is assigned to the machine and executing
-a `reducer` function on the terms associated with the key.
+a `reducer` function on the 1's associated with the key.  For example,
+"enron' was associated with a list of three 1's, and the reducer step
+simply adds them up.  
 
-$$$
+<img src="./lab_reduce.png" width="500" />
 
 MapReduce is more general-purpose than just serving to count words.
 Some people have used it to do exotic things like [process millions of
@@ -157,13 +175,41 @@ if __name__ == '__main__':
 
 """
 
-Let's break this thing down.  You'll notice the terms MRJob in a bunch of places.  [MRJob](https://github.com/Yelp/mrjob) is a python package that makes writing MapReduce programs easy.  To create a MapReduce program, you have to create a class (like `MRWordCount`) that has a `mapper` and `reducer` function.  If the program is run from the command line, (the `if __name__ == '__main__':` part) we run the MRWordCount MapRedce program.
+Let's break this thing down.  You'll notice the terms MRJob in a bunch
+of places.  [MRJob](https://github.com/Yelp/mrjob) is a python package
+that makes writing MapReduce programs easy.  The developers at Yelp (they wrote the mrjob module)
+wrote a convenience class called `MRJob` that you will extend.  When it's run, it automatically hooks into the MapReduce
+framework, reads and parses the input files, and does a bunch of other
+things for you.
 
-Looking inside `MRWordCount`, we see `INPUT_PROTOCOL` being set to `JSONValueProtocol`.  By default, map functions expect a line of text as input, but we've encoded our emails as JSON, so we let MRJob know that.  Similarly, we explain that our reduce tasks will emit dictionaries, and set `OUTPUT_PROTOCOL` appropriately.
+What we do is create a class `MRWordCount` that extends `MRJob`, and
+implement the `mapper` and `reducer` functions.  If the program is run from the
+command line, (the `if __name__ == '__main__':` part) it will execute
+the MRWordCount MapRedce program.  
 
-The `mapper` function handles the functionality described in the first image of the last section.  It takes each email, tokenizes it into terms, and `yield`s each term.  You can `yield` a key and a value (`term` and `1`) in a mapper.  We yield the term with the value `1`, meaning one instance of the word `term` was found.
+Looking inside `MRWordCount`, we see `INPUT_PROTOCOL` being set to
+`JSONValueProtocol`.  By default, map functions expect a line of text
+as input, but we've encoded our emails as JSON, so we let MRJob know
+that.  Similarly, we explain that our reduce tasks will emit
+dictionaries, and set `OUTPUT_PROTOCOL` appropriately.    
 
-The `reducer` function implements the third image of the last section.  We are given a word (the key emitted from mappers), and a list `occurrences` of all of the values emitted for each instance of `term`.  Since we are counting occurrences of words, we emit a dictionary containing the term and a sum of the occurrences we've seen.
+The `mapper` function handles the functionality described in the first
+image of the last section.  It takes each email, tokenizes it into
+terms, and `yield`s each term.  You can `yield` a key and a value
+(`term` and `1`) in a mapper (notice "yield" arrows in the second
+figure above).  We yield the term with the value `1`,
+meaning one instance of the word `term` was found.  `yield` is a
+python keyword that turns functions into iterators (<a
+href="http://stackoverflow.com/questions/231767/the-python-yield-keyword-explained">stack
+overflow explaination</a>).  In the context of writing `mapper` and
+`reducer` functions, you can think of it as `return`.
+
+
+The `reducer` function implements the third image of the last section.
+We are given a word (the key emitted from mappers), and a list
+`occurrences` of all of the values emitted for each instance of
+`term`.  Since we are counting occurrences of words, we `field` a
+dictionary containing the term and a sum of the occurrences we've seen.    
 
 Note that we `sum` instead of `len` the `occurrences`.  This allows us to change the mapper implementation to emit the number of times each word occurs in a document, rather than `1` for each word.
 
@@ -250,8 +296,12 @@ class MRWordCount(MRJob):
 
     def reducer_init(self):
         self.idfs = {}
+        # this will look through the file names in the directory
         for fname in os.listdir(DIRECTORY):
+            # this will open the file
             file = open(os.path.join(DIRECTORY, fname))
+            # now let's read each line in the json file and parse it into a python object
+            # JSONValueProtocol parses the line into a python object for us!
             for line in file:
                 term_idf = JSONValueProtocol.read(line)[1]
                 self.idfs[term_idf['term']] = term_idf['idf']
@@ -275,7 +325,7 @@ python mr_per_term_idf.py -o 'idf_parts' --no-output '../datasets/emails/lay-k.j
 """
 The individual terms and IDFs would be emitted to the directory `idf_parts/`.  We would want to load all of these term-idf mappings into `self.idfs`.  Set `DIRECTORY` to the filesystem path that points to the `idf_parts/` directory.
 
-The function `reducer_init` is called before the first `reducer` is called to calculate TF-IDF.  It opens all of the output files in `DIRECTORY`, and reads them into `self.idfs`.  This way, when `reducer` is called on a term, the idf for that term has already been calculated.
+Sometimes, we want to load some data before running the mapper or the reducer.  In our example, we want to load the IDF values into memory before executing the reducer, so that the values are available when we compute the tf-idf.  The function `reducer_init` is designed to perform this setup.  It is called before the first `reducer` is called to calculate TF-IDF.  It opens all of the output files in `DIRECTORY`, and reads them into `self.idfs`.  This way, when `reducer` is called on a term, the idf for that term has already been calculated.
 
 To verify you've done this correctly, compare your output to ours.  There were somepottymouths that emailed Kenneth Lay:
 
@@ -395,7 +445,7 @@ Counters from step 1:
 """
 
 That's a summary of, on your 10 machines, how many Mappers and Reducers ran.  You can run more than one of each on a physical machine, which explains why more than 10 of each ran in our tasks.  Notice how many reducers ran your task.  Each reducer is going to receive a set of words and their number of occurrences, and emit word counts.  Reducers don't talk to one-another, so they end up writing their own files.
-
+`
 With this in mind, go to the S3 console, and look at the `output` directory of the S3 bucket to which you output your words.  Notice that there are several files in the `output` directory named `part-00000`, `part-00001`.  There should be as many files as there were reducers, since each wrote the file out.  Download some of these files and open them up.  You will see the various word counts for words across the entire Enron email corpus.  Life is good!
 
 <h3>Optional: Run The TF-IDF Workflow</h3>
