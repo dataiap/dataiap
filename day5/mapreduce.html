@@ -291,7 +291,7 @@ dictionary containing the term and a sum of the occurrences we've seen.</p>
 <ul>
 <li>Go to the AWS console (the website), and click on the <strong> S3 </strong> tab.  This will show you a file explorer-like interface, with buckets listed on the left and files per bucket listed on the right.</li>
 <li>Click "Create Bucket" near the top left.</li>
-<li>Enter a bucket name.  This has to be unique across all users of S3.  Pick something like <code>dataiap-yourusername-testbucket</code>.  <strong> Do not use underscores in the name of the bucket </strong>.</li>
+<li>Enter a bucket name.  This has to be unique across all users of S3.  Pick something like <code>dataiap-YOURUSERNAME-testbucket</code>.  <strong> Do not use underscores in the name of the bucket </strong>.</li>
 <li>Click "Create"</li>
 </ul>
 <p>This gives you a bucket, but the bucket has nothing in it!  Poor bucket.  Let's upload Kenneth Lay's emails.</p>
@@ -299,7 +299,7 @@ dictionary containing the term and a sum of the occurrences we've seen.</p>
 <li>Select the bucket from the list on the left.</li>
 <li>Click "Upload."</li>
 <li>Click "Add Files."</li>
-<li>Select the lay-k.json file on your computer.</li>
+<li>Select the <code>lay-k.json</code> file on your computer.</li>
 <li>Click "Start Upload."</li>
 <li>Right click on the uploaded file, and click "Make Public."</li>
 <li>Verify the file is public by going to <code>http://dataiap-YOURUSERNAME-testbucket.s3.amazonaws.com/lay-k.json</code>.</li>
@@ -421,9 +421,8 @@ dictionary containing the term and a sum of the occurrences we've seen.</p>
           <a class="octothorpe" href="#section-">#</a>
         </div>
         <p>Kenneth Lay has 5929 emails in his dataset.  We ran wc -l on the entire Enron email dataset, and got 516893.  This took a few seconds.  Sometimes, it's not worth overengineering a simple task!:)</p>
-<h3>MapReduce 2: Per-Term IDF</h3>
-
-<p>We recommend you stick to 516893 as your total number of documents, since eventually we're going to be crunching the entire dataset!</p>
+<p><a name="tfidfstep2"><h3>MapReduce 2: Per-Term IDF</h3></a>
+We recommend you stick to 516893 as your total number of documents, since eventually we're going to be crunching the entire dataset!</p>
 <p>What we want to do here is emit <code>log(516893.0 / # documents with wordX)</code> for each <code>wordX</code> in our dataset.  Notice the decimal on 516893<strong>.0</strong>: that's so we do <a href="http://ubuntuforums.org/showthread.php?t=947270">floating point division</a> rather than integer division.  The output should be a file where each line contains <code>{'term': 'wordX', 'idf': 35.92}</code> for actual values of <code>wordX</code> and <code>35.92</code>.</p>
 <p>We've put our answer in <code>dataiap/day5/mr_per_term_idf.py</code>, but try your hand at writing it yourself before you look at ours.  It can be implemented with a three-line change to the original wordcount MapReduce we wrote (<a href="http://docs.python.org/library/math.html#math.log">one line just includes <code>math.log</code>!</a>).</p>
 <h3>MapReduce 3: Per-Sender TF-IDFs</h3>
@@ -465,7 +464,7 @@ dictionary containing the term and a sum of the occurrences we've seen.</p>
           <a class="octothorpe" href="#section-">#</a>
         </div>
         <p>If you did the <a href="#firstexercise">first exercise </a>, the <code>mapper</code> and <code>reducer</code> functions should look a lot like the per-sender word count <code>mapper</code> and <code>reducer</code> functions you wrote for that.  The only difference is that <code>reducer</code> takes the term frequencies and multiplies them by <code>self.idfs[term]</code>, to normalize by each word's IDF.  The other difference is the addition of <code>reducer_init</code>, which we will describe next.</p>
-<p><code>self.idfs</code> is a dictionary containing term-IDF mappings from the <a href="#tfidfstep1$$$">first MapReduce</a>.  Say you ran the IDF-calculating MapReduce like so:</p>
+<p><code>self.idfs</code> is a dictionary containing term-IDF mappings from the <a href="#tfidfstep2">first MapReduce</a>.  Say you ran the IDF-calculating MapReduce like so:</p>
       </div>
       <div class=code>
         <div class='highlight'><pre><div class="highlight"><pre><span class="n">python</span> <span class="n">mr_per_term_idf</span><span class="o">.</span><span class="n">py</span> <span class="o">-</span><span class="n">o</span> <span class="s">&#39;idf_parts&#39;</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">output</span> <span class="s">&#39;../datasets/emails/lay-k.json&#39;</span></pre></div></pre></div>
@@ -477,7 +476,7 @@ dictionary containing the term and a sum of the occurrences we've seen.</p>
         </div>
         <p>The individual terms and IDFs would be emitted to the directory <code>idf_parts/</code>.  We would want to load all of these term-idf mappings into <code>self.idfs</code>.  Set <code>DIRECTORY</code> to the filesystem path that points to the <code>idf_parts/</code> directory.</p>
 <p>Sometimes, we want to load some data before running the mapper or the reducer.  In our example, we want to load the IDF values into memory before executing the reducer, so that the values are available when we compute the tf-idf.  The function <code>reducer_init</code> is designed to perform this setup.  It is called before the first <code>reducer</code> is called to calculate TF-IDF.  It opens all of the output files in <code>DIRECTORY</code>, and reads them into <code>self.idfs</code>.  This way, when <code>reducer</code> is called on a term, the idf for that term has already been calculated.</p>
-<p>To verify you've done this correctly, compare your output to ours.  There were somepottymouths that emailed Kenneth Lay:</p>
+<p>To verify you've done this correctly, compare your output to ours.  There were some pottymouths that emailed Kenneth Lay:</p>
 <p>{"tfidf": 13.155591168821202, "term_sender": {"term": "a-hole", "sender":       "justinsitzman@hotmail.com"}}</p>
 <h3>Why is it OK to Load IDFs Into Memory?</h3>
 
@@ -487,11 +486,14 @@ dictionary containing the term and a sum of the occurrences we've seen.</p>
 
 <p>We recommend running the TF-IDF workflow on Amazon once class is over.  The first MapReduce script (per-term IDF) should run just fine on Amazon.  The second will not.  The <code>reducer_init</code> logic expects a file to live on your local directory.  You will have to modify it to read the output of the IDF calculations from S3 using <code>boto</code>.  Take a look at the code to implement <code>get</code> in <code>dataiap/resources/s3_util.py</code> for a programmatic view of accessing files in S3.</p>
 <p><a name="wherefromhere"><h3>Where to go from here</h3></a>
-<em> Pig
-</em> Hive
-<em> Cascading
-</em> Combiners
-* Data parallelism vs. instruction parallelism</p>
+We hope that MapReduce serves you well with large datasets.  If this kind of work excites you, here are some things to read up on.</p>
+<ul>
+<li>As you can see, writing more complex workflows for things like TF-IDF can get annoying.  In practice, folks use higher-level languages than <code>map</code> and <code>reduce</code> to build MapReduce workflows.  Some examples are <a href="http://pig.apache.org/">Pig</a>, <a href="http://hive.apache.org/">Hive</a>, and <a href="http://www.cascading.org/">Cascading</a>.</li>
+<li>If you care about making your MapReduce tasks run faster, there are lots of tricks you can play.  One of the easiest things to do is to add a <a href="http://packages.python.org/mrjob/job.html#mrjob.job.MRJob.combiner">combiners</a> between your <code>mapper</code> and <code>reducer</code>.  A combiner has similar logic to a reducer, but runs on a mapper before the shuffle stage.  This allows you to, for example, pre-sum the words emitted by the map stage in a wordcount so that you don't have to shuffle as many words around.</li>
+<li>MapReduce is one model for <a href="http://en.wikipedia.org/wiki/Parallel_computing">parallel programming</a> called <strong> data parallelism </strong>.  Feel free to read about others.</li>
+<li>When MapReduce runs on multiple computers, it's an example of <a href="http://en.wikipedia.org/wiki/Distributed_computing">distributed computing</a>, which has a lot of interesting applications and problems to be solved.</li>
+<li>S3 is a distributed storage system and is one of many.  It is built upon <a href="http://en.wikipedia.org/wiki/Dynamo_(storage_system)">Amazon's Dynamo</a> technology.  It's one of many <a href="http://en.wikipedia.org/wiki/Distributed_file_system">distributed file systems</a> and <a href="http://en.wikipedia.org/wiki/Distributed_data_store">distributed data stores</a>.</li>
+</ul>
       </div>
       
     </tr>

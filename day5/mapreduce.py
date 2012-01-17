@@ -284,7 +284,7 @@ S3 data is stored in ** buckets **.  Within a bucket you create, you can store a
 
   * Go to the AWS console (the website), and click on the ** S3 ** tab.  This will show you a file explorer-like interface, with buckets listed on the left and files per bucket listed on the right.
   * Click "Create Bucket" near the top left.
-  * Enter a bucket name.  This has to be unique across all users of S3.  Pick something like `dataiap-yourusername-testbucket`.  ** Do not use underscores in the name of the bucket **.
+  * Enter a bucket name.  This has to be unique across all users of S3.  Pick something like `dataiap-YOURUSERNAME-testbucket`.  ** Do not use underscores in the name of the bucket **.
   * Click "Create"
 
 This gives you a bucket, but the bucket has nothing in it!  Poor bucket.  Let's upload Kenneth Lay's emails.
@@ -292,7 +292,7 @@ This gives you a bucket, but the bucket has nothing in it!  Poor bucket.  Let's 
   * Select the bucket from the list on the left.
   * Click "Upload."
   * Click "Add Files."
-  * Select the lay-k.json file on your computer.
+  * Select the `lay-k.json` file on your computer.
   * Click "Start Upload."
   * Right click on the uploaded file, and click "Make Public."
   * Verify the file is public by going to `http://dataiap-YOURUSERNAME-testbucket.s3.amazonaws.com/lay-k.json`.
@@ -397,7 +397,7 @@ wc -l lay-k.json
 
 Kenneth Lay has 5929 emails in his dataset.  We ran wc -l on the entire Enron email dataset, and got 516893.  This took a few seconds.  Sometimes, it's not worth overengineering a simple task!:)
 
-<h3>MapReduce 2: Per-Term IDF</h3>
+<a name="tfidfstep2"><h3>MapReduce 2: Per-Term IDF</h3></a>
 We recommend you stick to 516893 as your total number of documents, since eventually we're going to be crunching the entire dataset!
 
 What we want to do here is emit `log(516893.0 / # documents with wordX)` for each `wordX` in our dataset.  Notice the decimal on 516893**.0**: that's so we do [floating point division](http://ubuntuforums.org/showthread.php?t=947270) rather than integer division.  The output should be a file where each line contains `{'term': 'wordX', 'idf': 35.92}` for actual values of `wordX` and `35.92`.
@@ -441,7 +441,7 @@ class MRTFIDFBySender(MRJob):
 
 If you did the [first exercise ](#firstexercise), the `mapper` and `reducer` functions should look a lot like the per-sender word count `mapper` and `reducer` functions you wrote for that.  The only difference is that `reducer` takes the term frequencies and multiplies them by `self.idfs[term]`, to normalize by each word's IDF.  The other difference is the addition of `reducer_init`, which we will describe next.
 
-`self.idfs` is a dictionary containing term-IDF mappings from the [first MapReduce](#tfidfstep1$$$).  Say you ran the IDF-calculating MapReduce like so:
+`self.idfs` is a dictionary containing term-IDF mappings from the [first MapReduce](#tfidfstep2).  Say you ran the IDF-calculating MapReduce like so:
 
 """
 
@@ -451,7 +451,7 @@ The individual terms and IDFs would be emitted to the directory `idf_parts/`.  W
 
 Sometimes, we want to load some data before running the mapper or the reducer.  In our example, we want to load the IDF values into memory before executing the reducer, so that the values are available when we compute the tf-idf.  The function `reducer_init` is designed to perform this setup.  It is called before the first `reducer` is called to calculate TF-IDF.  It opens all of the output files in `DIRECTORY`, and reads them into `self.idfs`.  This way, when `reducer` is called on a term, the idf for that term has already been calculated.
 
-To verify you've done this correctly, compare your output to ours.  There were somepottymouths that emailed Kenneth Lay:
+To verify you've done this correctly, compare your output to ours.  There were some pottymouths that emailed Kenneth Lay:
 
 {"tfidf": 13.155591168821202, "term_sender": {"term": "a-hole", "sender":       "justinsitzman@hotmail.com"}}
 
@@ -464,9 +464,11 @@ It's actually not.  While the corpus we're analyzing is large, the number of wor
 We recommend running the TF-IDF workflow on Amazon once class is over.  The first MapReduce script (per-term IDF) should run just fine on Amazon.  The second will not.  The `reducer_init` logic expects a file to live on your local directory.  You will have to modify it to read the output of the IDF calculations from S3 using `boto`.  Take a look at the code to implement `get` in `dataiap/resources/s3_util.py` for a programmatic view of accessing files in S3.
 
 <a name="wherefromhere"><h3>Where to go from here</h3></a>
-  * Pig
-  * Hive
-  * Cascading
-  * Combiners
-  * Data parallelism vs. instruction parallelism
+We hope that MapReduce serves you well with large datasets.  If this kind of work excites you, here are some things to read up on.
+
+  * As you can see, writing more complex workflows for things like TF-IDF can get annoying.  In practice, folks use higher-level languages than `map` and `reduce` to build MapReduce workflows.  Some examples are [Pig](http://pig.apache.org/), [Hive](http://hive.apache.org/), and [Cascading](http://www.cascading.org/).
+  * If you care about making your MapReduce tasks run faster, there are lots of tricks you can play.  One of the easiest things to do is to add a [combiners](http://packages.python.org/mrjob/job.html#mrjob.job.MRJob.combiner) between your `mapper` and `reducer`.  A combiner has similar logic to a reducer, but runs on a mapper before the shuffle stage.  This allows you to, for example, pre-sum the words emitted by the map stage in a wordcount so that you don't have to shuffle as many words around.
+  * MapReduce is one model for [parallel programming](http://en.wikipedia.org/wiki/Parallel_computing) called ** data parallelism **.  Feel free to read about others.
+  * When MapReduce runs on multiple computers, it's an example of [distributed computing](http://en.wikipedia.org/wiki/Distributed_computing), which has a lot of interesting applications and problems to be solved.
+  * S3 is a distributed storage system and is one of many.  It is built upon [Amazon's Dynamo](http://en.wikipedia.org/wiki/Dynamo_(storage_system)) technology.  It's one of many [distributed file systems](http://en.wikipedia.org/wiki/Distributed_file_system) and [distributed data stores](http://en.wikipedia.org/wiki/Distributed_data_store).
 """
