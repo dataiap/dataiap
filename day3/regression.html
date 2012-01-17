@@ -77,12 +77,9 @@ analysis. Here's a function, <code>read_csv</code>, that will read the desired
 columns from one of the csv files.</p>
       </div>
       <div class=code>
-        <div class='highlight'><pre><div class="highlight"><pre><span class="kn">import</span> <span class="nn">csv</span></pre></div></pre></div>
-      </div>
-    </tr><tr id='section-1'>
-      
-      <div class=code>
-        <div class='highlight'><pre><div class="highlight"><pre><span class="k">def</span> <span class="nf">read_csv</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">cols</span><span class="p">,</span> <span class="n">check_reliable</span><span class="p">):</span>
+        <div class='highlight'><pre><div class="highlight"><pre><span class="kn">import</span> <span class="nn">csv</span>
+
+<span class="k">def</span> <span class="nf">read_csv</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">cols</span><span class="p">,</span> <span class="n">check_reliable</span><span class="p">):</span>
     <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">DictReader</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="s">&#39;rU&#39;</span><span class="p">))</span>
     <span class="n">rows</span> <span class="o">=</span> <span class="p">{}</span> <span class="c"># map &quot;statename__countyname&quot; to the column names in cols</span>
     <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">:</span>
@@ -97,7 +94,7 @@ columns from one of the csv files.</p>
             <span class="k">pass</span>
     <span class="k">return</span> <span class="n">rows</span></pre></div></pre></div>
       </div>
-    </tr><tr id='section-2'>
+    </tr><tr id='section-1'>
       <div class=docs>
         <div class="octowrap">
           <a class="octothorpe" href="#section-">#</a>
@@ -120,12 +117,9 @@ to extract from <code>additional_measures_cleaned.csv</code>.  This function
 performs the join for you.</p>
       </div>
       <div class=code>
-        <div class='highlight'><pre><div class="highlight"><pre><span class="kn">import</span> <span class="nn">numpy</span></pre></div></pre></div>
-      </div>
-    </tr><tr id='section-3'>
-      
-      <div class=code>
-        <div class='highlight'><pre><div class="highlight"><pre><span class="k">def</span> <span class="nf">get_arrs</span><span class="p">(</span><span class="n">dependent_cols</span><span class="p">,</span> <span class="n">independent_cols</span><span class="p">):</span>
+        <div class='highlight'><pre><div class="highlight"><pre><span class="kn">import</span> <span class="nn">numpy</span>
+
+<span class="k">def</span> <span class="nf">get_arrs</span><span class="p">(</span><span class="n">dependent_cols</span><span class="p">,</span> <span class="n">independent_cols</span><span class="p">):</span>
     <span class="n">ypll</span> <span class="o">=</span> <span class="n">read_csv</span><span class="p">(</span><span class="s">&quot;../datasets/county_health_rankings/ypll.csv&quot;</span><span class="p">,</span> <span class="n">dependent_cols</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
     <span class="n">measures</span> <span class="o">=</span> <span class="n">read_csv</span><span class="p">(</span><span class="s">&quot;../datasets/county_health_rankings/additional_measures_cleaned.csv&quot;</span><span class="p">,</span> <span class="n">independent_cols</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
 
@@ -137,7 +131,7 @@ performs the join for you.</p>
             <span class="n">measures_arr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">measures</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">ypll_arr</span><span class="p">),</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">measures_arr</span><span class="p">))</span></pre></div></pre></div>
       </div>
-    </tr><tr id='section-4'>
+    </tr><tr id='section-2'>
       <div class=docs>
         <div class="octowrap">
           <a class="octothorpe" href="#section-">#</a>
@@ -161,7 +155,7 @@ the desired columns from each file.</p>
 
 <span class="nb">exit</span><span class="p">()</span></pre></div></pre></div>
       </div>
-    </tr><tr id='section-5'>
+    </tr><tr id='section-3'>
       <div class=docs>
         <div class="octowrap">
           <a class="octothorpe" href="#section-">#</a>
@@ -169,7 +163,7 @@ the desired columns from each file.</p>
         <p>Phew.  That sucked.  Let's look at the data!</p>
       </div>
       
-    </tr><tr id='section-6'>
+    </tr><tr id='section-4'>
       <div class=docs>
         <div class="octowrap">
           <a class="octothorpe" href="#section-">#</a>
@@ -204,7 +198,7 @@ diabetes, % of the community under the age of 18, and median income.</p>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s">&#39;figures/three-scatters.png&#39;</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s">&#39;png&#39;</span><span class="p">)</span></pre></div></pre></div>
       </div>
-    </tr><tr id='section-7'>
+    </tr><tr id='section-5'>
       <div class=docs>
         <div class="octowrap">
           <a class="octothorpe" href="#section-">#</a>
@@ -231,7 +225,7 @@ to extract.  In this case it is <code>6</code>, which is the 7'th column
 </ul>
       </div>
       
-    </tr><tr id='section-8'>
+    </tr><tr id='section-6'>
       <div class=docs>
         <div class="octowrap">
           <a class="octothorpe" href="#section-">#</a>
@@ -241,7 +235,7 @@ We found the percent of children eligible for school lunch to be
 alarmingly correlated with YPLL!</p>
       </div>
       
-    </tr><tr id='section-9'>
+    </tr><tr id='section-7'>
       <div class=docs>
         <div class="octowrap">
           <a class="octothorpe" href="#section-">#</a>
@@ -259,7 +253,7 @@ least squares </strong> regression.  Let's run a regression for YPLL vs. % Diabe
 <span class="n">model</span> <span class="o">=</span> <span class="n">ols</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="n">ypll_arr</span><span class="p">,</span> <span class="n">measures_arr</span><span class="p">[:,</span><span class="mi">6</span><span class="p">],</span> <span class="s">&quot;YPLL Rate&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s">&quot;% Diabetes&quot;</span><span class="p">])</span> <span class="c"># 6 = diabetes</span>
 <span class="n">model</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span></pre></div></pre></div>
       </div>
-    </tr><tr id='section-10'>
+    </tr><tr id='section-8'>
       <div class=docs>
         <div class="octowrap">
           <a class="octothorpe" href="#section-">#</a>
@@ -332,7 +326,7 @@ than print a large table, you can access the data individually</p>
 <span class="k">print</span> <span class="s">&quot;coefficients&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">b</span>
 <span class="k">print</span> <span class="s">&quot;R-squared and adjusted R-squared:&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">R2</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">R2adj</span></pre></div></pre></div>
       </div>
-    </tr><tr id='section-11'>
+    </tr><tr id='section-9'>
       <div class=docs>
         <div class="octowrap">
           <a class="octothorpe" href="#section-">#</a>
@@ -345,12 +339,9 @@ we've calculated through the scatterplot we built before</p>
 
 <span class="n">subplot</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
 <span class="n">subplot</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">measures_arr</span><span class="p">[:,</span><span class="mi">6</span><span class="p">],</span> <span class="n">ypll_arr</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;#1f77b4&quot;</span><span class="p">)</span> <span class="c"># 6 = diabetes</span>
-<span class="n">subplot</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">&quot;ypll vs. </span><span class="si">% o</span><span class="s">f population with diabetes&quot;</span><span class="p">)</span></pre></div></pre></div>
-      </div>
-    </tr><tr id='section-12'>
-      
-      <div class=code>
-        <div class='highlight'><pre><div class="highlight"><pre><span class="k">def</span> <span class="nf">best_fit</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span> <span class="c"># calculates y = mx + b</span>
+<span class="n">subplot</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">&quot;ypll vs. </span><span class="si">% o</span><span class="s">f population with diabetes&quot;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">best_fit</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span> <span class="c"># calculates y = mx + b</span>
     <span class="k">return</span> <span class="n">m</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="n">b</span>
 
 <span class="n">line_ys</span> <span class="o">=</span> <span class="p">[</span><span class="n">best_fit</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">model</span><span class="o">.</span><span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">measures_arr</span><span class="p">[:,</span><span class="mi">6</span><span class="p">]]</span>
@@ -358,7 +349,7 @@ we've calculated through the scatterplot we built before</p>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s">&#39;figures/scatter-line.png&#39;</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s">&#39;png&#39;</span><span class="p">)</span></pre></div></pre></div>
       </div>
-    </tr><tr id='section-13'>
+    </tr><tr id='section-10'>
       <div class=docs>
         <div class="octowrap">
           <a class="octothorpe" href="#section-">#</a>
@@ -370,7 +361,7 @@ front of the %Diabetes term is positive) indicating a positive
 correlation.</p>
       </div>
       
-    </tr><tr id='section-14'>
+    </tr><tr id='section-11'>
       <div class=docs>
         <div class="octowrap">
           <a class="octothorpe" href="#section-">#</a>
@@ -379,7 +370,7 @@ correlation.</p>
 under 18 years of age and median household income.</p>
       </div>
       
-    </tr><tr id='section-15'>
+    </tr><tr id='section-12'>
       <div class=docs>
         <div class="octowrap">
           <a class="octothorpe" href="#section-">#</a>
@@ -392,7 +383,7 @@ population under 18.  The regression backs this up: the R-squared of
 .005 suggests little predictive power of YPLL.</p>
       </div>
       
-    </tr><tr id='section-16'>
+    </tr><tr id='section-13'>
       <div class=docs>
         <div class="octowrap">
           <a class="octothorpe" href="#section-">#</a>
@@ -401,7 +392,7 @@ population under 18.  The regression backs this up: the R-squared of
 each of these independent variables.  Do they fit the models?</p>
       </div>
       
-    </tr><tr id='section-17'>
+    </tr><tr id='section-14'>
       <div class=docs>
         <div class="octowrap">
           <a class="octothorpe" href="#section-">#</a>
@@ -412,7 +403,7 @@ correlated?  How does this R-squared value compare to the ones we
 just calculated?</p>
       </div>
       
-    </tr><tr id='section-18'>
+    </tr><tr id='section-15'>
       <div class=docs>
         <div class="octowrap">
           <a class="octothorpe" href="#section-">#</a>
@@ -450,7 +441,7 @@ the population under 18 into one regression.</p>
 <span class="k">print</span> <span class="s">&quot;coefficients&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">b</span>
 <span class="k">print</span> <span class="s">&quot;R-squared and adjusted R-squared:&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">R2</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">R2adj</span></pre></div></pre></div>
       </div>
-    </tr><tr id='section-19'>
+    </tr><tr id='section-16'>
       <div class=docs>
         <div class="octowrap">
           <a class="octothorpe" href="#section-">#</a>
@@ -465,7 +456,7 @@ read of the beta coefficients suggests the best linear combination
 of all of these variables is <strong> YPLL = 4115 + 131<em>(% under 18) + 516</em>(% Diabetes) - 877*(median household income) </strong>.</p>
       </div>
       
-    </tr><tr id='section-20'>
+    </tr><tr id='section-17'>
       <div class=docs>
         <div class="octowrap">
           <a class="octothorpe" href="#section-">#</a>
@@ -479,7 +470,7 @@ for any one of the regressions we ran on their own!  We can explain
 more of YPLL with these variables.</p>
       </div>
       
-    </tr><tr id='section-21'>
+    </tr><tr id='section-18'>
       <div class=docs>
         <div class="octowrap">
           <a class="octothorpe" href="#section-">#</a>
@@ -489,7 +480,7 @@ adjusted R-squared you can achieve?  We can reach .715 by an
 excessive use of variables.  Can you replicate that?</p>
       </div>
       
-    </tr><tr id='section-22'>
+    </tr><tr id='section-19'>
       <div class=docs>
         <div class="octowrap">
           <a class="octothorpe" href="#section-">#</a>
@@ -519,7 +510,7 @@ rate go down.</p>
 one moves the other.</p>
       </div>
       
-    </tr><tr id='section-23'>
+    </tr><tr id='section-20'>
       <div class=docs>
         <div class="octowrap">
           <a class="octothorpe" href="#section-">#</a>
@@ -527,7 +518,7 @@ one moves the other.</p>
         <p>We've hit the point that if you're stressed for time, you can jump ahead to the <a href="#wherefromhere">closing remarks</a>.  Realize, however, that there's still mind-blowing stuff ahead, and if you have time you should read it!</p>
       </div>
       
-    </tr><tr id='section-24'>
+    </tr><tr id='section-21'>
       <div class=docs>
         <div class="octowrap">
           <a class="octothorpe" href="#section-">#</a>
@@ -552,7 +543,7 @@ in <code>timings</code> and <code>displacements</code>.</p>
         <div class='highlight'><pre><div class="highlight"><pre><span class="n">timings</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
 <span class="n">displacements</span> <span class="o">=</span> <span class="p">[</span><span class="mf">4.9</span><span class="o">*</span><span class="n">t</span><span class="o">*</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">timings</span><span class="p">]</span></pre></div></pre></div>
       </div>
-    </tr><tr id='section-25'>
+    </tr><tr id='section-22'>
       <div class=docs>
         <div class="octowrap">
           <a class="octothorpe" href="#section-">#</a>
@@ -575,7 +566,7 @@ time values.</p>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s">&#39;figures/parabola-linearized.png&#39;</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s">&#39;png&#39;</span><span class="p">)</span></pre></div></pre></div>
       </div>
-    </tr><tr id='section-26'>
+    </tr><tr id='section-23'>
       <div class=docs>
         <div class="octowrap">
           <a class="octothorpe" href="#section-">#</a>
@@ -586,7 +577,7 @@ linear one.</p>
 <p><img alt="Original vs. Transformed Data" src="figures/parabola-linearized.png" /></p>
       </div>
       
-    </tr><tr id='section-27'>
+    </tr><tr id='section-24'>
       <div class=docs>
         <div class="octowrap">
           <a class="octothorpe" href="#section-">#</a>
@@ -597,7 +588,7 @@ value of each?  Which model would you prefer?  Does the coefficient
 of the transformed value mean anything to you?</p>
       </div>
       
-    </tr><tr id='section-28'>
+    </tr><tr id='section-25'>
       <div class=docs>
         <div class="octowrap">
           <a class="octothorpe" href="#section-">#</a>
@@ -610,7 +601,7 @@ displacement = 4.9 * time^2 </strong> (the coefficient was 4.9), which is
 the exact formula we had for gravity.  Awesome!</p>
       </div>
       
-    </tr><tr id='section-29'>
+    </tr><tr id='section-26'>
       <div class=docs>
         <div class="octowrap">
           <a class="octothorpe" href="#section-">#</a>
@@ -622,7 +613,7 @@ up spread out more.  To understand what the log transform did, take
 a look at a scatterplot.</p>
       </div>
       
-    </tr><tr id='section-30'>
+    </tr><tr id='section-27'>
       <div class=docs>
         <div class="octowrap">
           <a class="octothorpe" href="#section-">#</a>
