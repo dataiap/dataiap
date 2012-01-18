@@ -23,8 +23,8 @@ for fips, c in counts.iteritems():
     if fips:
         maxcount = max(maxcount, c)
 
-figure = plt.figure(figsize=(15, 20))
-subplot = figure.add_subplot(211)
+figure = plt.figure(figsize=(15, 10))
+subplot = figure.add_subplot(111)
 
 breaks = []
 div = maxcount
@@ -39,18 +39,22 @@ for fips, c in counts.iteritems():
             if c <= b:
                 draw_county(subplot, fips, color=blues[idx])
                 break
-subplot.set_title("rappers born per county.  darker means more rappers")
+subplot.set_title("rappers born per county.  darker means more rappers", size=30)
 subplot.set_xlim(-150, -50)
 subplot.set_ylim(15, 70)
 
 
+for tick in subplot.xaxis.get_major_ticks():
+    tick.label1.set_fontsize(19)
+for tick in subplot.yaxis.get_major_ticks():
+    tick.label1.set_fontsize(19)
+figure.savefig('./rap_map.png', format='png')
 
 
 
 
-
-
-subplot = figure.add_subplot(212)
+figure.clear()
+subplot = figure.add_subplot(111)
 
 reader = csv.DictReader(open('../county_health_rankings/ypll.csv',
                              'r'))
@@ -77,13 +81,18 @@ print np.array(l_ypll).shape, np.array(l_rapper).shape
 
 
 
-# model = ols.ols(np.array(l_ypll), np.array(l_rapper), "YPLL Rate", ["rappers"])
-# model.summary()
-# raw_input('input something')
+model = ols.ols(np.array(l_ypll), np.array(l_rapper), "YPLL Rate", ["rappers"])
+model.summary()
 
-# subplot.set_xlabel("# Rappers in County")
-# subplot.set_ylabel("YPLL Rate")
-# figure.savefig('/tmp/rap.png', format='png')
+for tick in subplot.xaxis.get_major_ticks():
+    tick.label1.set_fontsize(19)
+for tick in subplot.yaxis.get_major_ticks():
+    tick.label1.set_fontsize(19)
+
+
+subplot.set_xlabel("# Rappers in County", size=30)
+subplot.set_ylabel("YPLL Rate", size=30)
+figure.savefig('./rap_scatter.png', format='png')
 
 
 
