@@ -122,6 +122,9 @@ We will also require a number of python modules:
 	* If compiling from source, it requires [boto](http://code.google.com/p/boto/downloads/list) (try `sudo pip install boto`).
 
 
+For convenience, [Enthought](http://www.enthought.com/products/edudownload.php) provides numpy, scipy, matplotlib in a single installable package.  Many students that had trouble installing these modules separately were able to install Enthought.
+
+
 ## `dataiap/` Directory Structure
 
 The repository contains the contents of the full course.  We will be using
